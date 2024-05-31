@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    hallo jij wereld
+    hallo jij werel
 </body>
 </html>
