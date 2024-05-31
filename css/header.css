@@ -2,8 +2,40 @@
     margin: 0;
     padding: 0;
 }
-#flex-Header{
+.flex-Header {
     display: flex;
-  background-color: black;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    width: 100vw;
+}
+.header-item {
+   margin-right: 50px;
+    cursor: pointer;
+
+}
+
+.logo-container{
+    display: flex;
+    align-items: center;
+    margin-left: 100px;
+
+}
+.home-knop{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo{
     
+    height: 100px;
+    width: 100px;
+}
+
+.logo-text {
+    font-size: 24px;
+    color: white;
 }

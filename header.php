@@ -7,10 +7,16 @@
    <link rel="stylesheet" href="css/header.css">
 </head>
 <body>
-    <div id="flex-Header">
-    <div>
-        <p>hoi</p>
-    </div>
-    </div>
+<header class="flex-Header">
+        <div class="header-item logo-container">
+            <a href="/ExamenProject/index.php" class="home-knop"> <img src="img/voedselbank-velsen11.png" class="logo"> 
+           <div class="logo-text"><p> Voedselbank ExamenProject <br> Almere </p> </div>  </a>
+           
+        </div>
+        <div href="index.php" class="header-item">Over</div>
+        <div class="header-item">Diensten</div>
+        <div class="header-item">Portfolio</div>
+        <div class="header-item">Contact</div>
+    </header>
 </body>
 </html>
