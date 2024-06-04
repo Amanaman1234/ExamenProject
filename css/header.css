@@ -2,19 +2,21 @@
     margin: 0;
     padding: 0;
 }
+
 .flex-Header {
     display: flex;
     position: sticky;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-color: rgb(250, 118, 11);
     color: white;
     width: 100vw;
+    opacity: 0.9;
 }
 .header-item {
    margin-right: 50px;
     cursor: pointer;
-
+    font-size: 20px;
 }
 
 .logo-container{
@@ -39,3 +41,4 @@
     font-size: 24px;
     color: white;
 }
+

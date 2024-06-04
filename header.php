@@ -15,7 +15,7 @@
         </div>
         <div href="index.php" class="header-item">Over</div>
         <div class="header-item">Diensten</div>
-        <div class="header-item">Portfolio</div>
+        <div class="header-item">Doneren</div>
         <div class="header-item">Contact</div>
     </header>
 </body>

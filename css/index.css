@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    height: 100vh;
+    background-color: black;
+    background-image: url('https://images0.persgroep.net/rcs/NYT9Lf0zNZHr2VKCggjk6oz6IjM/diocontent/155334788/_fill/1350/900/?appId=21791a8992982cd8da851550a453bd7f&quality=0.9');
+    background-size: cover;
+    background-position: center;
+} 
