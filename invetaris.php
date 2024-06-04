@@ -13,6 +13,24 @@
         <button type="submit">Zoeken</button>
 </form>
 
+<h2>Nieuw Product Toevoegen</h2>
+    <form method="POST" action="">
+        <input type="text" name="product" placeholder="Product" required>
+        <input type="number" name="aantal" placeholder="Aantal" required>
+        <select name="producttype" required>
+            <option value="">Kies een producttype</option>
+            <option value="groenten">Groenten</option>
+            <option value="vlees">Vlees</option>
+            <option value="fruit">Fruit</option>
+            <option value="vis">Vis</option>
+            <option value="pasta">Pasta</option>
+        </select>
+        <input type="text" name="locatie" placeholder="Locatie" required>
+        <input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" required>
+        <input type="text" name="streepjescode" placeholder="Streepjescode" required>
+        <button type="submit" name="add_product">Toevoegen</button>
+    </form>
+
 <h1>Product Aantal Overzicht</h1>
         <table class=tabel border="1">
             <thead>
@@ -35,6 +53,24 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
+
+if (isset($_POST['add_product'])) {
+    $product = $conn->real_escape_string($_POST['product']);
+    $aantal = $conn->real_escape_string($_POST['aantal']);
+    $producttype = $conn->real_escape_string($_POST['producttype']);
+    $locatie = $conn->real_escape_string($_POST['locatie']);
+    $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
+    $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
+
+    $insert_query = "INSERT INTO invetaris (product, aantal, producttype, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
+
+    if ($conn->query($insert_query) === TRUE) {
+        echo "Nieuw product succesvol toegevoegd!";
+    } else {
+        echo "Fout bij het toevoegen van het product: " . $conn->error;
+    }
+}
+
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 
 $query = "SELECT * FROM invetaris";
