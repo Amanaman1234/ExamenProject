@@ -1,0 +1,40 @@
+.background{
+    background-image: url("../img/achetgrondinvetaris.png");
+    background-size: cover;
+    background-attachment: fixed;
+    width: 98vw;
+    height: 91vh;
+    margin-left: 0;
+
+}
+.tabel {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+.tabel th, .tabel td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.tabel th {
+    background-color: #ddd;
+    color: black;
+}
+.tabel tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.tabel tr:hover {
+    background-color: #ddd;
+}
+.tabel td {
+    text-align: center;
+}
+.tabel th {
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.no-data {
+    text-align: center;
+    font-style: italic;
+}
