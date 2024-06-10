@@ -16,9 +16,9 @@
     <input type="text" name="leeftijd" placeholder="Leeftijd" required>
     <input type="text" name="allergieën" placeholder="Allergieën" required>
 
-    <div class="dropdown" id="voorkeurenDropdown">
+    <div >
         
-        <div class="dropdown-content" id="voorkeurenContent">
+        <div>
             <label><input type="checkbox" name="voorkeuren[]" value="halal"> Halal</label>
             <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch"> Vegetarisch</label>
             <label><input type="checkbox" name="voorkeuren[]" value="veganistisch"> Veganistisch</label>
@@ -44,7 +44,8 @@
         </tr>
     </thead>
     <tbody>
-    <?php
+
+<?php
 
 session_start();
 
@@ -146,8 +147,8 @@ if (isset($_GET['edit'])) {
         <input type="text" name="allergieën" placeholder="Allergieën" value="<?php echo htmlspecialchars($edit_row['allergieën']); ?>" required>
         
         <div class="dropdown">
-            <input type="text" name="voorkeuren_display" id="voorkeurenInputEdit" placeholder="Voorkeuren" readonly value="<?php echo htmlspecialchars($edit_row['voorkeuren']); ?>">
-            <div class="dropdown-content">
+            <input type="text" name="voorkeuren_display"  placeholder="Voorkeuren" readonly value="<?php echo htmlspecialchars($edit_row['voorkeuren']); ?>">
+            <div >
                 <label><input type="checkbox" name="voorkeuren[]" value="halal" <?php echo in_array("halal", $selected_voorkeuren) ? "checked" : ""; ?>> Halal</label>
                 <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch" <?php echo in_array("vegetarisch", $selected_voorkeuren) ? "checked" : ""; ?>> Vegetarisch</label>
                 <label><input type="checkbox" name="voorkeuren[]" value="veganistisch" <?php echo in_array("veganistisch", $selected_voorkeuren) ? "checked" : ""; ?>> Veganistisch</label>
