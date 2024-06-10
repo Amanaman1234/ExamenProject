@@ -33,19 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_package'])) {
     foreach ($product_ids as $index => $productid) {
         $productid = $conn->real_escape_string($productid);
         $productaantal = $conn->real_escape_string($product_aantallen[$index]);
-        $inventory_check_query = "SELECT aantal FROM invetaris WHERE productid = '$productid'";
+        $inventory_check_query = "SELECT product, aantal FROM invetaris WHERE productid = '$productid'";
         $inventory_check_result = $conn->query($inventory_check_query);
 
         if ($inventory_check_result->num_rows > 0) {
             $inventory_row = $inventory_check_result->fetch_assoc();
             if ($inventory_row['aantal'] < $productaantal) {
                 $error = true;
-                echo "<p style='color: red;'>Niet genoeg voorraad voor product ID: $productid. Beschikbaar: " . $inventory_row['aantal'] . ", Gevraagd: $productaantal</p>";
+                echo "<p style='color: red;'>Niet genoeg voorraad voor product: " . htmlspecialchars($inventory_row['product']) . ". Beschikbaar: " . htmlspecialchars($inventory_row['aantal']) . ", Gevraagd: " . htmlspecialchars($productaantal) . "</p>";
                 break;
             }
         } else {
             $error = true;
-            echo "<p style='color: red;'>Product ID: $productid niet gevonden in inventaris.</p>";
+            echo "<p style='color: red;'>Product ID: " . htmlspecialchars($productid) . " niet gevonden in inventaris.</p>";
             break;
         }
     }
