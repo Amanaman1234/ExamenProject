@@ -1,0 +1,22 @@
+.background {
+    background-image: url("../img/achetgrondinvetaris.png");
+    background-size: cover;
+    background-attachment: fixed;
+    width: 98vw;
+    height: 91vh;
+    margin-left: 0;
+}
+
+.tabel {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabel th, .tabel td {
+    padding: 8px;
+    text-align: left;
+}
+
+.tabel th {
+    background-color: #f2f2f2;
+}
