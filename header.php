@@ -14,7 +14,7 @@
         </div>
         <a style="text-decoration: none; color: white;"href="index.php" class="header-item"><p> Home </p> </a>
         <a style="text-decoration: none; color: white;"href="klanten.php" class="header-item"><p> klanten </p> </a>
-        <a style="text-decoration: none; color: white;"href="klanten.php" class="header-item"><p> Leveranciers </p> </a>
+        <a style="text-decoration: none; color: white;"href="leverancier.php" class="header-item"><p> Leveranciers </p> </a>
         <a style="text-decoration: none; color: white;"href="invetaris.php" class="header-item"><p> Magazijn </p> </a>
         <a style="text-decoration: none; color: white;"href="voedselpakket.php" class="header-item"><p> Voedselpakketen </p> </a>
     </header>
