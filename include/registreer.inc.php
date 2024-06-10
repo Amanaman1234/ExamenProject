@@ -23,7 +23,7 @@ if(isset($_POST["submit"])){
     }
 
     if(gebrExists($conn, $email) !== false){
-        header("location: ../registreer.php?error=gebruikersnaamgebruikt");
+        header("location: ../registreer.php?error=emailingebruik");
         exit();
     }
 
@@ -35,4 +35,5 @@ else{
     header("location ../registreer.php");
     exit();
 }
+
 

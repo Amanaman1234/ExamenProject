@@ -1,10 +1,9 @@
 <?php
 
-function emptyInputSignup($voorNaam,$achterNaam,$tussenvoegsels,$email,$wachtwoord,$herhaalWachtwoord){
-    if(empty($voorNaam) || empty($achterNaam) || $tussenvoegsels || empty($email)  || empty($wachtwoord) ||empty($herhaalWachtwoord)){
+function emptyInputSignup($voorNaam, $achterNaam, $email, $wachtwoord, $herhaalWachtwoord) {
+    if (empty($voorNaam) || empty($achterNaam) || empty($email) || empty($wachtwoord) || empty($herhaalWachtwoord)) {
         return true;
-    }
-    else{
+    } else {
         return false;
     }
 }
@@ -53,7 +52,7 @@ mysqli_stmt_close($stmt);
 }
 
 function createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wachtwoord ){
-    $sql = "INSERT INTO gebruikers (voornaam, achternaam,tussenvoegsels, email, Wachtwoord) VALUES (?,?,?,?,?);";
+    $sql = "INSERT INTO gebruikers (voornaam, achternaam,tussenvoegsels, email, wachtwoord) VALUES (?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if(!mysqli_stmt_prepare($stmt, $sql)){
        header("location: ../registreer.php?error=stmtfailed");
@@ -62,9 +61,10 @@ function createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wac
 
 $hashedPwd = password_hash($wachtwoord, PASSWORD_DEFAULT);
 
-mysqli_stmt_bind_param($stmt, "ssss", $voorNaam, $achterNaam, $tussenvoegsels, $email , $wachtwoord );
+mysqli_stmt_bind_param($stmt, "sssss", $voorNaam, $achterNaam, $tussenvoegsels, $email , $wachtwoord );
 mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 
 header("location:../registreer.php?error=none");
 }
+

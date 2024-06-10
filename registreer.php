@@ -1,4 +1,4 @@
-<?php include("header.php") 
+<?php include("header.php") ;
 ?>
 <link rel="stylesheet" href="css/registreer.css">
 
@@ -14,7 +14,7 @@
            <section class="links">
             <h1>Registreer hier :</h1>
 
-            <form action="include/registreer.php" method="post">
+            <form action="include/registreer.inc.php" method="post">
                 <input type="text" name="VoorNaam" placeholder="VoorNaam">
                 <input type="text" name="AchterNaam" placeholder="AchterNaam">`
                 <input type="text" name="Tussenvoegsels" placeholder="Tussenvoegsels">
