@@ -16,6 +16,9 @@
 
             <form>
                 <input type="text" name="Naam" placeholder="Naam">
+                <input type="text" name="Naam" placeholder="Naam">`
+                <input type="text" name="Naam" placeholder="Naam">
+                <input type="text" name="Naam" placeholder="Naam">
             </form>
            </section>
            <section class="rechts"></section>
