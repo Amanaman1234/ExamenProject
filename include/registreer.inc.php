@@ -11,7 +11,7 @@ if(isset($_POST["submit"])){
     require_once 'dbh.php';
     require_once 'functions.php';
 
-    if(emptyInputSignup($voorNaam,$achterNaam,$tussenvoegsels,$email,$wachtwoord,$herhaalWachtwoord) !== false){
+    if(emptyInputSignup($voorNaam,$achterNaam,$email,$wachtwoord,$herhaalWachtwoord) !== false){
         header("location: ../registreer.php?error=emptyinput ");
         exit();
    }
@@ -21,11 +21,12 @@ if(isset($_POST["submit"])){
         header("location: ../registreer.php?error=pwdsdontmatch");
         exit();
     }
-
-    if(gebrExists($conn, $email) !== false){
+    if(gebrExists($conn, $email) == false){
         header("location: ../registreer.php?error=emailingebruik");
         exit();
     }
+
+
 
     createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wachtwoord );
 

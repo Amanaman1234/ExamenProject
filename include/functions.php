@@ -1,13 +1,13 @@
 <?php
 
-function emptyInputSignup($voorNaam, $achterNaam, $email, $wachtwoord, $herhaalWachtwoord) {
-    if (empty($voorNaam) || empty($achterNaam) || empty($email) || empty($wachtwoord) || empty($herhaalWachtwoord)) {
+function emptyInputSignup($voorNaam,$achterNaam,$email,$wachtwoord,$repWachtwoord){
+    if(empty($voorNaam) || empty($achterNaam) || empty($email)  || empty($wachtwoord) ||empty($repWachtwoord)){
         return true;
-    } else {
+    }
+    else{
         return false;
     }
 }
-
 function emptyInputLogin($gebruikersnaam,$wachtwoord){
     if(empty($gebruikersnaam) || empty($wachtwoord)){
         return true;
@@ -38,17 +38,12 @@ function gebrExists($conn,$email){
 mysqli_stmt_bind_param($stmt, "s", $email);
 mysqli_stmt_execute($stmt);
 
-
 $resultData = mysqli_stmt_get_result($stmt);
-
-if($row = mysqli_fetch_assoc($resultData)){
-    return $row;
-}else{
-    $result = false;
-    return $result;
-}
-
 mysqli_stmt_close($stmt);
+
+return mysqli_fetch_assoc($resultData);
+
+
 }
 
 function createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wachtwoord ){
@@ -61,7 +56,7 @@ function createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wac
 
 $hashedPwd = password_hash($wachtwoord, PASSWORD_DEFAULT);
 
-mysqli_stmt_bind_param($stmt, "sssss", $voorNaam, $achterNaam, $tussenvoegsels, $email , $wachtwoord );
+mysqli_stmt_bind_param($stmt, "sssss", $voorNaam, $achterNaam, $tussenvoegsels, $email , $hashedPwd);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 
@@ -71,22 +66,28 @@ header("location:../registreer.php?error=none");
 function loginUser($conn, $email, $wachtwoord){
     $uidExists = gebrExists($conn, $email);
 
-    if($uidExists == false){
+    if(!$uidExists){
         header("location: ../login.php?error=wronglogin");
         exit();
     }
 
-    $pwdHashed = $uidExists["Wachtwoord"];
+    $pwdHashed = $uidExists["wachtwoord"];
 
-    $checkPwd = password_verify($wachtwoord, $pwdHashed);
-    if($checkPwd === false){
-        header("location: ../login.php?error=wronglogin");
-        exit();
-    }else if($checkPwd === true){
+    // echo $wachtwoord;
+    // echo $pwdHashed;
+
+    $test = password_hash($pwdHashed, PASSWORD_DEFAULT);
+    $checkPwd = password_verify($wachtwoord, $test);
+
+    if($checkPwd){
         session_start();
         $_SESSION["gebruikerid"] = $uidExists["GebruikerId"];
         header("location: ../index.php");
-        exit();
+
+    }else {
+        header("location: ../login.php?error=wrongloginp");
     }
+
+    exit();
 }
 
