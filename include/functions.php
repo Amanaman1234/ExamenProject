@@ -68,3 +68,25 @@ mysqli_stmt_close($stmt);
 header("location:../registreer.php?error=none");
 }
 
+function loginUser($conn, $email, $wachtwoord){
+    $uidExists = gebrExists($conn, $email);
+
+    if($uidExists == false){
+        header("location: ../login.php?error=wronglogin");
+        exit();
+    }
+
+    $pwdHashed = $uidExists["Wachtwoord"];
+
+    $checkPwd = password_verify($wachtwoord, $pwdHashed);
+    if($checkPwd === false){
+        header("location: ../login.php?error=wronglogin");
+        exit();
+    }else if($checkPwd === true){
+        session_start();
+        $_SESSION["gebruikerid"] = $uidExists["GebruikerId"];
+        header("location: ../index.php");
+        exit();
+    }
+}
+

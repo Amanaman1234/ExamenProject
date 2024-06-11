@@ -1,0 +1,28 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.main{
+    display: grid;
+    height: 87vh;
+    width:  100vw;
+    background-color: #ADA7A7;
+    justify-content: center;
+    align-items: center ;
+}
+.form{
+    display: grid;
+    height: 35vw;
+    width: 50vw;
+    background-color: #D3D3CB;
+    grid-template-columns: 50% 50%;
+}
+.links{
+    height: 100%;
+    width: auto;
+}
+.rechts{
+    height: 100%;
+    width: auto;
+}
