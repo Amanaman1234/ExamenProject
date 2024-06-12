@@ -38,3 +38,10 @@
     text-align: center;
     font-style: italic;
 }
+.infodiv{
+    display: flex;
+}
+.infocss{
+    
+    flex-direction: column;
+}

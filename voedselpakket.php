@@ -23,7 +23,7 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_package'])) {
-    $klantnaam = $conn->real_escape_string($_POST['klantnaam']);
+    $klantnaam = $conn->real_escape_string($_POST['naam']);
     $samenstellingsdatum = $conn->real_escape_string($_POST['samenstellingsdatum']);
     $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
     $product_ids = $_POST['productid'];
@@ -83,9 +83,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_package'])) {
         }
     }
 }
+$klanten_query = "SELECT naam, gezingroote, leeftijd, allergieën, voorkeuren FROM klanten";
+$klanten_result = $conn->query($klanten_query);
 ?>
 <form method="POST" action="">
-    <input type="text" name="klantnaam" placeholder="Klantnaam" required>
+    <select name="naam" required>
+        <option value="">kies een klant</option>
+        <?php
+        if ($klanten_result->num_rows > 0) {
+            while ($klanten_row = $klanten_result->fetch_assoc()) {
+                echo "<option value='" . htmlspecialchars($klanten_row['naam']) . ",&emsp;' 
+                    data-gezingroote='" . htmlspecialchars($klanten_row['gezingroote']) . ",&emsp; ' 
+                    data-leeftijd='" . htmlspecialchars($klanten_row['leeftijd']) . ",&emsp;' 
+                    data-allergieën='" . htmlspecialchars($klanten_row['allergieën']) . ",&emsp;' 
+                    data-voorkeuren='" . htmlspecialchars($klanten_row['voorkeuren']) . "'>"
+                    . htmlspecialchars($klanten_row['naam']) . "</option>";
+            }
+        } else {
+            echo "<option value=''>Geen klanten beschikbaar</option>";
+        }
+        ?>
+    </select>
+    <div id="klantInfo"></div>
     <div id="productContainer">
         <div class="productEntry">
             <select name="productid[]" required>
@@ -177,6 +196,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_package'])) {
         `;
         container.appendChild(entry);
     }
+
+    document.querySelector('select[name="naam"]').addEventListener('change', function() {
+        var selectedOption = this.options[this.selectedIndex];
+        var gezingroote = selectedOption.getAttribute('data-gezingroote');
+        var leeftijd = selectedOption.getAttribute('data-leeftijd');
+        var allergieën = selectedOption.getAttribute('data-allergieën');
+        var voorkeuren = selectedOption.getAttribute('data-voorkeuren');
+        
+        var info = `
+        <div class="infodiv">
+            <p class="infocss">Gezin grootte: ${gezingroote}</p>
+            <p class="infocss">Leeftijd: ${leeftijd}</p>
+            <p class="infocss">Allergieën: ${allergieën}</p>
+            <p class="infocss">Voorkeuren: ${voorkeuren}</p>
+        </div>    
+        `;
+        
+        
+        document.getElementById('klantInfo').innerHTML = info;
+    });
 </script>
 
 </body>
