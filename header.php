@@ -12,10 +12,11 @@
            <div class="logo-text"><p> Voedselbank ExamenProject <br> Almere </p> </div>  </a>
            
         </div>
-        <div href="index.php" class="header-item">Over</div>
-        <div class="header-item">Diensten</div>
-        <div class="header-item">Doneren</div>
-        <div class="header-item">Contact</div>
+        <a style="text-decoration: none; color: white;"href="index.php" class="header-item"><p> Home </p> </a>
+        <a style="text-decoration: none; color: white;"href="klanten.php" class="header-item"><p> klanten </p> </a>
+        <a style="text-decoration: none; color: white;"href="leverancier.php" class="header-item"><p> Leveranciers </p> </a>
+        <a style="text-decoration: none; color: white;"href="invetaris.php" class="header-item"><p> Magazijn </p> </a>
+        <a style="text-decoration: none; color: white;"href="voedselpakket.php" class="header-item"><p> Voedselpakketen </p> </a>
     </header>
 </body>
 </html>
