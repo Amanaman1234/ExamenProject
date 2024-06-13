@@ -6,6 +6,7 @@ if(isset($_POST["submit"])){
     $email = $_POST["email"];
     $wachtwoord = $_POST["Wachtwoord"];
     $herhaalWachtwoord = $_POST["HerhaalWachtwoord"];
+    $Positie = $_POST["Positie"];
 
 
     require_once 'dbh.php';
@@ -21,14 +22,11 @@ if(isset($_POST["submit"])){
         header("location: ../registreer.php?error=pwdsdontmatch");
         exit();
     }
-    if(gebrExists($conn, $email) == false){
-        header("location: ../registreer.php?error=emailingebruik");
-        exit();
-    }
 
 
 
-    createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wachtwoord );
+
+    createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $Positie,$wachtwoord );
 
 
 }
