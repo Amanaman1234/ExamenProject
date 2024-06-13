@@ -80,6 +80,7 @@ function loginUser($conn, $email, $wachtwoord){
     if($checkPwd){
         session_start();
         $_SESSION["VoorNaam"] = $uidExists["voornaam"];
+        $_SESSION["AchterNaam"] = $uidExists["achternaam"];
         header("location: ../index.php");
         exit();
 

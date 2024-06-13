@@ -16,17 +16,24 @@
            <div class="logo-text"><p> Voedselbank ExamenProject <br> Almere </p> </div>  </a>
            
         </div>
-        <a style="text-decoration: none; color: white;"href="index.php" class="header-item"><p> Home </p> </a>
-        <a style="text-decoration: none; color: white;"href="klanten.php" class="header-item"><p> klanten </p> </a>
-        <a style="text-decoration: none; color: white;"href="leverancier.php" class="header-item"><p> Leveranciers </p> </a>
-        <a style="text-decoration: none; color: white;"href="invetaris.php" class="header-item"><p> Magazijn </p> </a>
-        <a style="text-decoration: none; color: white;"href="voedselpakket.php" class="header-item"><p> Voedselpakketen </p> </a>
         <?php
                 if(isset($_SESSION["VoorNaam"])){
-                    echo "<li><a class='linkText' href='Profiel.php' >".$_SESSION["VoorNaam"]."</a></li>";
+                    echo "<a style='text-decoration: none; color: white;'href='index.php' class='header-item'><p> Home </p> </a>'";
+                    echo "<a style='text-decoration: none; color: white;'href='klanten.php' class='header-item'><p> klanten </p> </a>";
+                    echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
+                    echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
+                    echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
                     echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";
+                }else{
+                    echo "<a style='text-decoration: none; color: white;'href='login.php' class='header-item'><p> Login </p> </a>'";
                 }
                      ?>
     </header>
 </body>
 </html>
+
+
+
+
+
+
