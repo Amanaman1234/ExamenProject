@@ -17,14 +17,14 @@
     <input type="text" name="leeftijd" placeholder="Leeftijd" required>
     <input type="text" name="allergieën" placeholder="Allergieën" required>
 
-    <div >
+   
         
         <div>
             <label><input type="checkbox" name="voorkeuren[]" value="halal"> Halal</label>
             <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch"> Vegetarisch</label>
             <label><input type="checkbox" name="voorkeuren[]" value="veganistisch"> Veganistisch</label>
         </div>
-    </div>
+   
 
     <input type="date" name="uitgiftedatum" placeholder="Uitgiftedatum" required>
     <button type="submit" name="add_klant">Toevoegen</button>
