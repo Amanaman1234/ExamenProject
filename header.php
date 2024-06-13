@@ -1,3 +1,7 @@
+<?php
+ session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +21,12 @@
         <a style="text-decoration: none; color: white;"href="leverancier.php" class="header-item"><p> Leveranciers </p> </a>
         <a style="text-decoration: none; color: white;"href="invetaris.php" class="header-item"><p> Magazijn </p> </a>
         <a style="text-decoration: none; color: white;"href="voedselpakket.php" class="header-item"><p> Voedselpakketen </p> </a>
+        <?php
+                if(isset($_SESSION["VoorNaam"])){
+                    echo "<li><a class='linkText' href='Profiel.php' >".$_SESSION["VoorNaam"]."</a></li>";
+                    echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";
+                }
+                     ?>
     </header>
 </body>
 </html>

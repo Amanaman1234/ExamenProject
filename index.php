@@ -1,4 +1,5 @@
-<?php include("header.php") ?>
+<?php include("header.php") 
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <?php echo $_SESSION["VoorNaam"] ?>
     <div >
         <h1 >Voedselbankexamen Almere</h1>
         <p >Bij problemen met de pagina's, contacteer: Danny, Aman of Mika</p>

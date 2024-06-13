@@ -75,16 +75,17 @@ function loginUser($conn, $email, $wachtwoord){
     // echo $wachtwoord;
     // echo $pwdHashed;
 
-    $test = password_hash($pwdHashed, PASSWORD_DEFAULT);
-    $checkPwd = password_verify($wachtwoord, $test);
+    $checkPwd = password_verify($wachtwoord, $pwdHashed);
 
     if($checkPwd){
         session_start();
-        $_SESSION["gebruikerid"] = $uidExists["GebruikerId"];
+        $_SESSION["VoorNaam"] = $uidExists["voornaam"];
         header("location: ../index.php");
+        exit();
 
     }else {
         header("location: ../login.php?error=wrongloginp");
+        exit();
     }
 
     exit();
