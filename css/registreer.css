@@ -3,14 +3,16 @@
     padding: 0px;
     box-sizing: border-box;
 }
+ 
 .main{
     display: grid;
-    height: 87vh;
+    background-image: url("../img/achetgrondinvetaris.png");
+    height: 100vh;
     width:  100vw;
-    background-color: #ADA7A7;
     justify-content: center;
     align-items: center ;
 }
+
 .form{
     display: grid;
     height: 35vw;

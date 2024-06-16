@@ -5,9 +5,9 @@
 }
 .main{
     display: grid;
-    height: 87vh;
+    height: 100vh;
     width:  100vw;
-    background-color: #ADA7A7;
+    background-image: url("../img/achetgrondinvetaris.png");
     justify-content: center;
     align-items: center ;
 }

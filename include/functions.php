@@ -43,11 +43,10 @@ mysqli_stmt_close($stmt);
 
 return mysqli_fetch_assoc($resultData);
 
-
 }
 
-function createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wachtwoord ){
-    $sql = "INSERT INTO gebruikers (voornaam, achternaam,tussenvoegsels, email, wachtwoord) VALUES (?,?,?,?,?);";
+function createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email ,$Positie ,$wachtwoord,){
+    $sql = "INSERT INTO gebruikers (voornaam, achternaam,tussenvoegsels, email, positie ,wachtwoord) VALUES (?,?,?,?,?,?);";
     $stmt = mysqli_stmt_init($conn);
     if(!mysqli_stmt_prepare($stmt, $sql)){
        header("location: ../registreer.php?error=stmtfailed");
@@ -56,7 +55,7 @@ function createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $wac
 
 $hashedPwd = password_hash($wachtwoord, PASSWORD_DEFAULT);
 
-mysqli_stmt_bind_param($stmt, "sssss", $voorNaam, $achterNaam, $tussenvoegsels, $email , $hashedPwd);
+mysqli_stmt_bind_param($stmt, "ssssss", $voorNaam, $achterNaam, $tussenvoegsels, $email ,$Positie, $hashedPwd);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 
@@ -76,16 +75,18 @@ function loginUser($conn, $email, $wachtwoord){
     // echo $wachtwoord;
     // echo $pwdHashed;
 
-    $test = password_hash($pwdHashed, PASSWORD_DEFAULT);
-    $checkPwd = password_verify($wachtwoord, $test);
+    $checkPwd = password_verify($wachtwoord, $pwdHashed);
 
     if($checkPwd){
         session_start();
-        $_SESSION["gebruikerid"] = $uidExists["GebruikerId"];
+        $_SESSION["VoorNaam"] = $uidExists["voornaam"];
+        $_SESSION["AchterNaam"] = $uidExists["achternaam"];
         header("location: ../index.php");
+        exit();
 
     }else {
         header("location: ../login.php?error=wrongloginp");
+        exit();
     }
 
     exit();
