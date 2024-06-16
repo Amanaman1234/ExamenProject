@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="css/voedselpakket.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <title>Voedselpakket Samenstellen</title>
 </head>
 <body class="background">
@@ -87,7 +88,7 @@ $klanten_query = "SELECT naam, gezingroote, leeftijd, allergieën, voorkeuren FR
 $klanten_result = $conn->query($klanten_query);
 ?>
 <form method="POST" action="">
-    <select name="naam" required>
+    <select name="naam" required class="select2">
         <option value="">kies een klant</option>
         <?php
         if ($klanten_result->num_rows > 0) {
@@ -107,7 +108,7 @@ $klanten_result = $conn->query($klanten_query);
     <div id="klantInfo"></div>
     <div id="productContainer">
         <div class="productEntry">
-            <select name="productid[]" required>
+            <select name="productid[]" required class="select2">
                 <option value="">Kies een product</option>
                 <?php
                 $product_query = "SELECT productid, product, aantal FROM invetaris";
@@ -173,29 +174,33 @@ $klanten_result = $conn->query($klanten_query);
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#packageTable').DataTable();
+        $('.select2').select2();
     });
 
     function addProduct() {
-        var container = document.getElementById('productContainer');
-        var entry = document.createElement('div');
-        entry.className = 'productEntry';
-        entry.innerHTML = `
-            <select name="productid[]" required>
-                <option value="">Kies een product</option>
-                <?php
-                $product_result->data_seek(0); 
-                while ($row = $product_result->fetch_assoc()) {
-                    echo "<option value='" . htmlspecialchars($row['productid']) . "'>" . htmlspecialchars($row['product']) . " (Beschikbaar: " . htmlspecialchars($row['aantal']) . ")</option>";
-                }
-                ?>
-            </select>
-            <input type="number" name="productaantal[]" placeholder="Aantal" required>
-        `;
-        container.appendChild(entry);
-    }
+    var container = document.getElementById('productContainer');
+    var entry = document.createElement('div');
+    entry.className = 'productEntry';
+    entry.innerHTML = `
+        <select name="productid[]" class="select2" required>
+            <option value="">Kies een product</option>
+            <?php
+            $product_result->data_seek(0); 
+            while ($row = $product_result->fetch_assoc()) {
+                echo "<option value='" . htmlspecialchars($row['productid']) . "'>" . htmlspecialchars($row['product']) . " (Beschikbaar: " . htmlspecialchars($row['aantal']) . ")</option>";
+            }
+            ?>
+        </select>
+        <input type="number" name="productaantal[]" placeholder="Aantal" required>
+    `;
+    container.appendChild(entry);
+
+    $('.select2').select2();
+}
 
     document.querySelector('select[name="naam"]').addEventListener('change', function() {
         var selectedOption = this.options[this.selectedIndex];
