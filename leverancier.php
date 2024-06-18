@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="css/klanten.css"> <!-- Je eigen CSS-bestand -->
+    <link rel="stylesheet" href="css/klanten.css">
     <title>Leveranciers</title>
 </head>
 <body class="background">
@@ -18,6 +18,7 @@
     <input type="tel" name="telefoonnummer" placeholder="Telefoonnummer" required>
     <input type="text" name="contactpersoon" placeholder="Contactpersoon" required>
     <input type="date" name="leveringdatum" placeholder="Leveringdatum" required>
+    <input type="date" name="volgendelevering" placeholder="Volgendelevering" required>
     <button type="submit" name="add_leverancier">Toevoegen</button>
 </form>
 
@@ -32,6 +33,7 @@
             <th>Telefoonnummer</th>
             <th>Contactpersoon</th>
             <th>Leveringdatum</th>
+            <th>Volgendelevering</th>
             <th>Bewerken</th>
         </tr>
     </thead>
@@ -58,8 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
         $contactpersoon = $conn->real_escape_string($_POST['contactpersoon']);
         $leveringdatum = $conn->real_escape_string($_POST['leveringdatum']);
-        
-        $insert_query = "INSERT INTO leveranciers (bedrijfnaam, adress, bedrijfemail, telefoonnummer, contactpersoon, leveringdatum) VALUES ('$bedrijfnaam', '$adress', '$bedrijfemail', '$telefoonnummer', '$contactpersoon', '$leveringdatum')";
+        $volgendelevering = $conn->real_escape_string($_POST['volgendelevering']);
+        $insert_query = "INSERT INTO leveranciers (bedrijfnaam, adress, bedrijfemail, telefoonnummer, contactpersoon, leveringdatum, volgendelevering) VALUES ('$bedrijfnaam', '$adress', '$bedrijfemail', '$telefoonnummer', '$contactpersoon', '$leveringdatum', '$volgendelevering')";
         
         if ($conn->query($insert_query) === TRUE) {
             $_SESSION['success_message'] = "De leverancier is succesvol toegevoegd.";
@@ -82,8 +84,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
             $contactpersoon = $conn->real_escape_string($_POST['contactpersoon']);
             $leveringdatum = $conn->real_escape_string($_POST['leveringdatum']);
-        
-            $update_query = "UPDATE leveranciers SET bedrijfnaam='$bedrijfnaam', adress='$adress', bedrijfemail='$bedrijfemail', telefoonnummer='$telefoonnummer', contactpersoon='$contactpersoon', leveringdatum='$leveringdatum' WHERE leverancierid='$leverancierid'";
+            $volgendelevering = $conn->real_escape_string($_POST['volgendelevering']);
+            $update_query = "UPDATE leveranciers SET bedrijfnaam='$bedrijfnaam', adress='$adress', bedrijfemail='$bedrijfemail', telefoonnummer='$telefoonnummer', contactpersoon='$contactpersoon', leveringdatum='$leveringdatum', volgendelevering='$volgendelevering' WHERE leverancierid='$leverancierid'";
         
             if ($conn->query($update_query) === TRUE) {
                 echo "";
@@ -110,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<td>" . htmlspecialchars($row['telefoonnummer']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['contactpersoon']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['leveringdatum']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['volgendelevering']) . "</td>";
                 echo "<td><a href='?edit=" . htmlspecialchars($row['leverancierid']) . "'>Bewerken</a></td>";
                 echo "</tr>";
             }
@@ -137,6 +140,7 @@ if (isset($_GET['edit'])) {
         <input type="tel" name="telefoonnummer" placeholder="Telefoonnummer" value="<?php echo htmlspecialchars($edit_row['telefoonnummer']); ?>" required>
         <input type="text" name="contactpersoon" placeholder="Contactpersoon" value="<?php echo htmlspecialchars($edit_row['contactpersoon']); ?>" required>
         <input type="date" name="leveringdatum" placeholder="Leveringdatum" value="<?php echo htmlspecialchars($edit_row['leveringdatum']); ?>" required>
+        <input type="date" name="volgendelevering" placeholder="volgendelevering" value="<?php echo htmlspecialchars($edit_row['volgendelevering']); ?>" required>
         <button type="submit" name="update_leverancier">Bijwerken</button>
     </form>
 <?php
