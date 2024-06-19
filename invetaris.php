@@ -17,12 +17,30 @@
     <input type="number" name="aantal" placeholder="Aantal" required>
     <select name="producttype" required>
         <option value="">Kies een producttype</option>
+
         <option value="groenten">Groenten</option>
-        <option value="vlees">Vlees</option>
+        <option value="vleeswaren">Vleeswaren</option>
         <option value="fruit">Fruit</option>
         <option value="vis">Vis</option>
         <option value="pasta">Pasta</option>
         <option value="zuivel">Zuivel</option>
+        <option value="aardappelen">Aardappelen</option>
+        <option value="kaas">Kaas</option>
+        <option value="plantaardig en eiren">Plantaardig en eiren</option>
+        <option value="bakkerij en banket">Bakkerij en banket</option>
+        <option value="frisdrank">frisdrank</option>
+        <option value="sappen">Sappen</option>
+        <option value="koffie en thee">Koffie en thee</option>
+        <option value="pasta">Pasta</option>
+        <option value="rijst en wereldkeuken">Rijst en wereldkeuken</option>
+        <option value="soepen">Soepen</option>
+        <option value="sauzen">Sauzen</option>
+        <option value="kruiden en olie">Kruiden en olie</option>
+        <option value="snoep">Snoep</option>
+        <option value="koek">Koek</option>
+        <option value="chips en chocolade">Chips en chocolade</option>
+        <option value="baby">Baby</option>
+        <option value="verzorging en hygiene">Verzorging en hygiene</option>
         <option value="overig">Overig</option>
     </select>
     <input type="text" name="locatie" placeholder="Locatie" required>
@@ -51,7 +69,7 @@
         $username = "root";
         $password = "";
         $dbname = "examenvoedselbank";
-        $conn = new mysqli($servername, $username, $password, $dbname, 3307);
+        $conn = new mysqli($servername, $username, $password, $dbname, );
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -134,14 +152,33 @@ if (isset($_GET['edit'])) {
         <input type="text" name="product" placeholder="Product" value="<?php echo htmlspecialchars($edit_row['product']); ?>" required>
         <input type="number" name="aantal" placeholder="Aantal" value="<?php echo htmlspecialchars($edit_row['aantal']); ?>" required>
         <select name="producttype" required>
+        
             <option value="">Kies een producttype</option>
             <option value="groenten" <?php echo ($edit_row['producttype'] == 'groenten') ? 'selected' : ''; ?>>Groenten</option>
-            <option value="vlees" <?php echo ($edit_row['producttype'] == 'vlees') ? 'selected' : ''; ?>>Vlees</option>
+            <option value="vleeswaren" <?php echo ($edit_row['producttype'] == 'vleeswaren') ? 'selected' : ''; ?>>Vleeswaren</option>
             <option value="fruit" <?php echo ($edit_row['producttype'] == 'fruit') ? 'selected' : ''; ?>>Fruit</option>
             <option value="vis" <?php echo ($edit_row['producttype'] == 'vis') ? 'selected' : ''; ?>>Vis</option>
             <option value="pasta" <?php echo ($edit_row['producttype'] == 'pasta') ? 'selected' : ''; ?>>Pasta</option>
             <option value="zuivel" <?php echo ($edit_row['producttype'] == 'zuivel') ? 'selected' : ''; ?>>Zuivel</option>
+            <option value="aardappelen" <?php echo ($edit_row['producttype'] == 'aardappelen') ? 'selected' : ''; ?>>Aardappelen</option>
+            <option value="kaas" <?php echo ($edit_row['producttype'] == 'kaas') ? 'selected' : ''; ?>>Kaas</option>
+            <option value="plantaardig en eiren" <?php echo ($edit_row['producttype'] == 'plantaardig en eiren') ? 'selected' : ''; ?>>Plantaardig en eiren</option>
+            <option value="bakkerij en banket" <?php echo ($edit_row['producttype'] == 'bakkerij en banket') ? 'selected' : ''; ?>>Bakkerij en banket</option>
+            <option value="frisdrank" <?php echo ($edit_row['producttype'] == 'frisdrank') ? 'selected' : ''; ?>>Frisdrank</option>
+            <option value="sappen" <?php echo ($edit_row['producttype'] == 'sappen') ? 'selected' : ''; ?>>Sappen</option>
+            <option value="koffie en thee" <?php echo ($edit_row['producttype'] == 'koffie en thee') ? 'selected' : ''; ?>>Koffie en thee</option>
+            <option value="pasta" <?php echo ($edit_row['producttype'] == 'pasta') ? 'selected' : ''; ?>>pasta</option>
+            <option value="rijst en wereldkeuken" <?php echo ($edit_row['producttype'] == 'rijst en wereldkeuken') ? 'selected' : ''; ?>>Rijst en wereldkeuken</option>
+            <option value="soepen" <?php echo ($edit_row['producttype'] == 'soepen') ? 'selected' : ''; ?>>Soepen</option>
+            <option value="sauzen" <?php echo ($edit_row['producttype'] == 'sauzen') ? 'selected' : ''; ?>>Sauzen</option>
+            <option value="kruiden en olie" <?php echo ($edit_row['producttype'] == 'kruiden en olie') ? 'selected' : ''; ?>>Kruiden en olie</option>
+            <option value="snoep" <?php echo ($edit_row['producttype'] == 'snoep') ? 'selected' : ''; ?>>Snoep</option>
+            <option value="koek" <?php echo ($edit_row['producttype'] == 'koek') ? 'selected' : ''; ?>>Koek</option>
+            <option value="chips en chocolade" <?php echo ($edit_row['producttype'] == 'chips en chocolade') ? 'selected' : ''; ?>>Chops en chocolade</option>
+            <option value="baby" <?php echo ($edit_row['producttype'] == 'baby') ? 'selected' : ''; ?>>Baby</option>
+            <option value="Verzorging en hygiene" <?php echo ($edit_row['producttype'] == 'Verzorging en hygiene') ? 'selected' : ''; ?>>verzorging en hygiene</option>
             <option value="overig" <?php echo ($edit_row['producttype'] == 'overig') ? 'selected' : ''; ?>>Overig</option>
+            
         </select>
         <input type="text" name="locatie" placeholder="Locatie" value="<?php echo htmlspecialchars($edit_row['locatie']); ?>" required>
         <input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" value="<?php echo htmlspecialchars($edit_row['houdsbaarheidsdatum']); ?>" required>
