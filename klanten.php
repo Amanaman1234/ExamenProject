@@ -13,19 +13,28 @@
 <h2>Nieuwe Klant Toevoegen</h2>
 <form method="POST" action="">
     <input type="text" name="naam" placeholder="Naam" required>
+    <input type="text" name="adres" placeholder="adres" required>
+    <input type="tel" name="telefoonnummer" placeholder="telefoonnummer" required>
+    <input type="text" name="emailadres" placeholder="emailadres" required>
     <input type="number" name="gezingroote" placeholder="Gezinsgrootte" required>
-    <input type="text" name="leeftijd" placeholder="Leeftijd" required>
-    <input type="text" name="allergieën" placeholder="Allergieën" required>
-
-   
-        
-        <div>
-            <label><input type="checkbox" name="voorkeuren[]" value="halal"> Halal</label>
-            <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch"> Vegetarisch</label>
-            <label><input type="checkbox" name="voorkeuren[]" value="veganistisch"> Veganistisch</label>
-        </div>
-   
-
+    <div>
+        <label>Onder 2 jaar: <input type="number" name="leeftijd_onder_2" min="0" value="0" required></label>
+        <label>2 tot 18 jaar: <input type="number" name="leeftijd_2_tot_18" min="0" value="0" required></label>
+        <label>Boven 18 jaar: <input type="number" name="leeftijd_boven_18" min="0" value="0" required></label>
+    </div>
+    <div>
+        <label><input type="checkbox" name="allergieën[]" value="gluten"> Gluten</label>
+        <label><input type="checkbox" name="allergieën[]" value="pindas"> Pinda's</label>
+        <label><input type="checkbox" name="allergieën[]" value="schaaldieren"> Schaaldieren</label>
+        <label><input type="checkbox" name="allergieën[]" value="hazelnoten"> Hazelnoten</label>
+        <label><input type="checkbox" name="allergieën[]" value="lactose"> Lactose</label>
+        <label><input type="text" name="allergieën[]" value="" placeholder="overig"></label>
+    </div>
+    <div>
+        <label><input type="checkbox" name="voorkeuren[]" value="halal"> Halal</label>
+        <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch"> Vegetarisch</label>
+        <label><input type="checkbox" name="voorkeuren[]" value="veganistisch"> Veganistisch</label>
+    </div>
     <input type="date" name="uitgiftedatum" placeholder="Uitgiftedatum" required>
     <button type="submit" name="add_klant">Toevoegen</button>
 </form>
@@ -36,8 +45,13 @@
         <tr>
             <th>Gezin ID</th>
             <th>Naam</th>
+            <th>adres</th>
+            <th>telefoonnummer</th>
+            <th>emailadres</th>
             <th>Gezinsgrootte</th>
-            <th>Leeftijd</th>
+            <th>Onder 2 jaar</th>
+            <th>2 tot 18 jaar</th>
+            <th>Boven 18 jaar</th>
             <th>Allergieën</th>
             <th>Voorkeuren</th>
             <th>Uitgiftedatum</th>
@@ -47,14 +61,13 @@
     <tbody>
 
 <?php
-
 session_start();
 
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "examenvoedselbank";
-$conn = new mysqli($servername, $username, $password, $dbname, 3307);
+$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -62,14 +75,19 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_klant'])) {
         $naam = $conn->real_escape_string($_POST['naam']);
+        $adres = $conn->real_escape_string($_POST['adres']);
+        $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
+        $emailadres = $conn->real_escape_string($_POST['emailadres']);
         $gezingroote = $conn->real_escape_string($_POST['gezingroote']);
-        $leeftijden = $conn->real_escape_string($_POST['leeftijd']);
-        $allergieën = $conn->real_escape_string($_POST['allergieën']);
-        $voorkeuren = implode(', ', $_POST['voorkeuren']);
+        $leeftijd_onder_2 = $conn->real_escape_string($_POST['leeftijd_onder_2']);
+        $leeftijd_2_tot_18 = $conn->real_escape_string($_POST['leeftijd_2_tot_18']);
+        $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
+        $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
+        $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
         $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
-        
-        $insert_query = "INSERT INTO klanten (naam, gezingroote, leeftijd, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$gezingroote', '$leeftijden', '$allergieën', '$voorkeuren', '$uitgiftedatum')";
-        
+
+        $insert_query = "INSERT INTO klanten (naam, adres, telefoonnummer, emailadres, gezingroote, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$telefoonnummer', '$emailadres', '$gezingroote', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën', '$voorkeuren', '$uitgiftedatum')";
+
         if ($conn->query($insert_query) === TRUE) {
             $_SESSION['success_message'] = "De klant is succesvol toegevoegd.";
             header("Location: " . $_SERVER['REQUEST_URI']);
@@ -79,54 +97,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-?>
 
-        <?php
-        
-        if (isset($_POST['update_klant'])) {
-            $gezinid = $conn->real_escape_string($_POST['gezinid']);
-            $naam = $conn->real_escape_string($_POST['naam']);
-            $gezingroote = $conn->real_escape_string($_POST['gezingroote']);
-            $leeftijd = $conn->real_escape_string($_POST['leeftijd']);
-            $allergieën = $conn->real_escape_string($_POST['allergieën']);
-            $voorkeuren = implode(', ', $_POST['voorkeuren']);
-            $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
-        
-            $update_query = "UPDATE klanten SET naam='$naam', gezingroote='$gezingroote', leeftijd='$leeftijd', allergieën='$allergieën', voorkeuren='$voorkeuren', uitgiftedatum='$uitgiftedatum' WHERE gezinid='$gezinid'";
-        
-            if ($conn->query($update_query) === TRUE) {
-                echo "";
-            } else {
-                echo "Fout bij het bijwerken van de klant: " . $conn->error;
-            }
-        }
-        
-        $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
-        
-        $query = "SELECT * FROM klanten";
-        if (!empty($search)) {
-            $query .= " WHERE naam LIKE '%$search%'";
-        }
-        
-        $result = $conn->query($query);
-        
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . htmlspecialchars($row['gezinid']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['naam']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['gezingroote']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['leeftijd']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['allergieën']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['voorkeuren']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['uitgiftedatum']) . "</td>";
-                echo "<td><a href='?edit=" . htmlspecialchars($row['gezinid']) . "'>Bewerken</a></td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='8'>Geen gegevens gevonden</td></tr>";
-        }
-        ?>
+if (isset($_POST['update_klant'])) {
+    $gezinid = $conn->real_escape_string($_POST['gezinid']);
+    $naam = $conn->real_escape_string($_POST['naam']);
+    $adres = $conn->real_escape_string($_POST['adres']);
+    $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
+    $emailadres = $conn->real_escape_string($_POST['emailadres']);
+    $gezingroote = $conn->real_escape_string($_POST['gezingroote']);
+    $leeftijd_onder_2 = $conn->real_escape_string($_POST['leeftijd_onder_2']);
+    $leeftijd_2_tot_18 = $conn->real_escape_string($_POST['leeftijd_2_tot_18']);
+    $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
+    $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
+    $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
+    $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
+
+    $update_query = "UPDATE klanten SET naam='$naam', adres='$adres', telefoonnummer='$telefoonnummer', emailadres='$emailadres', gezingroote='$gezingroote', leeftijd_onder_2='$leeftijd_onder_2', leeftijd_2_tot_18='$leeftijd_2_tot_18', leeftijd_boven_18='$leeftijd_boven_18', allergieën='$allergieën', voorkeuren='$voorkeuren', uitgiftedatum='$uitgiftedatum' WHERE gezinid='$gezinid'";
+
+    if ($conn->query($update_query) === TRUE) {
+        $_SESSION['success_message'] = "De klant is succesvol bijgewerkt.";
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit();
+    } else {
+        echo "Fout bij het bijwerken van de klant: " . $conn->error;
+    }
+}
+
+$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+
+$query = "SELECT * FROM klanten";
+if (!empty($search)) {
+    $query .= " WHERE naam LIKE '%$search%'";
+}
+
+$result = $conn->query($query);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['gezinid']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['naam']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['adres']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['telefoonnummer']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['emailadres']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['gezingroote']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['leeftijd_onder_2']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['leeftijd_2_tot_18']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['leeftijd_boven_18']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['allergieën']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['voorkeuren']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['uitgiftedatum']) . "</td>";
+        echo "<td><a href='?edit=" . htmlspecialchars($row['gezinid']) . "'>Bewerken</a></td>";
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='12'>Geen gegevens gevonden</td></tr>";
+}
+?>
     </tbody>
 </table>
 
@@ -143,10 +170,17 @@ if (isset($_GET['edit'])) {
     <form method="POST" action="">
         <input type="hidden" name="gezinid" value="<?php echo htmlspecialchars($edit_row['gezinid']); ?>">
         <input type="text" name="naam" placeholder="Naam" value="<?php echo htmlspecialchars($edit_row['naam']); ?>" required>
+        <input type="text" name="adres" placeholder="adres" value="<?php echo htmlspecialchars($edit_row['adres']); ?>" required>
+        <input type="tel" name="telefoonnummer" placeholder="telefoonnummer" value="<?php echo htmlspecialchars($edit_row['telefoonnummer']); ?>" required>
+        <input type="text" name="emailadres" placeholder="emailadres" value="<?php echo htmlspecialchars($edit_row['emailadres']); ?>" required>
         <input type="number" name="gezingroote" placeholder="Gezinsgrootte" value="<?php echo htmlspecialchars($edit_row['gezingroote']); ?>" required>
-        <input type="number" name="leeftijd" placeholder="Leeftijd" value="<?php echo htmlspecialchars($edit_row['leeftijd']); ?>" required>
+        <div>
+            <label>Onder 2 jaar: <input type="number" name="leeftijd_onder_2" min="0" value="<?php echo htmlspecialchars($edit_row['leeftijd_onder_2']); ?>" required></label>
+            <label>2 tot 18 jaar: <input type="number" name="leeftijd_2_tot_18" min="0" value="<?php echo htmlspecialchars($edit_row['leeftijd_2_tot_18']); ?>" required></label>
+            <label>Boven 18 jaar: <input type="number" name="leeftijd_boven_18" min="0" value="<?php echo htmlspecialchars($edit_row['leeftijd_boven_18']); ?>" required></label>
+        </div>
         <input type="text" name="allergieën" placeholder="Allergieën" value="<?php echo htmlspecialchars($edit_row['allergieën']); ?>" required>
-        
+
         <div class="dropdown">
             <input type="text" name="voorkeuren_display"  placeholder="Voorkeuren" readonly value="<?php echo htmlspecialchars($edit_row['voorkeuren']); ?>">
             <div >
@@ -155,7 +189,7 @@ if (isset($_GET['edit'])) {
                 <label><input type="checkbox" name="voorkeuren[]" value="veganistisch" <?php echo in_array("veganistisch", $selected_voorkeuren) ? "checked" : ""; ?>> Veganistisch</label>
             </div>
         </div>
-        
+
         <input type="date" name="uitgiftedatum" placeholder="Uitgiftedatum" value="<?php echo htmlspecialchars($edit_row['uitgiftedatum']); ?>" required>
         <button type="submit" name="update_klant">Bijwerken</button>
     </form>
@@ -164,7 +198,6 @@ if (isset($_GET['edit'])) {
 }
 $conn->close();
 ?>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -176,3 +209,5 @@ $conn->close();
 
 </body>
 </html>
+
+

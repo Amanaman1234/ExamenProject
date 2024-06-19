@@ -1,5 +1,6 @@
 <?php
  session_start();
+ require_once 'include/functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -17,17 +18,9 @@
            
         </div>
         <?php
-                if(isset($_SESSION["VoorNaam"])){
-                    echo "<a style='text-decoration: none; color: white;'href='index.php' class='header-item'><p> Home </p> </a>'";
-                    echo "<a style='text-decoration: none; color: white;'href='klanten.php' class='header-item'><p> klanten </p> </a>";
-                    echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
-                    echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
-                    echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
-                    echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";
-                }else{
-                    echo "<a style='text-decoration: none; color: white;'href='login.php' class='header-item'><p> Login </p> </a>'";
-                }
-                     ?>
+        headerInhoud();
+        ?>
+                     
     </header>
 </body>
 </html>

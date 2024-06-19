@@ -81,6 +81,8 @@ function loginUser($conn, $email, $wachtwoord){
         session_start();
         $_SESSION["VoorNaam"] = $uidExists["voornaam"];
         $_SESSION["AchterNaam"] = $uidExists["achternaam"];
+        $_SESSION["Positie"] = $uidExists["positie"];
+
         header("location: ../index.php");
         exit();
 
@@ -90,5 +92,31 @@ function loginUser($conn, $email, $wachtwoord){
     }
 
     exit();
+}
+
+function headerInhoud(){
+    $positione = $_SESSION["Positie"];
+    if ($positione == "medewerker") {
+        echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
+        echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
+        echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
+        echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
+
+    }else if($positione == "Vrijwilliger") {
+        echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
+        echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
+        echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
+    }else if( $positione == "directie") {
+        echo "<a style='text-decoration: none; color: white;'href='klanten.php' class='header-item'><p> klanten </p> </a>";
+        echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
+        echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
+        echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
+        echo "<a style='text-decoration: none; color: white;'href='registreer.php' class='header-item'><p> Registreer </p> </a>";
+        echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
+    }else {
+        echo "<a style='text-decoration: none; color: white;'href='login.php' class='header-item'><p> Login </p> </a>";
+    
+    }
+    
 }
 
