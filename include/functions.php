@@ -72,8 +72,7 @@ function loginUser($conn, $email, $wachtwoord){
 
     $pwdHashed = $uidExists["wachtwoord"];
 
-    // echo $wachtwoord;
-    // echo $pwdHashed;
+   
 
     $checkPwd = password_verify($wachtwoord, $pwdHashed);
 

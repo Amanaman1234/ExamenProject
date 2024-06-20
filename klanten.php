@@ -14,6 +14,7 @@
 <form method="POST" action="">
     <input type="text" name="naam" placeholder="Naam" required>
     <input type="text" name="adres" placeholder="adres" required>
+    <input type="text" name="postcode" placeholder="postcode" required>
     <input type="tel" name="telefoonnummer" placeholder="telefoonnummer" required>
     <input type="text" name="emailadres" placeholder="emailadres" required>
     <input type="number" name="gezingroote" placeholder="Gezinsgrootte" required>
@@ -46,6 +47,7 @@
             <th>Gezin ID</th>
             <th>Naam</th>
             <th>adres</th>
+            <th>postcode</th>
             <th>telefoonnummer</th>
             <th>emailadres</th>
             <th>Gezinsgrootte</th>
@@ -76,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_klant'])) {
         $naam = $conn->real_escape_string($_POST['naam']);
         $adres = $conn->real_escape_string($_POST['adres']);
+        $postcode = $conn->real_escape_string($_POST['postcode']);
         $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
         $emailadres = $conn->real_escape_string($_POST['emailadres']);
         $gezingroote = $conn->real_escape_string($_POST['gezingroote']);
@@ -86,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
         $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
 
-        $insert_query = "INSERT INTO klanten (naam, adres, telefoonnummer, emailadres, gezingroote, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$telefoonnummer', '$emailadres', '$gezingroote', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën', '$voorkeuren', '$uitgiftedatum')";
+        $insert_query = "INSERT INTO klanten (naam, adres,postcode, telefoonnummer, emailadres, gezingroote, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$postcode','$telefoonnummer', '$emailadres', '$gezingroote', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën', '$voorkeuren', '$uitgiftedatum')";
 
         if ($conn->query($insert_query) === TRUE) {
             $_SESSION['success_message'] = "De klant is succesvol toegevoegd.";
@@ -102,6 +105,7 @@ if (isset($_POST['update_klant'])) {
     $gezinid = $conn->real_escape_string($_POST['gezinid']);
     $naam = $conn->real_escape_string($_POST['naam']);
     $adres = $conn->real_escape_string($_POST['adres']);
+    $postcode = $conn->real_escape_string($_POST['postcode']);
     $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
     $emailadres = $conn->real_escape_string($_POST['emailadres']);
     $gezingroote = $conn->real_escape_string($_POST['gezingroote']);
@@ -112,7 +116,7 @@ if (isset($_POST['update_klant'])) {
     $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
     $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
 
-    $update_query = "UPDATE klanten SET naam='$naam', adres='$adres', telefoonnummer='$telefoonnummer', emailadres='$emailadres', gezingroote='$gezingroote', leeftijd_onder_2='$leeftijd_onder_2', leeftijd_2_tot_18='$leeftijd_2_tot_18', leeftijd_boven_18='$leeftijd_boven_18', allergieën='$allergieën', voorkeuren='$voorkeuren', uitgiftedatum='$uitgiftedatum' WHERE gezinid='$gezinid'";
+    $update_query = "INSERT INTO klanten (naam, adres,postcode, telefoonnummer, emailadres, gezingroote, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$postcode','$telefoonnummer', '$emailadres', '$gezingroote', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën', '$voorkeuren', '$uitgiftedatum')";
 
     if ($conn->query($update_query) === TRUE) {
         $_SESSION['success_message'] = "De klant is succesvol bijgewerkt.";
@@ -138,6 +142,7 @@ if ($result->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row['gezinid']) . "</td>";
         echo "<td>" . htmlspecialchars($row['naam']) . "</td>";
         echo "<td>" . htmlspecialchars($row['adres']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['postcode']) . "</td>";
         echo "<td>" . htmlspecialchars($row['telefoonnummer']) . "</td>";
         echo "<td>" . htmlspecialchars($row['emailadres']) . "</td>";
         echo "<td>" . htmlspecialchars($row['gezingroote']) . "</td>";
@@ -170,6 +175,7 @@ if (isset($_GET['edit'])) {
     <form method="POST" action="">
         <input type="hidden" name="gezinid" value="<?php echo htmlspecialchars($edit_row['gezinid']); ?>">
         <input type="text" name="naam" placeholder="Naam" value="<?php echo htmlspecialchars($edit_row['naam']); ?>" required>
+        <input type="text" name="postcode" placeholder="postcode" value="<?php echo htmlspecialchars($edit_row['postcode']); ?>" required>
         <input type="text" name="adres" placeholder="adres" value="<?php echo htmlspecialchars($edit_row['adres']); ?>" required>
         <input type="tel" name="telefoonnummer" placeholder="telefoonnummer" value="<?php echo htmlspecialchars($edit_row['telefoonnummer']); ?>" required>
         <input type="text" name="emailadres" placeholder="emailadres" value="<?php echo htmlspecialchars($edit_row['emailadres']); ?>" required>
