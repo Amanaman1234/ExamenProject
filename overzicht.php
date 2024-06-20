@@ -1,4 +1,5 @@
-<?php include("header.php") ?>
+<?php include("header.php") 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,45 +12,8 @@
 <body class="background">
 
 
-<h2>Nieuw Product Toevoegen</h2>
-<form method="POST" action="">
-    <input type="text" name="product" placeholder="Product" required>
-    <input type="number" name="aantal" placeholder="Aantal" required>
-    <select name="producttype" required>
-        <option value="">Kies een producttype</option>
 
-        <option value="groenten">Groenten</option>
-        <option value="vleeswaren">Vleeswaren</option>
-        <option value="fruit">Fruit</option>
-        <option value="vis">Vis</option>
-        <option value="pasta">Pasta</option>
-        <option value="zuivel">Zuivel</option>
-        <option value="aardappelen">Aardappelen</option>
-        <option value="kaas">Kaas</option>
-        <option value="plantaardig en eiren">Plantaardig en eiren</option>
-        <option value="bakkerij en banket">Bakkerij en banket</option>
-        <option value="frisdrank">frisdrank</option>
-        <option value="sappen">Sappen</option>
-        <option value="koffie en thee">Koffie en thee</option>
-        <option value="pasta">Pasta</option>
-        <option value="rijst en wereldkeuken">Rijst en wereldkeuken</option>
-        <option value="soepen">Soepen</option>
-        <option value="sauzen">Sauzen</option>
-        <option value="kruiden en olie">Kruiden en olie</option>
-        <option value="snoep">Snoep</option>
-        <option value="koek">Koek</option>
-        <option value="chips en chocolade">Chips en chocolade</option>
-        <option value="baby">Baby</option>
-        <option value="verzorging en hygiene">Verzorging en hygiene</option>
-        <option value="overig">Overig</option>
-    </select>
-    <input type="text" name="locatie" placeholder="Locatie" required>
-    <input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" required>
-    <input type="text" name="streepjescode" placeholder="Streepjescode" required>
-    <button type="submit" name="add_product">Toevoegen</button>
-</form>
-
-<h1>Product Aantal Overzicht</h1>
+<h1>Maandelijkse Overzicht</h1>
 <table id="productTable" class="tabel display" border="1">
     <thead>
         <tr>
@@ -65,31 +29,10 @@
     </thead>
     <tbody>
         <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "examenvoedselbank";
-        $conn = new mysqli($servername, $username, $password, $dbname, );
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+            require_once 'include/dbh.php';
+            require_once 'include/functions.php';
 
-        if (isset($_POST['add_product'])) {
-            $product = $conn->real_escape_string($_POST['product']);
-            $aantal = $conn->real_escape_string($_POST['aantal']);
-            $producttype = $conn->real_escape_string($_POST['producttype']);
-            $locatie = $conn->real_escape_string($_POST['locatie']);
-            $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
-            $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
 
-            $insert_query = "INSERT INTO invetaris (product, aantal, producttype, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
-
-            if ($conn->query($insert_query) === TRUE) {
-                echo "";
-            } else {
-                echo "Fout bij het toevoegen van het product: " . $conn->error;
-            }
-        }
 
         if (isset($_POST['update_product'])) {
             $productid = $conn->real_escape_string($_POST['productid']);

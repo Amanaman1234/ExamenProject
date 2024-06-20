@@ -19,11 +19,8 @@
         </div>
         <?php
         headerInhoud();
-        ?>
-                     
+        ?>     
     </header>
-</body>
-</html>
 
 
 
