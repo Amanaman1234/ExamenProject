@@ -12,11 +12,6 @@ if(isset($_POST["submit"])){
         header("location: ../login.php?error=emptyinput");
         exit;
     }
-    if(gebrExists($conn, $email) == false){
-        header("location: ../registreer.php?error=emailingebruik");
-        exit();
-    }
-
 
 
    loginUser($conn, $email, $wachtwoord);

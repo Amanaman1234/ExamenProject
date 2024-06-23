@@ -8,6 +8,14 @@ function emptyInputSignup($voorNaam,$achterNaam,$email,$wachtwoord,$repWachtwoor
         return false;
     }
 }
+function emptyInputChangePwd($ogPWd, $newPwd,$newPwdRep){
+    if(empty($ogPWd) || empty($newPwd) || empty($newPwdRep)){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 function emptyInputLogin($gebruikersnaam,$wachtwoord){
     if(empty($gebruikersnaam) || empty($wachtwoord)){
         return true;
@@ -60,7 +68,7 @@ mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 
 header("location:../registreer.php?error=none");
-}
+}   
 
 function loginUser($conn, $email, $wachtwoord){
     $uidExists = gebrExists($conn, $email);
@@ -71,9 +79,6 @@ function loginUser($conn, $email, $wachtwoord){
     }
 
     $pwdHashed = $uidExists["wachtwoord"];
-
-   
-
     $checkPwd = password_verify($wachtwoord, $pwdHashed);
 
     if($checkPwd){
@@ -81,6 +86,8 @@ function loginUser($conn, $email, $wachtwoord){
         $_SESSION["VoorNaam"] = $uidExists["voornaam"];
         $_SESSION["AchterNaam"] = $uidExists["achternaam"];
         $_SESSION["Positie"] = $uidExists["positie"];
+        $_SESSION["GebruikerId"] = $uidExists["gebruikerid"];
+
         header("location: ../index.php");
         exit();
 
@@ -120,8 +127,25 @@ function headerInhoud(){
     else {
         echo "<a style='text-decoration: none; color: white;'href='login.php' class='header-item'><p> Login </p> </a>";
     
-    }
-
-    
+    }    
 }
 
+
+function Changepwd($conn, $newPwd) {
+    if(isset($_SESSION["GebruikerId"])){
+        $id = $_SESSION["GebruikerId"];
+    }
+
+    $sql = "UPDATE gebruikers SET wachtwoord = ? WHERE gebruikerid = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+       header("location: ../login.php?error=stmtfailed");
+       exit();
+    }
+    $hashedPwd = password_hash($newPwd, PASSWORD_DEFAULT);
+
+    mysqli_stmt_bind_param($stmt, "si", $hashedPwd, $id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+}

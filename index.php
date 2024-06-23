@@ -13,7 +13,7 @@
 <?php
 
     if (isset($_SESSION["VoorNaam"]) && isset($_SESSION["AchterNaam"])) {
-        echo "gebruiker: " . $_SESSION["VoorNaam"] . " " . $_SESSION["AchterNaam"];
+        echo "gebruiker: " . $_SESSION["VoorNaam"] . " " . $_SESSION["AchterNaam"] . $_SESSION["GebruikerId"];
     } else {
         echo "No user is logged in.";
     }
