@@ -134,21 +134,17 @@ function headerInhoud(){
 }
 
 function Changepwd($conn, $newPwd) {
-    // Start session if not already started
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-
-    // Check if user is logged in
+    
     if(!isset($_SESSION["GebruikerId"])) {
         header("location: ../login.php?error=notloggedin");
         exit();
     }
 
-    // Get user ID from session
     $id = $_SESSION["GebruikerId"];
 
-    // Prepare SQL statement
     $sql = "UPDATE gebruikers SET wachtwoord = ? WHERE gebruikerid = ?";
     $stmt = mysqli_stmt_init($conn);
 
@@ -157,15 +153,12 @@ function Changepwd($conn, $newPwd) {
         exit();
     }
 
-    // Hash the new password
     $hashedPwd = password_hash($newPwd, PASSWORD_DEFAULT);
 
-    // Bind parameters and execute statement
     mysqli_stmt_bind_param($stmt, "si", $hashedPwd, $id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    // Redirect to index page
-    header("location: ../index.php?passwordchange=success");
+    header("location: ../index.php?Succ6 :)");
     exit();
 }
