@@ -9,12 +9,13 @@ if(isset($_POST["submit"])){
     require_once 'dbh.php';
     require_once 'functions.php';
 
+    if(emptyInputChangePwd($ogPWd, $newPwd,$newPwdRep)){
+        header("location: ../Veranderpw.php?error=emptyinput");
+        exit;
+    }
+
 
     Changepwd($conn, $newPwd);
 
 
-}
-else{
-    header("location: ../login.php");
-    exit();
 }

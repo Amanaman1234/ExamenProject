@@ -108,11 +108,13 @@ function headerInhoud(){
             echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
+            echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
             echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
     
         }else if($positione == "Vrijwilliger") {
             echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
+            echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
             echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
         }else if( $positione == "directie") {
             echo "<a style='text-decoration: none; color: white;'href='klanten.php' class='header-item'><p> klanten </p> </a>";
@@ -120,6 +122,7 @@ function headerInhoud(){
             echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='registreer.php' class='header-item'><p> Registreer </p> </a>";
+            echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
             echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
         }
 
@@ -130,22 +133,39 @@ function headerInhoud(){
     }    
 }
 
-
 function Changepwd($conn, $newPwd) {
-    if(isset($_SESSION["GebruikerId"])){
-        $id = $_SESSION["GebruikerId"];
+    // Start session if not already started
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
     }
 
+    // Check if user is logged in
+    if(!isset($_SESSION["GebruikerId"])) {
+        header("location: ../login.php?error=notloggedin");
+        exit();
+    }
+
+    // Get user ID from session
+    $id = $_SESSION["GebruikerId"];
+
+    // Prepare SQL statement
     $sql = "UPDATE gebruikers SET wachtwoord = ? WHERE gebruikerid = ?";
     $stmt = mysqli_stmt_init($conn);
-    if(!mysqli_stmt_prepare($stmt, $sql)){
-       header("location: ../login.php?error=stmtfailed");
-       exit();
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../login.php?error=stmtfailed");
+        exit();
     }
+
+    // Hash the new password
     $hashedPwd = password_hash($newPwd, PASSWORD_DEFAULT);
 
+    // Bind parameters and execute statement
     mysqli_stmt_bind_param($stmt, "si", $hashedPwd, $id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
+    // Redirect to index page
+    header("location: ../index.php?passwordchange=success");
+    exit();
 }
