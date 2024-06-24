@@ -19,11 +19,7 @@
     $password = "";
     $dbname = "examenvoedselbank";
 
-<<<<<<< HEAD
-$conn = new mysqli($servername, $username, $password, $dbname);
-=======
     $conn = new mysqli($servername, $username, $password, $dbname, );
->>>>>>> 97da7f5dec58999cf54b0ee737c3d38c45015b27
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -112,15 +108,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
         <div id="klantInfo"></div>
         <div id="productContainer">
             <div class="productEntry">
-                <select name="productid[]" required class="">
-                    <option value="">Kies een product</option>
+            <input type="text" id="myInput2" name="productid[]" oninput="myFunction2()" placeholder="kies een product..">
                     <?php
                     $product_query = "SELECT productid, product, aantal FROM invetaris";
                     $product_result = $conn->query($product_query);
 
                     if ($product_result->num_rows > 0) {
                         while ($row = $product_result->fetch_assoc()) {
-                            echo "<option value='" . htmlspecialchars($row['productid']) . "'>" . htmlspecialchars($row['product']) . " (Beschikbaar: " . htmlspecialchars($row['aantal']) . ")</option>";
+                            echo "<option class='filter-options2' value='" . htmlspecialchars($row['productid']) . "'>" . htmlspecialchars($row['product']) . " (Beschikbaar: " . htmlspecialchars($row['aantal']) . ")</option>";
                         }
                     } else {
                         echo "<option value=''>Geen producten beschikbaar</option>";
@@ -183,6 +178,10 @@ $conn = new mysqli($servername, $username, $password, $dbname);
             $('#packageTable').DataTable();
             $('.filter-options').on('click', function() {
             $('#myInput').val($(this).text());
+            $('.filter-options2').on('click', function() {
+            $('#myInput2').val($(this).text());
+            
+            });
     });
             
         });
@@ -208,26 +207,31 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
         }
 
-        document.querySelector('select[name="naam"]').addEventListener('change', function () {
-            console.log("kkk")
-            var selectedOption = this.options[this.selectedIndex];
-            var gezingroote = selectedOption.getAttribute('data-gezingroote');
-            var leeftijd = selectedOption.getAttribute('data-leeftijd');
-            var allergieën = selectedOption.getAttribute('data-allergieën');
-            var voorkeuren = selectedOption.getAttribute('data-voorkeuren');
+        document.getElementById('myInput').addEventListener('input', function () {
+    var selectedOption = this.value;
+    var options = document.getElementsByClassName('filter-options');
+    console.log('soep')
+
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].innerText.indexOf(selectedOption) !== -1) {
+            var gezingroote = options[i].getAttribute('data-gezingroote');
+            var leeftijd = options[i].getAttribute('data-leeftijd');
+            var allergieën = options[i].getAttribute('data-allergieën');
+            var voorkeuren = options[i].getAttribute('data-voorkeuren');
 
             var info = `
-        <div class="infodiv">
-            <p class="infocss">Gezin grootte: ${gezingroote}</p>
-            <p class="infocss">Leeftijd: ${leeftijd}</p>
-            <p class="infocss">Allergieën: ${allergieën}</p>
-            <p class="infocss">Voorkeuren: ${voorkeuren}</p>
-        </div>      
-        `;
-
+                <div class="infodiv">
+                    <p class="infocss">Gezin grootte: ${gezingroote}</p>
+                    <p class="infocss">Leeftijd: ${leeftijd}</p>
+                    <p class="infocss">Allergieën: ${allergieën}</p>
+                    <p class="infocss">Voorkeuren: ${voorkeuren}</p>
+                </div>      
+            `;
 
             document.getElementById('klantInfo').innerHTML = info;
-        });
+        }
+    }
+});
         function myFunction() {
             let input, filter, select, options, i, txtValue;
             input = document.getElementById('myInput');
@@ -239,6 +243,21 @@ $conn = new mysqli($servername, $username, $password, $dbname);
                 if (txtValue.toLowerCase().indexOf(filter) > -1) {
                     options[i].style.display = "";
                 } else {
+                    options[i].style.display = "none";
+                }
+            }
+        }
+        function myFunction2() {
+            let input, filter, select, options, i, txtValue;
+            input = document.getElementById('myInput2');
+            filter = input.value.toLowerCase();
+            options = document.getElementsByClassName("filter-options2");
+         for (i = 0; i < options.length; i++) {
+                txtValue = options[i].textContent || options[i].innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    options[i].style.display = "";
+                } 
+                else {
                     options[i].style.display = "none";
                 }
             }

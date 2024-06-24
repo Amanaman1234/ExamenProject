@@ -85,10 +85,12 @@
             $insert_query = "INSERT INTO invetaris (product, aantal, producttype, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
 
             if ($conn->query($insert_query) === TRUE) {
-                echo "";
+                $_SESSION['message'] = "Product succesvol toegevoegd!";
             } else {
-                echo "Fout bij het toevoegen van het product: " . $conn->error;
+                $_SESSION['error'] = "Fout bij het toevoegen van het product: " . $conn->error;
             }
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         }
 
         if (isset($_POST['update_product'])) {
@@ -101,12 +103,14 @@
             $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
 
             $update_query = "UPDATE invetaris SET product='$product', aantal='$aantal', producttype='$producttype', locatie='$locatie', houdsbaarheidsdatum='$houdsbaarheidsdatum', streepjescode='$streepjescode' WHERE productid='$productid'";
-
-            if ($conn->query($update_query) === TRUE) {
-                echo "";
+            
+                if ($conn->query($update_query) === TRUE) {
+                $_SESSION['message'] = "Product succesvol bijgewerkt!";
             } else {
-                echo "Fout bij het bijwerken van het product: " . $conn->error;
+                $_SESSION['error'] = "Fout bij het bijwerken van het product: " . $conn->error;
             }
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         }
 
         $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
