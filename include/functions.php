@@ -169,3 +169,22 @@ function Changepwd($conn, $newPwd) {
     header("location: ../index.php?Succ6:)");
     exit();
 }
+
+function curTime()  {
+
+    date_default_timezone_set('Europe/Amsterdam');
+
+    $klok = date ("h");
+    $AmorPm = date("A");
+
+    
+
+    if($klok <= 12 && $AmorPm == "AM"){
+        echo "goedemorgen";
+    }else if ($klok <= 6 && $klok >= 0 && $AmorPm == "PM") {
+        echo "Goede middag";
+    }else if($klok <= 12 && $AmorPm == "PM"){
+        echo "Goeden avond";
+    }
+    
+}
