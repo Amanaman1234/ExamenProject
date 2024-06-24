@@ -46,17 +46,26 @@
     <input type="text" name="locatie" placeholder="Locatie" required>
     <input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" required>
     <input type="text" name="streepjescode" placeholder="Streepjescode" required>
+    <div>
+        <label><input type="checkbox" name="allergieën[]" value="gluten"> Gluten</label>
+        <label><input type="checkbox" name="allergieën[]" value="pindas"> Pinda's</label>
+        <label><input type="checkbox" name="allergieën[]" value="schaaldieren"> Schaaldieren</label>
+        <label><input type="checkbox" name="allergieën[]" value="hazelnoten"> Hazelnoten</label>
+        <label><input type="checkbox" name="allergieën[]" value="lactose"> Lactose</label>
+        <label><input type="text" name="allergieën[]" value="" placeholder="overig"></label>
+    </div>
     <button type="submit" name="add_product">Toevoegen</button>
+    
 </form>
 
 <h1>Product Aantal Overzicht</h1>
 <table id="productTable" class="tabel display" border="1">
     <thead>
         <tr>
-            <th>ProductId</th>
             <th>Product</th>
             <th>Aantal</th>
             <th>ProductType</th>
+            <th>allergieën</th>
             <th>locatie</th>
             <th>houdsbaarheidsdatum</th>
             <th>streepjescode</th>
@@ -69,7 +78,7 @@
         $username = "root";
         $password = "";
         $dbname = "examenvoedselbank";
-        $conn = new mysqli($servername, $username, $password, $dbname, );
+        $conn = new mysqli($servername, $username, $password, $dbname,3307 );
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -78,11 +87,12 @@
             $product = $conn->real_escape_string($_POST['product']);
             $aantal = $conn->real_escape_string($_POST['aantal']);
             $producttype = $conn->real_escape_string($_POST['producttype']);
+            $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
             $locatie = $conn->real_escape_string($_POST['locatie']);
             $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
             $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
 
-            $insert_query = "INSERT INTO invetaris (product, aantal, producttype, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
+            $insert_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
 
             if ($conn->query($insert_query) === TRUE) {
                 $_SESSION['message'] = "Product succesvol toegevoegd!";
@@ -94,15 +104,15 @@
         }
 
         if (isset($_POST['update_product'])) {
-            $productid = $conn->real_escape_string($_POST['productid']);
             $product = $conn->real_escape_string($_POST['product']);
             $aantal = $conn->real_escape_string($_POST['aantal']);
             $producttype = $conn->real_escape_string($_POST['producttype']);
+            $allergieën = $conn->real_escape_string($_POST['allergieën']);
             $locatie = $conn->real_escape_string($_POST['locatie']);
             $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
             $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
 
-            $update_query = "UPDATE invetaris SET product='$product', aantal='$aantal', producttype='$producttype', locatie='$locatie', houdsbaarheidsdatum='$houdsbaarheidsdatum', streepjescode='$streepjescode' WHERE productid='$productid'";
+            $update_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
             
                 if ($conn->query($update_query) === TRUE) {
                 $_SESSION['message'] = "Product succesvol bijgewerkt!";
@@ -126,10 +136,10 @@
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . htmlspecialchars($row['productid']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['product']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['aantal']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['producttype']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['allergieën']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['locatie']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['houdsbaarheidsdatum']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['streepjescode']) . "</td>";
@@ -152,7 +162,6 @@ if (isset($_GET['edit'])) {
 ?>
     <h2>Product Bewerken</h2>
     <form method="POST" action="">
-        <input type="hidden" name="productid" value="<?php echo htmlspecialchars($edit_row['productid']); ?>">
         <input type="text" name="product" placeholder="Product" value="<?php echo htmlspecialchars($edit_row['product']); ?>" required>
         <input type="number" name="aantal" placeholder="Aantal" value="<?php echo htmlspecialchars($edit_row['aantal']); ?>" required>
         <select name="producttype" required>
@@ -184,6 +193,7 @@ if (isset($_GET['edit'])) {
             <option value="overig" <?php echo ($edit_row['producttype'] == 'overig') ? 'selected' : ''; ?>>Overig</option>
             
         </select>
+        <input type="text" name="allergieën" placeholder="Allergieën" value="<?php echo htmlspecialchars($edit_row['allergieën']); ?>" required>
         <input type="text" name="locatie" placeholder="Locatie" value="<?php echo htmlspecialchars($edit_row['locatie']); ?>" required>
         <input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" value="<?php echo htmlspecialchars($edit_row['houdsbaarheidsdatum']); ?>" required>
         <input type="text" name="streepjescode" placeholder="Streepjescode" value="<?php echo htmlspecialchars($edit_row['streepjescode']); ?>" required>
