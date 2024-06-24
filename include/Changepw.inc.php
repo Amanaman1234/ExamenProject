@@ -13,8 +13,11 @@ if(isset($_POST["submit"])){
         header("location: ../Veranderpw.php?error=emptyinput");
         exit;
     }
-
-
+    if(ChangepwdMatch($newPwd, $newPwdRep)!== false){
+        header("location: ../Veranderpw.php?error=pwdsnomatching");
+        exit();
+    }
+    
     Changepwd($conn, $newPwd);
 
 

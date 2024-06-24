@@ -34,6 +34,13 @@ function pwdMatch($wachtwoord, $herhaalWachtwoord){
         return false;
     }
 }
+function ChangepwdMatch($newPwd, $newPwdRep){
+    if($newPwd !==  $newPwdRep){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 function gebrExists($conn,$email){
     $sql = "SELECT * FROM gebruikers WHERE email = ?;";
@@ -155,10 +162,10 @@ function Changepwd($conn, $newPwd) {
 
     $hashedPwd = password_hash($newPwd, PASSWORD_DEFAULT);
 
-    mysqli_stmt_bind_param($stmt, "si", $hashedPwd, $id);
+    mysqli_stmt_bind_param($stmt, "ss", $hashedPwd, $id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    header("location: ../index.php?Succ6 :)");
+    header("location: ../index.php?Succ6:)");
     exit();
 }
