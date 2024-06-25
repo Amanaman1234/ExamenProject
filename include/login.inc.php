@@ -13,6 +13,8 @@ if(isset($_POST["submit"])){
         exit;
     }
 
+    
+
 
    loginUser($conn, $email, $wachtwoord);
 

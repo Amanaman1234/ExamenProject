@@ -26,7 +26,6 @@
 <table id="leveranciersTable" class="tabel display" border="1">
     <thead>
         <tr>
-            <th>Leverancier ID</th>
             <th>Bedrijfsnaam</th>
             <th>Adres</th>
             <th>Bedrijfs email</th>
@@ -41,13 +40,12 @@
 
 <?php
 
-session_start();
 
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "examenvoedselbank";
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname, 3307);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -77,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php
         
         if (isset($_POST['update_leverancier'])) {
-            $leverancierid = $conn->real_escape_string($_POST['leverancierid']);
             $bedrijfnaam = $conn->real_escape_string($_POST['bedrijfnaam']);
             $adress = $conn->real_escape_string($_POST['adress']);
             $bedrijfemail = $conn->real_escape_string($_POST['bedrijfemail']);
@@ -105,7 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . htmlspecialchars($row['leverancierid']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['bedrijfnaam']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['adress']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['bedrijfemail']) . "</td>";
@@ -133,7 +129,6 @@ if (isset($_GET['edit'])) {
 ?>
     <h2>Leverancier Bewerken</h2>
     <form method="POST" action="">
-        <input type="hidden" name="leverancierid" value="<?php echo htmlspecialchars($edit_row['leverancierid']); ?>">
         <input type="text" name="bedrijfnaam" placeholder="Bedrijfsnaam" value="<?php echo htmlspecialchars($edit_row['bedrijfnaam']); ?>" required>
         <input type="text" name="adress" placeholder="Adres" value="<?php echo htmlspecialchars($edit_row['adress']); ?>" required>
         <input type="email" name="bedrijfemail" placeholder="Bedrijfs email" value="<?php echo htmlspecialchars($edit_row['bedrijfemail']); ?>" required>

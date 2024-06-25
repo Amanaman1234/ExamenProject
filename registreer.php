@@ -31,6 +31,8 @@
                     <option value="medewerker">medewerker</option>
                     <option value="teamleider">teamleider</option>
                     <option value="directie">directie</option>
+                    <option value="vrijwilliger">Vrijwilliger</option>
+
                              </select>
                 <button type="submit" name="submit">Registreer</button>
             </form>
