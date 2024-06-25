@@ -25,7 +25,6 @@
                 <input type="text" name="Wachtwoord" placeholder="Wachtwoord">
                 <div class="buttons">
                     <button type="submit" name="submit" class="login">Login</button>
-                    <button type="button" class="signup">Sign up</button>
                 </div>
             </form>
 

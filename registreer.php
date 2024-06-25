@@ -10,8 +10,8 @@
 <body> 
     <main class="main">
         <section class="form">
-           <section class="links">
-            <h1>Registreer hier :</h1>
+
+            <h1>Registreer hier een medewerker:</h1>
 
             <form action="include/registreer.inc.php" method="post">
 
@@ -36,8 +36,6 @@
                              </select>
                 <button type="submit" name="submit">Registreer</button>
             </form>
-           </section>
-           <section class="rechts"></section>
         </section>
     </main>
 </body>
