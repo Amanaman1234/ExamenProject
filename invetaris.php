@@ -1,4 +1,5 @@
-<?php include("header.php") ?>
+<?php include("header.php")
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +45,7 @@
         <option value="overig">Overig</option>
     </select>
     <input type="text" name="locatie" placeholder="Locatie" required>
-    <input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" required>
+    <p>Houdsbaarheidsdatum</p><input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" required>
     <input type="text" name="streepjescode" placeholder="Streepjescode" required>
     <div>
         <label><input type="checkbox" name="allergieën[]" value="gluten"> Gluten</label>
@@ -54,6 +55,7 @@
         <label><input type="checkbox" name="allergieën[]" value="lactose"> Lactose</label>
         <label><input type="text" name="allergieën[]" value="" placeholder="overig"></label>
     </div>
+    <p>leveringsdatum:</p><input type="date" name="leveringsdatum" placeholder="Leveringsdatum" required>
     <button type="submit" name="add_product">Toevoegen</button>
     
 </form>
@@ -68,6 +70,7 @@
             <th>allergieën</th>
             <th>locatie</th>
             <th>houdsbaarheidsdatum</th>
+            <th>leveringsdatum</th>
             <th>streepjescode</th>
             <th>bewerken</th>
         </tr>
@@ -90,17 +93,18 @@
             $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
             $locatie = $conn->real_escape_string($_POST['locatie']);
             $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
+            $Leveringsdatum = $conn->real_escape_string($_POST['leveringsdatum']);
             $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
 
-            $insert_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
+            $insert_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie,leveringsdatum ,houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie','$Leveringsdatum' ,'$houdsbaarheidsdatum', '$streepjescode')";
 
             if ($conn->query($insert_query) === TRUE) {
                 $_SESSION['message'] = "Product succesvol toegevoegd!";
             } else {
                 $_SESSION['error'] = "Fout bij het toevoegen van het product: " . $conn->error;
             }
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
+            echo "<script> window.location='/ExamenProject/invetaris.php'</script>";
+            exit;   
         }
 
         if (isset($_POST['update_product'])) {
@@ -110,16 +114,17 @@
             $allergieën = $conn->real_escape_string($_POST['allergieën']);
             $locatie = $conn->real_escape_string($_POST['locatie']);
             $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
+            $Leveringsdatum = $conn->real_escape_string($_POST['leveringsdatum']);
             $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
 
-            $update_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie', '$houdsbaarheidsdatum', '$streepjescode')";
+            $update_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie,leveringsdatum, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie','$Leveringsdatum','$houdsbaarheidsdatum', '$streepjescode')";
             
                 if ($conn->query($update_query) === TRUE) {
                 $_SESSION['message'] = "Product succesvol bijgewerkt!";
             } else {
                 $_SESSION['error'] = "Fout bij het bijwerken van het product: " . $conn->error;
             }
-            header("Location: " . $_SERVER['PHP_SELF']);
+            echo "<scrypt> window.location='invetaris.php'</script>";
             exit;
         }
 
@@ -129,7 +134,7 @@
         if (!empty($search)) {
             $query .= " WHERE streepjescode LIKE '%$search%'";
         }
-        $query .= " GROUP BY invetaris.product, invetaris.aantal, invetaris.producttype, invetaris.locatie, invetaris.streepjescode, invetaris.houdsbaarheidsdatum";
+        $query .= " GROUP BY invetaris.product, invetaris.aantal, invetaris.producttype, invetaris.locatie, invetaris.streepjescode, invetaris.houdsbaarheidsdatum,invetaris.leveringsdatum";
 
         $result = $conn->query($query);
 
@@ -142,6 +147,7 @@
                 echo "<td>" . htmlspecialchars($row['allergieën']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['locatie']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['houdsbaarheidsdatum']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['leveringsdatum']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['streepjescode']) . "</td>";
                 echo "<td><a href='?edit=" . htmlspecialchars($row['productid']) . "'>Bewerken</a></td>";
                 echo "</tr>";
