@@ -20,3 +20,9 @@
 .tabel th {
     background-color: #f2f2f2;
 }
+
+td{
+    max-width: 150px;
+    table-layout: fixed;
+    overflow-x: scroll;
+}
