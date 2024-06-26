@@ -1,4 +1,6 @@
-<?php include("header.php") ?>
+<?php include("header.php") 
+
+?>
     <title>Form</title>
     <link rel="stylesheet" href="css/overzicht.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
@@ -53,6 +55,8 @@
                 <th>Product</td>
                 <th>Aantal</td>
                 <th>leveringsdatum</th>
+                <th>Leverancier</td>
+                <th>leveringsdatum</td>
             </tr>
         </thead>
         <tbody>
@@ -73,7 +77,7 @@ if(isset($_GET["maand"])){
     $filtervaluescat = $_GET["categorie"];
     $filtervaluesmaand = $_GET["maand"];
 
-    $query = "SELECT * FROM invetaris WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%';";
+    $query = "SELECT * FROM invetaris INNER JOIN leveranciers ON invetaris.leveringsdatum = leveranciers.leveringdatum WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%';";
 
 
     $query_run = mysqli_query($conn, $query);
@@ -86,7 +90,9 @@ if(isset($_GET["maand"])){
                     <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
                     <td><?= $row['aantal']?></td>
-                    <td><?= $row['leveringsdatum']; ?></td>      
+                    <td><?= $row['leveringsdatum']; ?></td>     
+                    <td><?= $row['contactpersoon']?></td>
+                    <td><?= $row['volgendelevering']?></td>   
             <?php
             
         }
@@ -100,7 +106,6 @@ if(isset($_GET["maand"])){
 
 ?>
         </tbody>
-
     </table>
 </body>
 
