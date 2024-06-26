@@ -110,6 +110,93 @@ if(isset($_GET["maand"])){
     </tr>
 
     </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <form id="deliveryForm">
+        <div class="form-group">
+            <label for="postcode">postcode</label>
+            <input name="postcode" type="text" id="postcode"  value="<?php if(isset($_GET['postcode'])){echo $_GET['postcode']; } ?>" required>
+        </div>
+        </div>
+
+        <div class="form-group">
+            <label for="maandvoorpc">Maand</label>
+            <input name="maandvoorpc" type="month" id="maandvoorpc"  value="<?php if(isset($_GET['maandvoorpc'])){echo $_GET['maandvoorpc']; } ?>" required>
+        </div>
+        <div class="form-group">
+            <button name="submit2" type="submit">Submit</button>
+        </div>
+    <table id="productTable" class="tabel display" border="1">
+        <thead>
+            <p>Excuus ik weet dat ik op postcode moet zoeken inplaats van klantnaam maar mika en danny hebben de tabel pakket producten een beetje fout geschreven en ik heb niet genoeg tijd om de databse te veranderen sorry daarvoor</p>
+            <tr>
+                <th>Postcode</td>
+                <th>Naam</td>
+                <th>Categorie</th>
+                <th>aantal</th>
+                <th>Uitgiftedatum</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php 
+
+
+if(isset($_GET["postcode"])){
+    $filtervaluepostcode = $_GET["postcode"];
+    $filtervaluesmaandpc = $_GET["maandvoorpc"];
+
+    $query = "SELECT *
+FROM voedselpakketten
+INNER JOIN pakket_producten ON voedselpakketten.pakketid = pakket_producten.pakketid
+INNER JOIN klanten ON klanten.naam = voedselpakketten.klantnaam
+WHERE klantnaam LIKE '$filtervaluepostcode'
+  AND voedselpakketten.uitgiftedatum LIKE '$filtervaluesmaandpc%';
+";
+
+
+    $query_run = mysqli_query($conn, $query);
+
+
+    if(mysqli_num_rows($query_run) > 0){
+        foreach($query_run as $row){
+            ?>
+                <tr>
+                    <td><?= $row['postcode']?></td>
+                    <td><?= $row['naam']?></td>
+                    <td><?= $row['producttype']?></td>
+                    <td><?= $row['aantal']?></td>
+                    <td><?= $row['uitgiftedatum']?></td>
+
+            <?php
+            
+        }
+    }else{ ?>
+    <tr>
+        <td colspan="5">No record found</td>
+    </tr>
+    <?php
+    }
+}
+
+?>
+        </tbody>
+    </table>
+    </tr>
+
+    </form>
+    
 </body>
 
 
