@@ -7,11 +7,36 @@
     <form id="deliveryForm">
         <div class="form-group">
             <label for="categorie">Categorie</label>
-            <input name="categorie" type="text" value="<?php if(isset($_GET['categorie'])){echo $_GET['categorie']; } ?>" id="categorie">
+          
         </div>
         <div class="form-group">
-            <label for="leverancier">Leverancier</label>
-            <input name="leverancier" type="text" value="<?php if(isset($_GET['leverancier'])){echo $_GET['leverancier']; } ?>" id="leverancier">
+        <select value="<?php if(isset($_GET['categorie'])){echo $_GET['categorie']; } ?>" name="categorie" required>
+        <option value="">Kies een producttype</option>
+        <option value="groenten">Groenten</option>
+        <option value="vleeswaren">Vleeswaren</option>
+        <option value="fruit">Fruit</option>
+        <option value="vis">Vis</option>
+        <option value="pasta">Pasta</option>
+        <option value="zuivel">Zuivel</option>
+        <option value="aardappelen">Aardappelen</option>
+        <option value="kaas">Kaas</option>
+        <option value="plantaardig en eiren">Plantaardig en eiren</option>
+        <option value="bakkerij en banket">Bakkerij en banket</option>
+        <option value="frisdrank">frisdrank</option>
+        <option value="sappen">Sappen</option>
+        <option value="koffie en thee">Koffie en thee</option>
+        <option value="pasta">Pasta</option>
+        <option value="rijst en wereldkeuken">Rijst en wereldkeuken</option>
+        <option value="soepen">Soepen</option>
+        <option value="sauzen">Sauzen</option>
+        <option value="kruiden en olie">Kruiden en olie</option>
+        <option value="snoep">Snoep</option>
+        <option value="koek">Koek</option>
+        <option value="chips en chocolade">Chips en chocolade</option>
+        <option value="baby">Baby</option>
+        <option value="verzorging en hygiene">Verzorging en hygiene</option>
+        <option value="overig">Overig</option>
+    </select>
         </div>
         <div class="form-group">
             <label for="jaar">Jaar</label>
@@ -24,16 +49,13 @@
         <div class="form-group">
             <button name="submit" type="submit">Submit</button>
         </div>
-        <div class="result">
-            <textarea name="resultaat" id="resultText"></textarea>
-        </div>
-    </form>
-    <table id="productTable" class="tabel display" border="1">
+        <table id="productTable" class="tabel display" border="1">
         <thead>
             <tr>
-                <th>Id</td>
+                <th>Categorie</td>
                 <th>Product</td>
                 <th>Aantal</td>
+                <th>leveringsdatum</th>
 
             </tr>
         </thead>
@@ -53,9 +75,8 @@ If(!$conn){
 
 if(isset($_GET["categorie"])){
     $filtervaluescat = $_GET["categorie"];
-    $filtervaluesleev = $_GET["leverancier"];
 
-    $query = "SELECT * FROM invetaris WHERE CONCAT(productid,product,aantal) LIKE '%$filtervaluescat%'  ";
+    $query = "SELECT * FROM invetaris WHERE CONCAT(producttype,product,aantal,leveringsdatum) LIKE '%$filtervaluescat%'  ";
 
 
     $query_run = mysqli_query($conn, $query);
@@ -65,9 +86,11 @@ if(isset($_GET["categorie"])){
         foreach($query_run as $row){
             ?>
                 <tr>
-                    <td><?= $row['productid']?></td>
+                    <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
                     <td><?= $row['aantal']?></td>
+                    <td></td>
+
             <?php
             
         }
@@ -87,6 +110,9 @@ if(isset($_GET["categorie"])){
 
 </tr>
 
+    </form>
+  
+
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -97,3 +123,4 @@ if(isset($_GET["categorie"])){
     });
 </script>
 </html>
+<input name="categorie" type="text"  id="categorie">
