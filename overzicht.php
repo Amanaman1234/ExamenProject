@@ -40,7 +40,7 @@
         </div>
         <div class="form-group">
             <label for="jaar">Jaar</label>
-            <input name="jaar" type="text" id="jaar" name="jaar">
+            <input name="jaar" type="text" id="jaar" value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" required >
         </div>
         <div class="form-group">
             <label for="maand">Maand</label>
@@ -49,13 +49,15 @@
         <div class="form-group">
             <button name="submit" type="submit">Submit</button>
         </div>
-        <table id="productTable" class="tabel display" border="1">
+    <table id="productTable" class="tabel display" border="1">
         <thead>
             <tr>
                 <th>Categorie</td>
                 <th>Product</td>
                 <th>Aantal</td>
                 <th>leveringsdatum</th>
+                <th>naam Leverancier</th>
+                <th>Datum geleeverd</th>
 
             </tr>
         </thead>
@@ -73,10 +75,10 @@ If(!$conn){
     die("Connection failed: ". mysqli_connect_error());
 }
 
-if(isset($_GET["categorie"])){
-    $filtervaluescat = $_GET["categorie"];
+if(isset($_GET["jaar"])){
+    $filtervaluescat = $_GET["jaar"];
 
-    $query = "SELECT * FROM invetaris WHERE CONCAT(producttype,product,aantal,leveringsdatum) LIKE '%$filtervaluescat%'  ";
+    $query = "SELECT * FROM invetaris,leveranciers WHERE CONCAT(producttype,product,aantal,leveringsdatum,contactpersoon,volgendelevering) LIKE '%$filtervaluescat%'  ";
 
 
     $query_run = mysqli_query($conn, $query);
@@ -89,8 +91,10 @@ if(isset($_GET["categorie"])){
                     <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
                     <td><?= $row['aantal']?></td>
-                    <td></td>
-
+                    <td><?= $row['leveringsdatum']?></td>
+                    <td><?= $row['contactpersoon']?></td>
+                    <td><?= $row['volgendelevering']?></td>
+                    
             <?php
             
         }
