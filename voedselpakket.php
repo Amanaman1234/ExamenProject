@@ -95,7 +95,6 @@
             if ($klanten_result->num_rows > 0) {
                 while ($klanten_row = $klanten_result->fetch_assoc()) {
                     echo "<option class='filter-options' id='option1' style='display:none;' value='" . htmlspecialchars($klanten_row['naam']) . ",&emsp;' 
-                        data-gezingroote='" . htmlspecialchars($klanten_row['gezingroote']) . ",&emsp; ' 
                         data-leeftijd_onder_2='" . htmlspecialchars($klanten_row['leeftijd_onder_2']) . ",&emsp;' 
                         data-leeftijd_2_tot_18='" . htmlspecialchars($klanten_row['leeftijd_2_tot_18']) . ",&emsp;'
                         data-leeftijd_boven_18='" . htmlspecialchars($klanten_row['leeftijd_boven_18']) . ",&emsp;'
@@ -178,9 +177,27 @@
 
          $(document).ready(function () {
             $('#packageTable').DataTable();
-            $('.filter-options').on('click', function() {
-            $('#myInput').val($(this).text());
-            });
+            $(document).on('click', '.filter-options', function() {
+        $('#myInput').val($(this).text());
+
+        var leeftijd_onder_2 = this.dataset.leeftijd_onder_2;
+        var leeftijd_2_tot_18 = this.dataset.leeftijd_2_tot_18;
+        var leeftijd_boven_18 = this.dataset.leeftijd_boven_18;
+        var allergieën = this.dataset.allergieën;
+        var voorkeuren = this.dataset.voorkeuren;
+
+        var info = `
+            <div class="infodiv">
+                <p class="infocss">leeftijd onder 2: ${leeftijd_onder_2}</p>
+                <p class="infocss">leeftijd 2 tot 18: ${leeftijd_2_tot_18}</p>
+                <p class="infocss">leeftijd boven 18: ${leeftijd_boven_18}</p>
+                <p class="infocss">Allergieën: ${allergieën}</p>
+                <p class="infocss">Voorkeuren: ${voorkeuren}</p>
+            </div>`;
+            console.log(this)
+        
+        $('#klantInfo').html(info);
+    });
             $('.filter-options2').on('click', function() {
             $('#myInput2').val($(this).text());
             
@@ -194,44 +211,25 @@
                 var entry = document.createElement('div');
                 entry.className = 'productEntry';
                 entry.innerHTML = `
-            <select name="productid[]" required>
-                <option value="">Kies een product</option>
-                <?php
-                $product_result->data_seek(0);
-                while ($row = $product_result->fetch_assoc()) {
-                    echo "<option value='" . htmlspecialchars($row['productid']) . "'>" . htmlspecialchars($row['product']) . " (Beschikbaar: " . htmlspecialchars($row['aantal']) . ")</option>";
-                }
-                ?>
-            </select>
-            <input type="number" name="productaantal[]" placeholder="Aantal" required>
+                <input type="text" id="myInput2" name="productid[]" oninput="myFunction2()" placeholder="kies een product..">
+                        <?php
+                        $product_query = "SELECT productid, product, aantal FROM invetaris";
+                        $product_result = $conn->query($product_query);
+
+                        if ($product_result->num_rows > 0) {
+                            while ($row = $product_result->fetch_assoc()) {
+                                echo "<option class='filter-options2' id='option2' style='display:none;' value='" . htmlspecialchars($row['productid']) . "'>" . htmlspecialchars($row['product']) . " (Beschikbaar: " . htmlspecialchars($row['aantal']) . ")</option>";
+                            }
+                        } else {
+                            echo "<option value=''>Geen producten beschikbaar</option>";
+                        }
+                        ?>
+                    </select>
+                    <input type="number" name="productaantal[]" placeholder="Aantal" required>
         `;
                 container.appendChild(entry);
 
             }
-            document.querySelector('input[name="naam"]').addEventListener('change', function () {
-                console.log("ooo")
-                var selectedOption = this.options[this.selectedIndex];
-                var gezingroote = selectedOption.getAttribute('data-gezingroote');
-                var leeftijd_onder_2 = selectedOption.getAttribute('data-leeftijd_onder_2');
-                var leeftijd_2_tot_18 = selectedOption.getAttribute('data-leeftijd_2_tot_18');
-                var leeftijd_boven_18 = selectedOption.getAttribute('data-leeftijd_boven_18');
-                var allergieën = selectedOption.getAttribute('data-allergieën');
-                var voorkeuren = selectedOption.getAttribute('data-voorkeuren');
-
-                var info = `
-            <div class="infodiv">
-                <p class="infocss">Gezin grootte: ${gezingroote}</p>
-                <p class="infocss">leeftijd_onder_2: ${leeftijd_onder_2}</p>
-                <p class="infocss">leeftijd_2_tot_18: ${leeftijd_2_tot_18}</p>
-                <p class="infocss">leeftijd_boven_18: ${leeftijd_boven_18}</p>
-                <p class="infocss">Allergieën: ${allergieën}</p>
-                <p class="infocss">Voorkeuren: ${voorkeuren}</p>
-            </div>      
-            `;
-
-
-                document.getElementById('klantInfo').innerHTML = info;
-            });
             function myFunction() {
                 let input, filter, select, options, i, txtValue;
                 input = document.getElementById('myInput');
