@@ -19,7 +19,7 @@
         $password = "";
         $dbname = "examenvoedselbank";
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
+        $conn = new mysqli($servername, $username, $password, $dbname,3307);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
@@ -95,7 +95,6 @@
             if ($klanten_result->num_rows > 0) {
                 while ($klanten_row = $klanten_result->fetch_assoc()) {
                     echo "<option class='filter-options' id='option1' style='display:none;' value='" . htmlspecialchars($klanten_row['naam']) . ",&emsp;' 
-                        data-gezingroote='" . htmlspecialchars($klanten_row['gezingroote']) . ",&emsp; ' 
                         data-leeftijd_onder_2='" . htmlspecialchars($klanten_row['leeftijd_onder_2']) . ",&emsp;' 
                         data-leeftijd_2_tot_18='" . htmlspecialchars($klanten_row['leeftijd_2_tot_18']) . ",&emsp;'
                         data-leeftijd_boven_18='" . htmlspecialchars($klanten_row['leeftijd_boven_18']) . ",&emsp;'
