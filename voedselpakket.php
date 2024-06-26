@@ -86,7 +86,7 @@
                 }
             }
         }
-        $klanten_query = "SELECT naam, gezingroote, leeftijd, allergieën, voorkeuren FROM klanten";
+        $klanten_query = "SELECT naam, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren FROM klanten";
         $klanten_result = $conn->query($klanten_query);
         ?>
         <form id="filter-form" method="POST">
@@ -96,7 +96,9 @@
                 while ($klanten_row = $klanten_result->fetch_assoc()) {
                     echo "<option class='filter-options' id='option1' style='display:none;' value='" . htmlspecialchars($klanten_row['naam']) . ",&emsp;' 
                         data-gezingroote='" . htmlspecialchars($klanten_row['gezingroote']) . ",&emsp; ' 
-                        data-leeftijd='" . htmlspecialchars($klanten_row['leeftijd']) . ",&emsp;' 
+                        data-leeftijd_onder_2='" . htmlspecialchars($klanten_row['leeftijd_onder_2']) . ",&emsp;' 
+                        data-leeftijd_2_tot_18='" . htmlspecialchars($klanten_row['leeftijd_2_tot_18']) . ",&emsp;'
+                        data-leeftijd_boven_18='" . htmlspecialchars($klanten_row['leeftijd_boven_18']) . ",&emsp;'
                         data-allergieën='" . htmlspecialchars($klanten_row['allergieën']) . ",&emsp;' 
                         data-voorkeuren='" . htmlspecialchars($klanten_row['voorkeuren']) . "'>"
                         . htmlspecialchars($klanten_row['naam']) . "</option>";
@@ -210,14 +212,18 @@
                 console.log("ooo")
                 var selectedOption = this.options[this.selectedIndex];
                 var gezingroote = selectedOption.getAttribute('data-gezingroote');
-                var leeftijd = selectedOption.getAttribute('data-leeftijd');
+                var leeftijd_onder_2 = selectedOption.getAttribute('data-leeftijd_onder_2');
+                var leeftijd_2_tot_18 = selectedOption.getAttribute('data-leeftijd_2_tot_18');
+                var leeftijd_boven_18 = selectedOption.getAttribute('data-leeftijd_boven_18');
                 var allergieën = selectedOption.getAttribute('data-allergieën');
                 var voorkeuren = selectedOption.getAttribute('data-voorkeuren');
 
                 var info = `
             <div class="infodiv">
                 <p class="infocss">Gezin grootte: ${gezingroote}</p>
-                <p class="infocss">Leeftijd: ${leeftijd}</p>
+                <p class="infocss">leeftijd_onder_2: ${leeftijd_onder_2}</p>
+                <p class="infocss">leeftijd_2_tot_18: ${leeftijd_2_tot_18}</p>
+                <p class="infocss">leeftijd_boven_18: ${leeftijd_boven_18}</p>
                 <p class="infocss">Allergieën: ${allergieën}</p>
                 <p class="infocss">Voorkeuren: ${voorkeuren}</p>
             </div>      
