@@ -98,7 +98,7 @@ if(isset($_GET["maand"])){
         }
     }else{ ?>
     <tr>
-        <td colspan="3">No record found</td>
+        <td colspan="6">No record found</td>
     </tr>
     <?php
     }
@@ -107,11 +107,12 @@ if(isset($_GET["maand"])){
 ?>
         </tbody>
     </table>
-</body>
-
-</tr>
+    </tr>
 
     </form>
+</body>
+
+
   
 
 
@@ -124,6 +125,3 @@ if(isset($_GET["maand"])){
     });
 </script>
 </html>
-<input name="categorie" type="text"  id="categorie">
-<th>naam Leverancier</th>
-<th>Datum geleeverd</th>
