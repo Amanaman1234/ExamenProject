@@ -34,29 +34,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Fout bij het toevoegen van de klant: " . $conn->error;
         }
     }
-}
 
-if (isset($_POST['update_klant'])) {
-    $naam = $conn->real_escape_string($_POST['naam']);
-    $adres = $conn->real_escape_string($_POST['adres']);
-    $postcode = $conn->real_escape_string($_POST['postcode']);
-    $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
-    $emailadres = $conn->real_escape_string($_POST['emailadres']);
-    $leeftijd_onder_2 = $conn->real_escape_string($_POST['leeftijd_onder_2']);
-    $leeftijd_2_tot_18 = $conn->real_escape_string($_POST['leeftijd_2_tot_18']);
-    $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
-    $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
-    $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
-    $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
+    if (isset($_POST['update_klant'])) {
+        $gezinid = $conn->real_escape_string($_POST['gezinid']);
+        $naam = $conn->real_escape_string($_POST['naam']);
+        $adres = $conn->real_escape_string($_POST['adres']);
+        $postcode = $conn->real_escape_string($_POST['postcode']);
+        $telefoonnummer = $conn->real_escape_string($_POST['telefoonnummer']);
+        $emailadres = $conn->real_escape_string($_POST['emailadres']);
+        $leeftijd_onder_2 = $conn->real_escape_string($_POST['leeftijd_onder_2']);
+        $leeftijd_2_tot_18 = $conn->real_escape_string($_POST['leeftijd_2_tot_18']);
+        $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
+        $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
+        $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
+        $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
 
-    $update_query = "UPDATE klanten SET naam='$naam', adres='$adres', postcode='$postcode', telefoonnummer='$telefoonnummer', emailadres='$emailadres', gezingroote='$gezingroote', leeftijd_onder_2='$leeftijd_onder_2', leeftijd_2_tot_18='$leeftijd_2_tot_18', leeftijd_boven_18='$leeftijd_boven_18', allergieën='$allergieën', voorkeuren='$voorkeuren', uitgiftedatum='$uitgiftedatum' WHERE gezinid='$gezinid'";
+        $update_query = "UPDATE klanten SET naam='$naam', adres='$adres', postcode='$postcode', telefoonnummer='$telefoonnummer', emailadres='$emailadres', leeftijd_onder_2='$leeftijd_onder_2', leeftijd_2_tot_18='$leeftijd_2_tot_18', leeftijd_boven_18='$leeftijd_boven_18', allergieën='$allergieën', voorkeuren='$voorkeuren', uitgiftedatum='$uitgiftedatum' WHERE gezinid='$gezinid'";
 
-    if ($conn->query($update_query) === TRUE) {
-        $_SESSION['success_message'] = "De klant is succesvol bijgewerkt.";
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit();
-    } else {
-        echo "Fout bij het bijwerken van de klant: " . $conn->error;
+        if ($conn->query($update_query) === TRUE) {
+            $_SESSION['success_message'] = "De klant is succesvol bijgewerkt.";
+            echo '<script>
+                    alert("De klant is succesvol bijgewerkt.");
+                    window.location.href = window.location.href.split("?")[0];
+                  </script>';
+            exit();
+        } else {
+            echo "Fout bij het bijwerken van de klant: " . $conn->error;
+        }
     }
 }
 
@@ -81,16 +85,17 @@ $result = $conn->query($query);
 <body class="background">
 
 <h2>Nieuwe Klant Toevoegen</h2>
-<form method="POST" action="">
-    <input type="text" name="naam" placeholder="Naam" required>
-    <input type="text" name="adres" placeholder="adres" required>
-    <input type="text" name="postcode" placeholder="postcode" required>
-    <input type="tel" name="telefoonnummer" placeholder="telefoonnummer" required>
-    <input type="text" name="emailadres" placeholder="emailadres" required>
+<form id="klantForm" method="POST" action="">
+    <input type="hidden" name="gezinid" id="gezinid">
+    <input type="text" name="naam" id="naam" placeholder="Naam" required>
+    <input type="text" name="adres" id="adres" placeholder="adres" required>
+    <input type="text" name="postcode" id="postcode" placeholder="postcode" required>
+    <input type="tel" name="telefoonnummer" id="telefoonnummer" placeholder="telefoonnummer" required>
+    <input type="text" name="emailadres" id="emailadres" placeholder="emailadres" required>
     <div>
-        <label>Onder 2 jaar: <input type="number" name="leeftijd_onder_2" min="0" value="0" required></label>
-        <label>2 tot 18 jaar: <input type="number" name="leeftijd_2_tot_18" min="0" value="0" required></label>
-        <label>Boven 18 jaar: <input type="number" name="leeftijd_boven_18" min="0" value="0" required></label>
+        <label>Onder 2 jaar: <input type="number" name="leeftijd_onder_2" id="leeftijd_onder_2" min="0" value="0" required></label>
+        <label>2 tot 18 jaar: <input type="number" name="leeftijd_2_tot_18" id="leeftijd_2_tot_18" min="0" value="0" required></label>
+        <label>Boven 18 jaar: <input type="number" name="leeftijd_boven_18" id="leeftijd_boven_18" min="0" value="0" required></label>
     </div>
     <div>
         <label><input type="checkbox" name="allergieën[]" value="gluten"> Gluten</label>
@@ -105,8 +110,9 @@ $result = $conn->query($query);
         <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch"> Vegetarisch</label>
         <label><input type="checkbox" name="voorkeuren[]" value="veganistisch"> Veganistisch</label>
     </div>
-    <input type="date" name="uitgiftedatum" placeholder="Uitgiftedatum" required>
-    <button type="submit" name="add_klant">Toevoegen</button>
+    <input type="date" name="uitgiftedatum" id="uitgiftedatum" placeholder="Uitgiftedatum" required>
+    <button type="submit" id="addKlantBtn" name="add_klant">Toevoegen</button>
+    <button type="submit" id="updateKlantBtn" name="update_klant" style="display: none;">Bijwerken</button>
 </form>
 
 <h1>Klanten Overzicht</h1>
@@ -162,35 +168,31 @@ if (isset($_GET['edit'])) {
     $edit_result = $conn->query($edit_query);
     if ($edit_result->num_rows > 0) {
         $edit_row = $edit_result->fetch_assoc();
-        $selected_voorkeuren = explode(", ", $edit_row['voorkeuren']);
 ?>
-    <h2>Klant Bewerken</h2>
-    <form method="POST" action="">
-        <input type="hidden" name="gezinid" value="<?php echo htmlspecialchars($edit_row['gezinid']); ?>">
-        <input type="text" name="naam" placeholder="Naam" value="<?php echo htmlspecialchars($edit_row['naam']); ?>" required>
-        <input type="text" name="postcode" placeholder="postcode" value="<?php echo htmlspecialchars($edit_row['postcode']); ?>" required>
-        <input type="text" name="adres" placeholder="adres" value="<?php echo htmlspecialchars($edit_row['adres']); ?>" required>
-        <input type="tel" name="telefoonnummer" placeholder="telefoonnummer" value="<?php echo htmlspecialchars($edit_row['telefoonnummer']); ?>" required>
-        <input type="text" name="emailadres" placeholder="emailadres" value="<?php echo htmlspecialchars($edit_row['emailadres']); ?>" required>
-        <div>
-            <label>Onder 2 jaar: <input type="number" name="leeftijd_onder_2" min="0" value="<?php echo htmlspecialchars($edit_row['leeftijd_onder_2']); ?>" required></label>
-            <label>2 tot 18 jaar: <input type="number" name="leeftijd_2_tot_18" min="0" value="<?php echo htmlspecialchars($edit_row['leeftijd_2_tot_18']); ?>" required></label>
-            <label>Boven 18 jaar: <input type="number" name="leeftijd_boven_18" min="0" value="<?php echo htmlspecialchars($edit_row['leeftijd_boven_18']); ?>" required></label>
-        </div>
-        <input type="text" name="allergieën" placeholder="Allergieën" value="<?php echo htmlspecialchars($edit_row['allergieën']); ?>" required>
+    <script>
+        document.getElementById("gezinid").value = "<?php echo htmlspecialchars($edit_row['gezinid']); ?>";
+        document.getElementById("naam").value = "<?php echo htmlspecialchars($edit_row['naam']); ?>";
+        document.getElementById("adres").value = "<?php echo htmlspecialchars($edit_row['adres']); ?>";
+        document.getElementById("postcode").value = "<?php echo htmlspecialchars($edit_row['postcode']); ?>";
+        document.getElementById("telefoonnummer").value = "<?php echo htmlspecialchars($edit_row['telefoonnummer']); ?>";
+        document.getElementById("emailadres").value = "<?php echo htmlspecialchars($edit_row['emailadres']); ?>";
+        document.getElementById("leeftijd_onder_2").value = "<?php echo htmlspecialchars($edit_row['leeftijd_onder_2']); ?>";
+        document.getElementById("leeftijd_2_tot_18").value = "<?php echo htmlspecialchars($edit_row['leeftijd_2_tot_18']); ?>";
+        document.getElementById("leeftijd_boven_18").value = "<?php echo htmlspecialchars($edit_row['leeftijd_boven_18']); ?>";
+        document.getElementById("uitgiftedatum").value = "<?php echo htmlspecialchars($edit_row['uitgiftedatum']); ?>";
+        document.querySelectorAll("input[name='allergieën[]']").forEach(checkbox => checkbox.checked = false);
+        document.querySelectorAll("input[name='voorkeuren[]']").forEach(checkbox => checkbox.checked = false);
 
-        <div class="dropdown">
-            <input type="text" name="voorkeuren_display" placeholder="Voorkeuren" readonly value="<?php echo htmlspecialchars($edit_row['voorkeuren']); ?>">
-            <div>
-                <label><input type="checkbox" name="voorkeuren[]" value="halal" <?php echo in_array("halal", $selected_voorkeuren) ? "checked" : ""; ?>> Halal</label>
-                <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch" <?php echo in_array("vegetarisch", $selected_voorkeuren) ? "checked" : ""; ?>> Vegetarisch</label>
-                <label><input type="checkbox" name="voorkeuren[]" value="veganistisch" <?php echo in_array("veganistisch", $selected_voorkeuren) ? "checked" : ""; ?>> Veganistisch</label>
-            </div>
-        </div>
+        "<?php echo htmlspecialchars($edit_row['allergieën']); ?>".split(", ").forEach(value => {
+            document.querySelectorAll(`input[name='allergieën[]'][value='${value}']`).forEach(checkbox => checkbox.checked = true);
+        });
+        "<?php echo htmlspecialchars($edit_row['voorkeuren']); ?>".split(", ").forEach(value => {
+            document.querySelectorAll(`input[name='voorkeuren[]'][value='${value}']`).forEach(checkbox => checkbox.checked = true);
+        });
 
-        <input type="date" name="uitgiftedatum" placeholder="Uitgiftedatum" value="<?php echo htmlspecialchars($edit_row['uitgiftedatum']); ?>" required>
-        <button type="submit" name="update_klant">Bijwerken</button>
-    </form>
+        document.getElementById("addKlantBtn").style.display = "none";
+        document.getElementById("updateKlantBtn").style.display = "inline";
+    </script>
 <?php
     }
 }
@@ -202,10 +204,19 @@ $conn->close();
 <script>
     $(document).ready(function() {
         $('#klantenTable').DataTable();
+
+        $('#updateKlantBtn').hide();
+
+        <?php if (isset($_GET['edit'])): ?>
+        $('#addKlantBtn').hide();
+        $('#updateKlantBtn').show();
+        <?php endif; ?>
     });
 </script>
 
 </body>
 </html>
+
+
 
 
