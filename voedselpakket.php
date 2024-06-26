@@ -1,4 +1,4 @@
-    <?php include ("header.php") ?>
+<?php include ("header.php") ?>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -25,7 +25,7 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_package'])) {
+        if (isset($_POST['add_package'])) {
             $klantnaam = $conn->real_escape_string($_POST['naam']);
             $samenstellingsdatum = $conn->real_escape_string($_POST['samenstellingsdatum']);
             $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);

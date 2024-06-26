@@ -38,13 +38,10 @@
         <option value="overig">Overig</option>
     </select>
         </div>
-        <div class="form-group">
-            <label for="jaar">Jaar</label>
-            <input name="jaar" type="text" id="jaar" value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" required >
-        </div>
+
         <div class="form-group">
             <label for="maand">Maand</label>
-            <input name="maand" type="text" id="maand" name="maand">
+            <input name="maand" type="month" id="maand"  value="<?php if(isset($_GET['maand'])){echo $_GET['maand']; } ?>" required>
         </div>
         <div class="form-group">
             <button name="submit" type="submit">Submit</button>
@@ -56,9 +53,6 @@
                 <th>Product</td>
                 <th>Aantal</td>
                 <th>leveringsdatum</th>
-                <th>naam Leverancier</th>
-                <th>Datum geleeverd</th>
-
             </tr>
         </thead>
         <tbody>
@@ -75,10 +69,11 @@ If(!$conn){
     die("Connection failed: ". mysqli_connect_error());
 }
 
-if(isset($_GET["jaar"])){
-    $filtervaluescat = $_GET["jaar"];
+if(isset($_GET["maand"])){
+    $filtervaluescat = $_GET["categorie"];
+    $filtervaluesmaand = $_GET["maand"];
 
-    $query = "SELECT * FROM invetaris,leveranciers WHERE CONCAT(producttype,product,aantal,leveringsdatum,contactpersoon,volgendelevering) LIKE '%$filtervaluescat%'  ";
+    $query = "SELECT * FROM invetaris WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%';";
 
 
     $query_run = mysqli_query($conn, $query);
@@ -91,10 +86,7 @@ if(isset($_GET["jaar"])){
                     <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
                     <td><?= $row['aantal']?></td>
-                    <td><?= $row['leveringsdatum']?></td>
-                    <td><?= $row['contactpersoon']?></td>
-                    <td><?= $row['volgendelevering']?></td>
-                    
+                    <td><?= $row['leveringsdatum']; ?></td>      
             <?php
             
         }
@@ -128,3 +120,5 @@ if(isset($_GET["jaar"])){
 </script>
 </html>
 <input name="categorie" type="text"  id="categorie">
+<th>naam Leverancier</th>
+<th>Datum geleeverd</th>

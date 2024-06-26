@@ -129,6 +129,7 @@ function headerInhoud(){
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='registreer.php' class='header-item'><p> Registreer </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
+            echo "<a style='text-decoration: none; color: white;'href='overzicht.php' class='header-item'><p>Maandelijkse overzicht</p> </a>";
             echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
         }
 
