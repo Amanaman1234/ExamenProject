@@ -26,7 +26,6 @@ function emptyInputLogin($gebruikersnaam,$wachtwoord){
 }
 
 
-
 function pwdMatch($wachtwoord, $herhaalWachtwoord){
     if($wachtwoord !==  $herhaalWachtwoord){
         return true;
@@ -177,8 +176,6 @@ function curTime()  {
     $klok = date ("h");
     $AmorPm = date("A");
 
-    
-
     if($klok <= 12 && $AmorPm == "AM"){
         echo "goedemorgen";
     }else if ($klok <= 6 && $klok >= 0 && $AmorPm == "PM") {
@@ -188,3 +185,4 @@ function curTime()  {
     }
     
 }
+

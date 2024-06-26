@@ -7,24 +7,47 @@
 .main{
     display: grid;
     background-image: url("../img/achetgrondinvetaris.png");
-    height: 100vh;
+    height: 80vh;
     width:  100vw;
     justify-content: center;
-    align-items: center ;
+
 }
 
 .form{
-    display: grid;
-    height: 35vw;
-    width: 50vw;
-    background-color: #D3D3CB;
-    grid-template-columns: 50% 50%;
+    display: flex;
+    height: 72vh;
+    width: 75vw;
+    background-color: #828268;
+    grid-template-columns: 60% 40%;
+    flex-direction: column;
+    padding: 40px;
+    margin-top: 7vh;
+    border-radius: 20px;
 }
-.links{
-    height: 100%;
-    width: auto;
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
 }
-.rechts{
-    height: 100%;
-    width: auto;
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+input{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+select{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
 }

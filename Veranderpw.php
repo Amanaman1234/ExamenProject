@@ -1,5 +1,5 @@
 <?php include("header.php") ?>
-<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="css/registreer.css">
 
 <head>
 <meta charset="UTF-8">
