@@ -77,7 +77,8 @@ if(isset($_GET["maand"])){
     $filtervaluescat = $_GET["categorie"];
     $filtervaluesmaand = $_GET["maand"];
 
-    $query = "SELECT * FROM invetaris INNER JOIN leveranciers ON invetaris.leveringsdatum = leveranciers.leveringdatum WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%';";
+    $query = "SELECT * FROM invetaris INNER JOIN leveranciers ON invetaris.leveringsdatum = leveranciers.leveringdatum 
+    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%';";
 
 
     $query_run = mysqli_query($conn, $query);
