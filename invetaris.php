@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 <?php include("header.php"); ?>
-=======
-<?php include("header.php")?>
->>>>>>> 9139d62aed8d80a391d65fc55dc9ce445bc58623
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,15 +104,9 @@ $result = $conn->query($query);
         <option value="verzorging en hygiene">Verzorging en hygiene</option>
         <option value="overig">Overig</option>
     </select>
-<<<<<<< HEAD
     <input type="text" id="locatie" name="locatie" placeholder="Locatie" required>
     <input type="date" id="houdsbaarheidsdatum" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" required>
     <input type="text" id="streepjescode" name="streepjescode" placeholder="Streepjescode" required>
-=======
-    <input type="text" name="locatie" placeholder="Locatie" required>
-    <p>Houdsbaarheidsdatum</p><input type="date" name="houdsbaarheidsdatum" placeholder="Houdsbaarheidsdatum" required>
-    <input type="text" name="streepjescode" placeholder="Streepjescode" required>
->>>>>>> 9139d62aed8d80a391d65fc55dc9ce445bc58623
     <div>
         <label><input type="checkbox" name="allergieën[]" value="gluten"> Gluten</label>
         <label><input type="checkbox" name="allergieën[]" value="pindas"> Pinda's</label>
@@ -126,14 +116,8 @@ $result = $conn->query($query);
         <label><input type="checkbox" name="allergieën[]" value="lactose"> Lactose</label>
         <label><input type="text" name="allergieën[]" value="" placeholder="overig"></label>
     </div>
-<<<<<<< HEAD
     <button type="submit" id="addproduct" name="add_product">Toevoegen</button>
     <button type="submit" id="updateproduct" name="update_product" style="display: none;">Bijwerken</button>
-=======
-    <p>leveringsdatum:</p><input type="date" name="leveringsdatum" placeholder="Leveringsdatum" required>
-    <button type="submit" name="add_product">Toevoegen</button>
-    
->>>>>>> 9139d62aed8d80a391d65fc55dc9ce445bc58623
 </form>
 
 <h1>Product Aantal Overzicht</h1>
@@ -143,88 +127,15 @@ $result = $conn->query($query);
             <th>Product</th>
             <th>Aantal</th>
             <th>ProductType</th>
-<<<<<<< HEAD
             <th>Allergieën</th>
             <th>Locatie</th>
             <th>Houdsbaarheidsdatum</th>
             <th>Streepjescode</th>
             <th>Bewerken</th>
-=======
-            <th>allergieën</th>
-            <th>locatie</th>
-            <th>houdsbaarheidsdatum</th>
-            <th>leveringsdatum</th>
-            <th>streepjescode</th>
-            <th>bewerken</th>
->>>>>>> 9139d62aed8d80a391d65fc55dc9ce445bc58623
         </tr>
     </thead>
     <tbody>
         <?php
-<<<<<<< HEAD
-=======
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "examenvoedselbank";
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        if (isset($_POST['add_product'])) {
-            $product = $conn->real_escape_string($_POST['product']);
-            $aantal = $conn->real_escape_string($_POST['aantal']);
-            $producttype = $conn->real_escape_string($_POST['producttype']);
-            $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
-            $locatie = $conn->real_escape_string($_POST['locatie']);
-            $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
-            $Leveringsdatum = $conn->real_escape_string($_POST['leveringsdatum']);
-            $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
-
-            $insert_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie,leveringsdatum ,houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie','$Leveringsdatum' ,'$houdsbaarheidsdatum', '$streepjescode')";
-
-            if ($conn->query($insert_query) === TRUE) {
-                $_SESSION['message'] = "Product succesvol toegevoegd!";
-            } else {
-                $_SESSION['error'] = "Fout bij het toevoegen van het product: " . $conn->error;
-            }
-            echo "<script> window.location='/ExamenProject/invetaris.php'</script>";
-            exit;   
-        }
-
-        if (isset($_POST['update_product'])) {
-            $product = $conn->real_escape_string($_POST['product']);
-            $aantal = $conn->real_escape_string($_POST['aantal']);
-            $producttype = $conn->real_escape_string($_POST['producttype']);
-            $allergieën = $conn->real_escape_string($_POST['allergieën']);
-            $locatie = $conn->real_escape_string($_POST['locatie']);
-            $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
-            $Leveringsdatum = $conn->real_escape_string($_POST['leveringsdatum']);
-            $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
-
-            $update_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie,leveringsdatum, houdsbaarheidsdatum, streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie','$Leveringsdatum','$houdsbaarheidsdatum', '$streepjescode')";
-            
-                if ($conn->query($update_query) === TRUE) {
-                $_SESSION['message'] = "Product succesvol bijgewerkt!";
-            } else {
-                $_SESSION['error'] = "Fout bij het bijwerken van het product: " . $conn->error;
-            }
-            echo "<scrypt> window.location='invetaris.php'</script>";
-            exit;
-        }
-
-        $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
-
-        $query = "SELECT * FROM invetaris";
-        if (!empty($search)) {
-            $query .= " WHERE streepjescode LIKE '%$search%'";
-        }
-        $query .= " GROUP BY invetaris.product, invetaris.aantal, invetaris.producttype, invetaris.locatie, invetaris.streepjescode, invetaris.houdsbaarheidsdatum,invetaris.leveringsdatum";
-
-        $result = $conn->query($query);
-
->>>>>>> 9139d62aed8d80a391d65fc55dc9ce445bc58623
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
@@ -234,7 +145,6 @@ $result = $conn->query($query);
                 echo "<td>" . htmlspecialchars($row['allergieën']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['locatie']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['houdsbaarheidsdatum']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['leveringsdatum']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['streepjescode']) . "</td>";
                 echo "<td><a href='?edit=" . htmlspecialchars($row['productid']) . "'>Bewerken</a></td>";
                 echo "</tr>";
