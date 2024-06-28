@@ -51,7 +51,7 @@
     flex-direction: column;
      margin: 5px 0;
 }
-#myInput {
+.search-bar{
     background-position: 10px 12px; /* Position the search icon */
     background-repeat: no-repeat; /* Do not repeat the icon image */
     width: 20%; /* Full-width */
@@ -61,14 +61,14 @@
     margin-bottom: 12px; /* Add some space below the input */
   }
   
-  .filter-options {
+  .searsch-results {
     /* Remove default list styling */
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
   
-  .filter-options{
+  .search-results{
     display: none;
     border: 1px solid #ddd; /* Add a border to all links */
     margin-top: -1px; /* Prevent double borders */
@@ -84,7 +84,7 @@
   #option1.filter-options:hover {
     background-color: #8e8484; /* Add a hover effect to all links, except for headers */
   }
-  #myInput2 {
+  #searsch-bar2 {
     background-position: 10px 12px; /* Position the search icon */
     background-repeat: no-repeat; /* Do not repeat the icon image */
     width: 20%; /* Full-width */
@@ -94,7 +94,7 @@
     margin-bottom: 12px; /* Add some space below the input */
   }
   
-  .filter-options2{
+  .search-results2{
     /* Remove default list styling */
     list-style-type: none;
     padding: 0;
