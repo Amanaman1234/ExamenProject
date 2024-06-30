@@ -153,85 +153,44 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#packageTable').DataTable();
-            loadClientData();
-            loadProductData();
+        const products = [
+            <?php
+            $product_query = "SELECT productid, product, aantal FROM invetaris";
+            $product_result = $conn->query($product_query);
+            if ($product_result->num_rows > 0) {
+                while ($product_row = $product_result->fetch_assoc()) {
+                    echo "{ id: " . json_encode($product_row['productid']) . ", name: " . json_encode($product_row['product']) . ", aantal: " . json_encode($product_row['aantal']) . " },";
+                }
+            }
+            ?>
+        ];
 
-            function loadClientData() {
-                const clients = [
-                    <?php
-                    if ($klanten_result->num_rows > 0) {
-                        while ($klanten_row = $klanten_result->fetch_assoc()) {
-                            echo "{ id: " . json_encode($klanten_row['naam']) . ", name: " . json_encode($klanten_row['naam']) . ", leeftijd_onder_2: " . json_encode($klanten_row['leeftijd_onder_2']) . ", leeftijd_2_tot_18: " . json_encode($klanten_row['leeftijd_2_tot_18']) . ", leeftijd_boven_18: " . json_encode($klanten_row['leeftijd_boven_18']) . ", allergieën: " . json_encode($klanten_row['allergieën']) . ", voorkeuren: " . json_encode($klanten_row['voorkeuren']) . " },";
-                        }
+        function initializeProductSearch(searchBar, resultsContainer) {
+            searchBar.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                resultsContainer.innerHTML = '';
+                products.forEach(product => {
+                    if (product.name.toLowerCase().includes(query)) {
+                        const resultItem = document.createElement('div');
+                        resultItem.classList.add('search-result-item');
+                        resultItem.textContent = `${product.name} (Beschikbaar: ${product.aantal})`;
+                        resultItem.dataset.id = product.id;
+                        resultItem.addEventListener('click', function() {
+                            searchBar.value = product.name;
+                            resultsContainer.previousElementSibling.value = product.id;
+                            resultsContainer.innerHTML = '';
+                        });
+                        resultsContainer.appendChild(resultItem);
                     }
-                    ?>
-                ];
-
-                document.getElementById('search-bar').addEventListener('input', function() {
-                    const query = this.value.toLowerCase();
-                    const resultsContainer = document.getElementById('search-results');
-                    resultsContainer.innerHTML = '';
-                    clients.forEach(client => {
-                        if (client.name.toLowerCase().includes(query)) {
-                            const resultItem = document.createElement('div');
-                            resultItem.classList.add('search-result-item');
-                            resultItem.textContent = client.name;
-                            resultItem.dataset.id = client.id;
-                            resultItem.addEventListener('click', function() {
-                                document.getElementById('search-bar').value = client.name;
-                                document.getElementById('selectedid').value = client.id;
-                                resultsContainer.innerHTML = '';
-                                document.getElementById('klantInfo').innerHTML = `
-                                    <p><strong>Naam:</strong> ${client.name}</p>
-                                    <p><strong>Leeftijd onder 2:</strong> ${client.leeftijd_onder_2}</p>
-                                    <p><strong>Leeftijd 2 tot 18:</strong> ${client.leeftijd_2_tot_18}</p>
-                                    <p><strong>Leeftijd boven 18:</strong> ${client.leeftijd_boven_18}</p>
-                                    <p><strong>Allergieën:</strong> ${client.allergieën}</p>
-                                    <p><strong>Voorkeuren:</strong> ${client.voorkeuren}</p>
-                                `;
-                            });
-                            resultsContainer.appendChild(resultItem);
-                        }
-                    });
                 });
-            }
-
-            function loadProductData() {
-    const products = [
-        <?php
-        $product_query = "SELECT productid, product, aantal FROM invetaris";
-        $product_result = $conn->query($product_query);
-        if ($product_result->num_rows > 0) {
-            while ($product_row = $product_result->fetch_assoc()) {
-                echo "{ id: " . json_encode($product_row['productid']) . ", name: " . json_encode($product_row['product']) . ", aantal: " . json_encode($product_row['aantal']) . " },";
-            }
+            });
         }
-        ?>
-    ];
 
-    document.getElementById('search-bar2').addEventListener('input', function() {
-        const query = this.value.toLowerCase();
-        const resultsContainer = document.getElementById('search-results2');
-        resultsContainer.innerHTML = '';
-        products.forEach(product => {
-            if (product.name.toLowerCase().includes(query)) {
-                const resultItem = document.createElement('div');
-                resultItem.classList.add('search-result-item');
-                resultItem.textContent = `${product.name} (Beschikbaar: ${product.aantal})`;
-                resultItem.dataset.id = product.id;
-                resultItem.addEventListener('click', function() {
-                    document.getElementById('search-bar2').value = product.name;
-                    document.getElementById('selectedProductid').value = product.id;
-                    resultsContainer.innerHTML = '';
-                });
-                resultsContainer.appendChild(resultItem);
-            }
-        });
-    });
-}
-        });
+        function loadProductData() {
+            const initialSearchBar = document.getElementById('search-bar2');
+            const initialResultsContainer = document.getElementById('search-results2');
+            initializeProductSearch(initialSearchBar, initialResultsContainer);
+        }
 
         function addProduct() {
             const productContainer = document.getElementById('productContainer');
@@ -247,27 +206,63 @@
             `;
             productContainer.appendChild(newProductEntry);
 
-            newProductEntry.querySelector('.search-bar').addEventListener('input', function() {
+            const newSearchBar = newProductEntry.querySelector('.search-bar');
+            const newResultsContainer = newProductEntry.querySelector('.search-results');
+            initializeProductSearch(newSearchBar, newResultsContainer);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadClientData();
+            loadProductData();
+        });
+
+        function loadClientData() {
+            const clients = [
+                <?php
+                if ($klanten_result->num_rows > 0) {
+                    while ($klanten_row = $klanten_result->fetch_assoc()) {
+                        echo "{ naam: " . json_encode($klanten_row['naam']) . ", leeftijd_onder_2: " . json_encode($klanten_row['leeftijd_onder_2']) . ", leeftijd_2_tot_18: " . json_encode($klanten_row['leeftijd_2_tot_18']) . ", leeftijd_boven_18: " . json_encode($klanten_row['leeftijd_boven_18']) . ", allergieën: " . json_encode($klanten_row['allergieën']) . ", voorkeuren: " . json_encode($klanten_row['voorkeuren']) . " },";
+                    }
+                }
+                ?>
+            ];
+
+            const searchBar = document.getElementById('search-bar');
+            const resultsContainer = document.getElementById('search-results');
+            const klantInfo = document.getElementById('klantInfo');
+
+            searchBar.addEventListener('input', function() {
                 const query = this.value.toLowerCase();
-                const resultsContainer = newProductEntry.querySelector('.search-results');
                 resultsContainer.innerHTML = '';
-                products.forEach(product => {
-                    if (product.name.toLowerCase().includes(query)) {
+                clients.forEach(client => {
+                    if (client.naam.toLowerCase().includes(query)) {
                         const resultItem = document.createElement('div');
                         resultItem.classList.add('search-result-item');
-                        resultItem.textContent = product.name;
-                        resultItem.dataset.id = product.id;
+                        resultItem.textContent = client.naam;
                         resultItem.addEventListener('click', function() {
-                            newProductEntry.querySelector('.search-bar').value = product.name;
-                            newProductEntry.querySelector('input[name="productid[]"]').value = product.id;
+                            searchBar.value = client.naam;
                             resultsContainer.innerHTML = '';
+                            document.getElementById('selectedid').value = client.naam;
+
+                            klantInfo.innerHTML = `
+                                <p><strong>Leeftijd onder 2:</strong> ${client.leeftijd_onder_2}</p>
+                                <p><strong>Leeftijd 2 tot 18:</strong> ${client.leeftijd_2_tot_18}</p>
+                                <p><strong>Leeftijd boven 18:</strong> ${client.leeftijd_boven_18}</p>
+                                <p><strong>Allergieën:</strong> ${client.allergieën}</p>
+                                <p><strong>Voorkeuren:</strong> ${client.voorkeuren}</p>
+                            `;
                         });
                         resultsContainer.appendChild(resultItem);
                     }
                 });
             });
         }
-    </script>
-</body>
 
+        $(document).ready(function() {
+            $('#packageTable').DataTable();
+        });
+    </script>
+
+    <?php $conn->close(); ?>
+</body>
 </html>
