@@ -29,6 +29,8 @@ if(isset($_POST["submit"])){
     createUser($conn,$voorNaam, $achterNaam, $tussenvoegsels ,$email , $Positie,$wachtwoord );
 
 
+}else if(isset($_POST["update_gebruiker"])){
+    header("location: ../registreer.php");
 }
 else{
     header("location ../registreer.php");
