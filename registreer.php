@@ -1,7 +1,6 @@
 <?php include("header.php") ?>
 <link rel="stylesheet" href="css/registreer.css">
 
-
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +14,7 @@
 
             <form action="include/registreer.inc.php" method="post">
 
-            <input type="hidden" name="gebruikerid" id="gebruikerid">
+                <input type="hidden" name="gebruikerid" id="gebruikerid">
 
                 <input type="text" name="VoorNaam" id="VoorNaam" placeholder="VoorNaam">
 
@@ -29,11 +28,11 @@
 
                 <input type="text" name="HerhaalWachtwoord" placeholder="Herhaal Wachtwoord">
 
-                <select  name="Positie" id="Positie" placeholder="positie">
+                <select name="Positie" id="Positie">
                     <option value="medewerker">medewerker</option>
                     <option value="vrijwilliger">Vrijwilliger</option>
                     <option value="directie">directie</option>
-                             </select>
+                </select>
                 <button type="submit" id="updategbrBtn" name="update_gebruiker" style="display: none;">Bijwerken</button>
                 <button type="submit" id="addgbrBtn" name="submit">Registreer</button>
             </form>
@@ -54,30 +53,7 @@
 
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if (isset($_POST['update_gebruiker'])) {
-        $gebruikerid  = $conn->real_escape_string($_POST['gebruikerid']);
-        $voornaam = $conn->real_escape_string($_POST['VoorNaam']);
-        $AchterNaam = $conn->real_escape_string($_POST['AchterNaam']);
-        $Tussenvoegsels = $conn->real_escape_string($_POST['Tussenvoegsels']);
-        $email = $conn->real_escape_string($_POST['email']);
-        $Positie = $conn->real_escape_string($_POST['Positie']);
-
-        $update_query = "UPDATE gebruikers SET voornaam='$voornaam', AchterNaam='$AchterNaam', Tussenvoegsels='$Tussenvoegsels', email='$email', Positie='$Positie'  WHERE gebruikerid ='$gebruikerid '";
-    
-        if ($conn->query($update_query) === TRUE) {
-            $_SESSION['success_message'] = "De leverancier is succesvol bijgewerkt.";
-            echo '<script>
-                    alert("De leverancier is succesvol bijgewerkt.");
-                    window.location.href = window.location.href.split("?")[0];
-                  </script>';
-            exit();
-        } else {
-            echo "Fout bij het bijwerken van de leverancier: " . $conn->error;
-        }
-    }
-}
 
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 
@@ -99,7 +75,7 @@ if ($result->num_rows > 0) {
         echo "</tr>";
     }
 } else {
-    echo "<tr><td colspan='8'>Geen gegevens gevonden</td></tr>";
+    echo "<tr><td colspan='6'>Geen gegevens gevonden</td></tr>";
 }
 ?>
     </tbody>
@@ -107,20 +83,19 @@ if ($result->num_rows > 0) {
 
 <?php
 if (isset($_GET['edit'])) {
-    $gebruikerid  = $conn->real_escape_string($_GET['edit']);
-    $edit_query = "SELECT * FROM gebruikers WHERE gebruikerid  = '$gebruikerid'";
+    $gebruikerid = $conn->real_escape_string($_GET['edit']);
+    $edit_query = "SELECT * FROM gebruikers WHERE gebruikerid = '$gebruikerid'";
     $edit_result = $conn->query($edit_query);
     if ($edit_result->num_rows > 0) {
         $edit_row = $edit_result->fetch_assoc();
 ?>
     <script>
-        document.getElementById("gebruikerid ").value = "<?php echo htmlspecialchars($edit_row['gebruikerid']); ?>";
+        document.getElementById("gebruikerid").value = "<?php echo htmlspecialchars($edit_row['gebruikerid']); ?>";
         document.getElementById("VoorNaam").value = "<?php echo htmlspecialchars($edit_row['voornaam']); ?>";
         document.getElementById("AchterNaam").value = "<?php echo htmlspecialchars($edit_row['achternaam']); ?>";
         document.getElementById("Tussenvoegsels").value = "<?php echo htmlspecialchars($edit_row['tussenvoegsels']); ?>";
         document.getElementById("email").value = "<?php echo htmlspecialchars($edit_row['email']); ?>";
         document.getElementById("Positie").value = "<?php echo htmlspecialchars($edit_row['positie']); ?>";
-
 
         document.getElementById("addgbrBtn").style.display = "none";
         document.getElementById("updategbrBtn").style.display = "inline";
@@ -136,17 +111,9 @@ $conn->close();
 <script>
     $(document).ready(function() {
         $('#leveranciersTable').DataTable();
-
-        $('#updategbrBtn').hide();
-
-        <?php if (isset($_GET['edit'])): ?>
-        $('#addgbrBtn').hide();
-        $('#updategbrBtn').show();
-        <?php endif; ?>
     });
 </script>
 
     </main>
 </body>
 </html>
-
