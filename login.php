@@ -26,6 +26,7 @@
                 <div class="buttons">
                     <button type="submit" name="submit" class="login">Login</button>
                 </div>
+                <?php   require_once 'include/errortext.php';?>
             </form>
 
            </section>

@@ -94,16 +94,17 @@ function loginUser($conn, $email, $wachtwoord){
         $_SESSION["Positie"] = $uidExists["positie"];
         $_SESSION["GebruikerId"] = $uidExists["gebruikerid"];
 
-        header("location: ../index.php");
+        header("location: ../index.php?error=none");
         exit();
 
     }else {
-        header("location: ../login.php?error=wrongloginp");
+        header("location: ../login.php?error=wronglogin");
         exit();
     }
 
     exit();
 }
+
 
 function headerInhoud(){
     if(isset($_SESSION["Positie"])){
@@ -115,13 +116,13 @@ function headerInhoud(){
             echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
-            echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
+            echo "<ul><a class='linkText' href='include/Loguit.php'>Log Uit</a></ul>";  
     
         }else if($positione == "vrijwilliger") {
             echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
-            echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
+            echo "<ul><a class='linkText' href='include/Loguit.php'>Log Uit</a></ul>";    
         }else if( $positione == "directie") {
             echo "<a style='text-decoration: none; color: white;'href='klanten.php' class='header-item'><p> klanten </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
@@ -130,7 +131,7 @@ function headerInhoud(){
             echo "<a style='text-decoration: none; color: white;'href='registreer.php' class='header-item'><p> Registreer </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='overzicht.php' class='header-item'><p>Maandelijkse overzicht</p> </a>";
-            echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
+            echo "<ul><a class='linkText' href='include/Loguit.php'>Log Uit</a></ul>";  
         }
 
     }
@@ -186,4 +187,3 @@ function curTime()  {
     }
     
 }
-

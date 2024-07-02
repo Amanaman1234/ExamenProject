@@ -31,9 +31,9 @@
                     <option value="medewerker">medewerker</option>
                     <option value="vrijwilliger">Vrijwilliger</option>
                     <option value="directie">directie</option>
-
                              </select>
                 <button type="submit" name="submit">Registreer</button>
+                <?php   require_once 'include/errortext.php';?>
             </form>
         </section>
     </main>

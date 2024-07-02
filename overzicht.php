@@ -7,11 +7,9 @@
 </head>
 <body>
     <form id="deliveryForm">
+
         <div class="form-group">
-            <label for="categorie">Categorie</label>
-          
-        </div>
-        <div class="form-group">
+        <label for="categorie">Categorie</label>
         <select value="<?php if(isset($_GET['categorie'])){echo $_GET['categorie']; } ?>" name="categorie" required>
         <option value="">Kies een producttype</option>
         <option value="groenten">Groenten</option>
@@ -46,6 +44,7 @@
             <input name="maand" type="month" id="maand"  value="<?php if(isset($_GET['maand'])){echo $_GET['maand']; } ?>" >
         </div>
         <div>
+        <label for="Jaar">Jaar</label>
             <select value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" >
             <option value="" selected disabled hidden>Kies jaar</option>
             <?php
@@ -144,6 +143,7 @@ if(isset($_GET["categorie"])){
             <input name="maandvoorpc" type="month" id="maandvoorpc"  value="<?php if(isset($_GET['maandvoorpc'])){echo $_GET['maandvoorpc']; } ?>" >
         </div>
         <div>
+        <label for="Jaar">Jaar</label>
             <select value="<?php if(isset($_GET['jaarvoorpc'])){echo $_GET['jaarvoorpc']; } ?>" name="jaarvoorpc" >
             <option value="" selected disabled hidden>Kies jaar</option>
             <?php
@@ -163,7 +163,6 @@ if(isset($_GET["categorie"])){
         </div>
     <table id="productTable" class="tabel display" border="1">
         <thead>
-            <p>Excuus ik weet dat ik op postcode moet zoeken inplaats van klantnaam maar mika en danny hebben de tabel pakket producten een beetje fout geschreven en ik heb niet genoeg tijd om de databse te veranderen sorry daarvoor</p>
             <tr>
                 <th>Postcode</td>
                 <th>Naam</td>

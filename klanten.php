@@ -106,7 +106,7 @@ $result = $conn->query($query);
     <button type="submit" id="addKlantBtn" name="add_klant">Toevoegen</button>
     <button type="submit" id="updateKlantBtn" name="update_klant" style="display: none;">Bijwerken</button>
 </form>
-
+<br>
 <h1>Klanten Overzicht</h1>
 <table id="klantenTable" class="tabel display" border="1">
     <thead>

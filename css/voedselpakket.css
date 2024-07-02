@@ -117,5 +117,23 @@
   #option2.filter-options2:hover {
     background-color: #8e8484; 
   }
+  input{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+select{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
   
   

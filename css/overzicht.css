@@ -21,15 +21,25 @@ label {
     margin-right: 10px;
 }
 
-input[type="text"] {
-    padding: 5px;
-    width: 150px;
-    margin-right: 20px;
-}
 
+
+input{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+select{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 button {
-    padding: 5px 10px;
-    cursor: pointer;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .result {

@@ -1,10 +1,12 @@
 .background{
+    display: grid;
     background-image: url("../img/achetgrondinvetaris.png");
     background-size: cover;
     background-attachment: fixed;
     width: 98vw;
     height: 91vh;
     margin-left: 0;
+    justify-content: center;
 }
 .tabel {
     width: 100%;
@@ -30,8 +32,8 @@
 }
 .tabel th {
     text-align: center;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 .no-data {
     text-align: center;
@@ -44,13 +46,33 @@ input{
     border-radius: 5px;
 }
 button {
-    padding: 3px 10px;
+    padding: 3px 3px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+input{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+select{
+    padding: 12px;
+    margin: 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    padding: 15px 20px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
 }
 form{
-    display: flex;
-    flex-direction: row;
-
+    margin-left: 50px;
 }
+h2,h1{
+    margin-left: 50px;
+}
+

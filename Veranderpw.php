@@ -16,6 +16,7 @@
                 <input type="text" name="NieuwWachtwoord" placeholder="NieuwWachtwoord">
                 <input type="text" name="NieuwWachtwoordRep" placeholder="Herhaal nieuw wachtwoord">
                 <button type="submit" name="submit">Verander Wachtwoord</button>
+                <?php   require_once 'include/errortext.php';?>
             </form>
            </section>
            <section class="rechts"></section>
