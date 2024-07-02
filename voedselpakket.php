@@ -52,7 +52,7 @@
                     $productid = $conn->real_escape_string($productid);
                     $productaantal = $conn->real_escape_string($product_aantallen[$index]);
 
-                    $insert_product_query = "INSERT INTO pakket_producten (pakketid, productid, aantal) VALUES ('$pakketid', '$productid', '$productaantal')";
+                    $insert_product_query = "INSERT INTO pakket_producten (pakketid, productid, aantalp) VALUES ('$pakketid', '$productid', '$productaantal')";
                     if ($conn->query($insert_product_query) !== TRUE) {
                         echo "Fout bij het toevoegen van het product: " . $conn->error;
                         $error = true;
@@ -117,7 +117,7 @@
         </thead>
         <tbody>
             <?php
-            $package_query = "SELECT v.pakketid, v.klantnaam, v.samenstellingsdatum, v.uitgiftedatum, GROUP_CONCAT(CONCAT(i.product, ' (', p.aantal, ')') SEPARATOR ', ') AS producten 
+            $package_query = "SELECT v.pakketid, v.klantnaam, v.samenstellingsdatum, v.uitgiftedatum, GROUP_CONCAT(CONCAT(i.product, ' (', p.aantalp, ')') SEPARATOR ', ') AS producten 
                         FROM voedselpakketten v 
                         JOIN pakket_producten p ON v.pakketid = p.pakketid 
                         JOIN invetaris i ON p.productid = i.productid 

@@ -117,7 +117,7 @@ function headerInhoud(){
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
             echo "<li><a class='linkText' href='include/Loguit.php'>Log Uit</a></li>";  
     
-        }else if($positione == "Vrijwilliger") {
+        }else if($positione == "vrijwilliger") {
             echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";

@@ -52,7 +52,7 @@ if (isset($_POST['update_product'])) {
     } else {
         $_SESSION['error'] = "Fout bij het bijwerken van het product: " . $conn->error;
     }
-    echo "<scrypt> window.location='invetaris.php'</script>";
+    echo "<script> window.location='invetaris.php'</script>";
     exit;
 }
 

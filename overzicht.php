@@ -43,10 +43,16 @@
 
         <div class="form-group">
             <label for="maand">Maand</label>
-            <input name="maand" type="month" id="maand"  value="<?php if(isset($_GET['maand'])){echo $_GET['maand']; } ?>" required>
+            <input name="maand" type="month" id="maand"  value="<?php if(isset($_GET['maand'])){echo $_GET['maand']; } ?>" >
+        </div>
+        <div>
+            <select value="<?php if(isset($_GET['categorie'])){echo $_GET['categorie']; } ?>" name="categorie" required>
+    
+            </select>
+
         </div>
         <div class="form-group">
-            <button name="submit" type="submit">Submit</button>
+            <button name="submit" type="submit">check</button>
         </div>
     <table id="productTable" class="tabel display" border="1">
         <thead>
@@ -56,21 +62,21 @@
                 <th>Aantal</td>
                 <th>leveringsdatum</th>
                 <th>Leverancier</td>
-                <th>leveringsdatum</td>
+
             </tr>
         </thead>
         <tbody>
         <?php 
 
-require_once 'include/dbh.php';
-
 
 if(isset($_GET["maand"])){
     $filtervaluescat = $_GET["categorie"];
     $filtervaluesmaand = $_GET["maand"];
+    $filtervaluesjaar = $_GET["year"];
+
 
     $query = "SELECT * FROM invetaris INNER JOIN leveranciers ON invetaris.leveringsdatum = leveranciers.leveringdatum 
-    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%';";
+    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%' OR LIKE ;";
 
 
     $query_run = mysqli_query($conn, $query);
@@ -85,7 +91,6 @@ if(isset($_GET["maand"])){
                     <td><?= $row['aantal']?></td>
                     <td><?= $row['leveringsdatum']; ?></td>     
                     <td><?= $row['contactpersoon']?></td>
-                    <td><?= $row['volgendelevering']?></td>   
             <?php
             
         }
@@ -170,7 +175,7 @@ WHERE postcode LIKE '$filtervaluepostcode' AND voedselpakketten.uitgiftedatum LI
                     <td><?= $row['naam']?></td>
                     <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
-                    <td><?= $row['aantal']?></td>
+                    <td><?= $row['aantalp']?></td>
                     <td><?= $row['uitgiftedatum']?></td>
 
             <?php
