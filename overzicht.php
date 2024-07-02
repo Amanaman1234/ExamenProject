@@ -62,16 +62,8 @@
         <tbody>
         <?php 
 
-$servername= "localhost";
-$username= "root";
-$password="";
-$dbname="examenvoedselbank";
+require_once 'include/dbh.php';
 
-$conn = mysqli_connect($servername,$username, $password, $dbname);
-
-If(!$conn){
-    die("Connection failed: ". mysqli_connect_error());
-}
 
 if(isset($_GET["maand"])){
     $filtervaluescat = $_GET["categorie"];
@@ -146,6 +138,7 @@ if(isset($_GET["maand"])){
                 <th>Postcode</td>
                 <th>Naam</td>
                 <th>Categorie</th>
+                <th>Producten</th>
                 <th>aantal</th>
                 <th>Uitgiftedatum</th>
             </tr>
@@ -158,12 +151,11 @@ if(isset($_GET["postcode"])){
     $filtervaluepostcode = $_GET["postcode"];
     $filtervaluesmaandpc = $_GET["maandvoorpc"];
 
-    $query = "SELECT *
-FROM voedselpakketten
+    $query = "SELECT * FROM voedselpakketten
 INNER JOIN pakket_producten ON voedselpakketten.pakketid = pakket_producten.pakketid
-INNER JOIN klanten ON klanten.naam = voedselpakketten.klantnaam
-WHERE klantnaam LIKE '$filtervaluepostcode'
-  AND voedselpakketten.uitgiftedatum LIKE '$filtervaluesmaandpc%';
+INNER JOIN klanten ON klanten.naam = voedselpakketten.klantnaam 
+INNER JOIN invetaris ON invetaris.productid = pakket_producten.productid
+WHERE postcode LIKE '$filtervaluepostcode' AND voedselpakketten.uitgiftedatum LIKE '$filtervaluesmaandpc%';
 ";
 
 
@@ -177,6 +169,7 @@ WHERE klantnaam LIKE '$filtervaluepostcode'
                     <td><?= $row['postcode']?></td>
                     <td><?= $row['naam']?></td>
                     <td><?= $row['producttype']?></td>
+                    <td><?= $row['product']?></td>
                     <td><?= $row['aantal']?></td>
                     <td><?= $row['uitgiftedatum']?></td>
 
