@@ -46,8 +46,18 @@
             <input name="maand" type="month" id="maand"  value="<?php if(isset($_GET['maand'])){echo $_GET['maand']; } ?>" >
         </div>
         <div>
-            <select value="<?php if(isset($_GET['categorie'])){echo $_GET['categorie']; } ?>" name="categorie" required>
-    
+            <select value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" required>
+            <?php
+
+            date_default_timezone_set('Europe/Amsterdam');
+            $curYear = 2028;
+            $yeat = 2024;
+
+
+            for ($i = $curYear; $i >= $yeat; $i--) { 
+                echo "<option value = '$i'>$i</option>";
+            }
+            ?>
             </select>
 
         </div>
@@ -62,7 +72,6 @@
                 <th>Aantal</td>
                 <th>leveringsdatum</th>
                 <th>Leverancier</td>
-
             </tr>
         </thead>
         <tbody>
@@ -72,11 +81,11 @@
 if(isset($_GET["maand"])){
     $filtervaluescat = $_GET["categorie"];
     $filtervaluesmaand = $_GET["maand"];
-    $filtervaluesjaar = $_GET["year"];
+    $filtervaluesjaar = $_GET["jaar"];
 
 
     $query = "SELECT * FROM invetaris INNER JOIN leveranciers ON invetaris.leveringsdatum = leveranciers.leveringdatum 
-    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%' OR LIKE ;";
+    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%'  ;";
 
 
     $query_run = mysqli_query($conn, $query);

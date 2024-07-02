@@ -13,10 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $leeftijd_2_tot_18 = $conn->real_escape_string($_POST['leeftijd_2_tot_18']);
         $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
         $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
-        $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
+
         $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
 
-        $insert_query = "INSERT INTO klanten (naam, adres, postcode, telefoonnummer, emailadres, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$postcode','$telefoonnummer', '$emailadres', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën', '$voorkeuren', '$uitgiftedatum')";
+        $insert_query = "INSERT INTO klanten (naam, adres, postcode, telefoonnummer, emailadres, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$postcode','$telefoonnummer', '$emailadres', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën',  '$uitgiftedatum')";
 
         if ($conn->query($insert_query) === TRUE) {
             $_SESSION['success_message'] = "De klant is succesvol toegevoegd.";
