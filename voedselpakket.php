@@ -131,7 +131,6 @@
                     echo "<td>" . htmlspecialchars($row['producten']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['samenstellingsdatum']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['uitgiftedatum']) . "</td>";
-                    echo "</tr>";
                 }
             } else {
                 echo "<tr><td colspan='5'>Geen gegevens gevonden</td></tr>";

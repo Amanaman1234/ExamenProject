@@ -46,7 +46,8 @@
             <input name="maand" type="month" id="maand"  value="<?php if(isset($_GET['maand'])){echo $_GET['maand']; } ?>" >
         </div>
         <div>
-            <select value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" required>
+            <select value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" >
+            <option value="" selected disabled hidden>Kies jaar</option>
             <?php
 
             date_default_timezone_set('Europe/Amsterdam');
@@ -78,14 +79,14 @@
         <?php 
 
 
-if(isset($_GET["maand"])){
+if(isset($_GET["categorie"])){
     $filtervaluescat = $_GET["categorie"];
     $filtervaluesmaand = $_GET["maand"];
     $filtervaluesjaar = $_GET["jaar"];
 
 
     $query = "SELECT * FROM invetaris INNER JOIN leveranciers ON invetaris.leveringsdatum = leveranciers.leveringdatum 
-    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%'  ;";
+    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%'  OR leveringsdatum LIKE '$filtervaluesjaar%' ;";
 
 
     $query_run = mysqli_query($conn, $query);
@@ -140,8 +141,23 @@ if(isset($_GET["maand"])){
 
         <div class="form-group">
             <label for="maandvoorpc">Maand</label>
-            <input name="maandvoorpc" type="month" id="maandvoorpc"  value="<?php if(isset($_GET['maandvoorpc'])){echo $_GET['maandvoorpc']; } ?>" required>
+            <input name="maandvoorpc" type="month" id="maandvoorpc"  value="<?php if(isset($_GET['maandvoorpc'])){echo $_GET['maandvoorpc']; } ?>" >
         </div>
+        <div>
+            <select value="<?php if(isset($_GET['jaarvoorpc'])){echo $_GET['jaarvoorpc']; } ?>" name="jaarvoorpc" >
+            <option value="" selected disabled hidden>Kies jaar</option>
+            <?php
+
+            date_default_timezone_set('Europe/Amsterdam');
+            $curYear = date("Y");
+            $year = 2024;
+
+
+            for ($i = $curYear; $i >= $year; $i--) { 
+                echo "<option value = '$i'>$i</option>";
+            }
+            ?>
+            </select>
         <div class="form-group">
             <button name="submit2" type="submit">Submit</button>
         </div>
@@ -164,6 +180,7 @@ if(isset($_GET["maand"])){
 if(isset($_GET["postcode"])){
     $filtervaluepostcode = $_GET["postcode"];
     $filtervaluesmaandpc = $_GET["maandvoorpc"];
+    $filtervaluesjaarpc = $_GET["jaarvoorpc"];
 
     $query = "SELECT * FROM voedselpakketten
 INNER JOIN pakket_producten ON voedselpakketten.pakketid = pakket_producten.pakketid
