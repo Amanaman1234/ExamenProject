@@ -50,11 +50,11 @@
             <?php
 
             date_default_timezone_set('Europe/Amsterdam');
-            $curYear = 2028;
-            $yeat = 2024;
+            $curYear = date("Y");
+            $year = 2024;
 
 
-            for ($i = $curYear; $i >= $yeat; $i--) { 
+            for ($i = $curYear; $i >= $year; $i--) { 
                 echo "<option value = '$i'>$i</option>";
             }
             ?>
