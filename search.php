@@ -1,14 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "examenvoedselbank";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'include/dbh.php';
 
 $term = $_GET['term'];
 $klanten_query = "SELECT naam, gezingroote, leeftijd, allergieën, voorkeuren FROM klanten WHERE naam LIKE '%$term%'";

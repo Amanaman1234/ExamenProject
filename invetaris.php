@@ -11,14 +11,7 @@
 <body class="background">
 
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "examenvoedselbank";
-$conn = new mysqli($servername, $username, $password, $dbname, 3307);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 if (isset($_POST['add_product'])) {
     $product = $conn->real_escape_string($_POST['product']);
