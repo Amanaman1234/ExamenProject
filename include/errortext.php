@@ -26,6 +26,9 @@ if(isset($_GET["error"])){
         case "none":
             echo "je bent ingelogd :)";
             break;
+        case "rotop":
+            echo "je hebt geen toegan tot deze website";
+            break;
         default:
             echo "<p>Onbekende fout</p>";
             break;

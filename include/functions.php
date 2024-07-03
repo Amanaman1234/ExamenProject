@@ -187,3 +187,10 @@ function curTime()  {
     }
     
 }
+
+function checkacces(){
+    $positione = $_SESSION["Positie"];
+    if($positione != "directie"){
+        header("location: ../ExamenProject/index.php?error=rotop");   
+    }
+}
