@@ -15,7 +15,7 @@
 require_once 'include/errortext.php';
 
     if (isset($_SESSION["VoorNaam"]) && isset($_SESSION["AchterNaam"])) {
-        echo "<br><br>gebruiker: " . $_SESSION["VoorNaam"] . " " . $_SESSION["AchterNaam"] . $_SESSION["GebruikerId"]  ;
+        echo "gebruiker: " . $_SESSION["VoorNaam"] . " " . $_SESSION["AchterNaam"];
     } else {
         echo "No user is logged in.";
     }
