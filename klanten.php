@@ -13,10 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $leeftijd_2_tot_18 = $conn->real_escape_string($_POST['leeftijd_2_tot_18']);
         $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
         $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
-
+        $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
         $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
 
-        $insert_query = "INSERT INTO klanten (naam, adres, postcode, telefoonnummer, emailadres, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$postcode','$telefoonnummer', '$emailadres', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën',  '$uitgiftedatum')";
+        $insert_query = "INSERT INTO klanten (naam, adres, postcode, telefoonnummer, emailadres, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren, uitgiftedatum) VALUES ('$naam', '$adres', '$postcode','$telefoonnummer', '$emailadres', '$leeftijd_onder_2', '$leeftijd_2_tot_18', '$leeftijd_boven_18', '$allergieën',  '$voorkeuren','$uitgiftedatum')";
 
         if ($conn->query($insert_query) === TRUE) {
             $_SESSION['success_message'] = "De klant is succesvol toegevoegd.";
@@ -102,7 +102,7 @@ $result = $conn->query($query);
         <label><input type="checkbox" name="voorkeuren[]" value="halal"> Halal</label>
         <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch"> Vegetarisch</label>
         <label><input type="checkbox" name="voorkeuren[]" value="veganistisch"> Veganistisch</label>
-        <label><input type="checkbox" name="geenvoorkeur[]" value=""> geen voorkeur</label>
+        <label><input type="checkbox" name="voorkeuren[]" value="geenvoorkeur"> Geen voorkeuren</label>
     </div>
     <input type="date" name="uitgiftedatum" id="uitgiftedatum" placeholder="Uitgiftedatum" required>
     <button type="submit" id="addKlantBtn" name="add_klant">Toevoegen</button>
