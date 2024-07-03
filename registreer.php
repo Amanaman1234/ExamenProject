@@ -1,6 +1,6 @@
 <?php include("header.php") ;
 require_once 'include/functions.php';
-checkacces();
+checkaccesdirectie();
 ?>
 <link rel="stylesheet" href="css/registreer.css">
 

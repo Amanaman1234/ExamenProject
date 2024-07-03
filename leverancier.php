@@ -1,4 +1,7 @@
-<?php include("header.php") ?>
+<?php include("header.php");
+require_once 'include/functions.php';
+checkaccesmedewerker();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

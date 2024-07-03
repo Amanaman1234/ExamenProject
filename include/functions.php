@@ -188,9 +188,15 @@ function curTime()  {
     
 }
 
-function checkacces(){
+function checkaccesdirectie(){
     $positione = $_SESSION["Positie"];
     if($positione != "directie"){
+        header("location: ../ExamenProject/index.php?error=rotop");   
+    }
+}
+function checkaccesmedewerker(){
+    $positione = $_SESSION["Positie"];
+    if($positione == "vrijwilliger"){
         header("location: ../ExamenProject/index.php?error=rotop");   
     }
 }

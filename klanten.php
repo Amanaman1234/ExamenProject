@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
         $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
         $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
+        $geenvoorkeur = $conn->real_escape_string(implode(', ', $_POST['geenvoorkeur']));
         $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
 
         $update_query = "UPDATE klanten SET naam='$naam', adres='$adres', postcode='$postcode', telefoonnummer='$telefoonnummer', emailadres='$emailadres', leeftijd_onder_2='$leeftijd_onder_2', leeftijd_2_tot_18='$leeftijd_2_tot_18', leeftijd_boven_18='$leeftijd_boven_18', allergieën='$allergieën', voorkeuren='$voorkeuren', uitgiftedatum='$uitgiftedatum' WHERE gezinid='$gezinid'";
@@ -101,6 +102,7 @@ $result = $conn->query($query);
         <label><input type="checkbox" name="voorkeuren[]" value="halal"> Halal</label>
         <label><input type="checkbox" name="voorkeuren[]" value="vegetarisch"> Vegetarisch</label>
         <label><input type="checkbox" name="voorkeuren[]" value="veganistisch"> Veganistisch</label>
+        <label><input type="checkbox" name="geenvoorkeur[]" value=""> geen voorkeur</label>
     </div>
     <input type="date" name="uitgiftedatum" id="uitgiftedatum" placeholder="Uitgiftedatum" required>
     <button type="submit" id="addKlantBtn" name="add_klant">Toevoegen</button>
