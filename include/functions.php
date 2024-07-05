@@ -114,15 +114,13 @@ function headerInhoud(){
         if ($positione == "medewerker") {
             echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
-            echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
-            echo "<ul><a class='linkText' href='include/Loguit.php'>Log Uit</a></ul>";  
+            echo "<ul><a class='linkText' href='include/Loguit.php'>Loguit</a></ul>";  
     
         }else if($positione == "vrijwilliger") {
-            echo "<a style='text-decoration: none; color: white;'href='invetaris.php' class='header-item'><p> Magazijn </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='voedselpakket.php' class='header-item'><p> Voedselpakketen </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
-            echo "<ul><a class='linkText' href='include/Loguit.php'>Log Uit</a></ul>";    
+            echo "<ul><a class='linkText' href='include/Loguit.php'>Loguit</a></ul>";    
         }else if( $positione == "directie") {
             echo "<a style='text-decoration: none; color: white;'href='klanten.php' class='header-item'><p> klanten </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='leverancier.php' class='header-item'><p> Leveranciers </p> </a>";
@@ -131,7 +129,7 @@ function headerInhoud(){
             echo "<a style='text-decoration: none; color: white;'href='registreer.php' class='header-item'><p> Registreer </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='Veranderpw.php' class='header-item'><p> Verander Wachtwoord </p> </a>";
             echo "<a style='text-decoration: none; color: white;'href='overzicht.php' class='header-item'><p>Maandelijkse overzicht</p> </a>";
-            echo "<ul><a class='linkText' href='include/Loguit.php'>Log Uit</a></ul>";  
+            echo "<ul><a class='linkText' href='include/Loguit.php'>Loguit</a></ul>";  
         }
 
     }
