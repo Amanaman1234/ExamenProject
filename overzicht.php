@@ -85,8 +85,12 @@ if(isset($_GET["categorie"])){
     $filtervaluesjaar = $_GET["jaar"];
 
 
-    $query = "SELECT * FROM invetaris INNER JOIN leveranciers ON invetaris.leveringsdatum = leveranciers.leveringdatum 
-    WHERE producttype LIKE '$filtervaluescat' AND leveringsdatum LIKE '$filtervaluesmaand%'  OR leveringsdatum LIKE '$filtervaluesjaar%' ;";
+    $query = "SELECT * 
+FROM invetaris 
+INNER JOIN leveranciers 
+ON invetaris.leveringsdatum = leveranciers.leveringdatum 
+WHERE producttype = '$filtervaluescat' 
+  AND (leveringsdatum LIKE '$filtervaluesmaand' OR leveringsdatum LIKE '$filtervaluesjaar%');";
 
 
     $query_run = mysqli_query($conn, $query);

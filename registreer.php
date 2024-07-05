@@ -40,7 +40,7 @@ checkaccesdirectie();
                 <button type="submit" id="addgbrBtn" name="submit">Registreer</button>
             </form>
         </section>
-        <h1>Leveranciers Overzicht</h1>
+        <h1>Gebruiker Overzicht</h1>
 <table id="leveranciersTable" class="tabel display" border="1">
     <thead>
         <tr>

@@ -11,7 +11,7 @@
 .tabel {
     width: 100%;
     border-collapse: collapse;
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif; 
 }
 .tabel th, .tabel td {
     border: 1px solid #ddd;
