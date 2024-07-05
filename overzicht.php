@@ -1,5 +1,5 @@
 <?php include("header.php");
-
+checkaccesdirectie();
 
 ?>
     <title>Form</title>

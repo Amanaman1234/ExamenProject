@@ -1,5 +1,8 @@
 <?php
 include("header.php");
+require_once 'include/functions.php';
+checkaccesdirectie();
+;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $leeftijd_boven_18 = $conn->real_escape_string($_POST['leeftijd_boven_18']);
         $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
         $voorkeuren = $conn->real_escape_string(implode(', ', $_POST['voorkeuren']));
-        $geenvoorkeur = $conn->real_escape_string(implode(', ', $_POST['geenvoorkeur']));
         $uitgiftedatum = $conn->real_escape_string($_POST['uitgiftedatum']);
 
         $update_query = "UPDATE klanten SET naam='$naam', adres='$adres', postcode='$postcode', telefoonnummer='$telefoonnummer', emailadres='$emailadres', leeftijd_onder_2='$leeftijd_onder_2', leeftijd_2_tot_18='$leeftijd_2_tot_18', leeftijd_boven_18='$leeftijd_boven_18', allergieën='$allergieën', voorkeuren='$voorkeuren', uitgiftedatum='$uitgiftedatum' WHERE gezinid='$gezinid'";

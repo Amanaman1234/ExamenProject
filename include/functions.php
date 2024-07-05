@@ -198,3 +198,9 @@ function checkaccesmedewerker(){
         header("location: ../ExamenProject/index.php?error=rotop");   
     }
 }
+function checkaccesvrijwilliger(){
+    $positione = $_SESSION["Positie"];
+    if($positione == "medewerker"){
+        header("location: ../ExamenProject/index.php?error=rotop");   
+    }
+}
