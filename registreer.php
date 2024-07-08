@@ -45,8 +45,8 @@ checkaccesdirectie();
     <thead>
         <tr>
             <th>voornaam</th>
-            <th>Achternaam</th>
             <th>Tussenvoegsels</th>
+            <th>Achternaam</th>
             <th>Email</th>
             <th>Postitie</th>
             <th>Bewerken</th>
@@ -70,8 +70,8 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . htmlspecialchars($row['voornaam']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['achternaam']) . "</td>";
         echo "<td>" . htmlspecialchars($row['tussenvoegsels']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['achternaam']) . "</td>";
         echo "<td>" . htmlspecialchars($row['email']) . "</td>";
         echo "<td>" . htmlspecialchars($row['positie']) . "</td>";
         echo "<td><a href='?edit=" . htmlspecialchars($row['gebruikerid']) . "'>Bewerken</a></td>";

@@ -13,7 +13,7 @@
     <br>
 <?php
 require_once 'include/errortext.php';
-
+    // Controleer of de gebruiker is ingelogd en toon de naam
     if (isset($_SESSION["VoorNaam"]) && isset($_SESSION["AchterNaam"])) {
         echo "gebruiker: " . $_SESSION["VoorNaam"] . " " . $_SESSION["AchterNaam"];
     } else {

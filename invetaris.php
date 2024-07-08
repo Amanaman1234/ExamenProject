@@ -15,8 +15,10 @@ checkaccesmedewerker();
 
 <?php
 
-
+// Controleer of het Productformulier is ingediend
 if (isset($_POST['add_product'])) {
+
+    // Haal de invoerwaarden op uit het product toevoeg formulier en escapen voor veiligheid
     $product = $conn->real_escape_string($_POST['product']);
     $aantal = $conn->real_escape_string($_POST['aantal']);
     $producttype = $conn->real_escape_string($_POST['producttype']);
@@ -26,8 +28,10 @@ if (isset($_POST['add_product'])) {
     $Leveringdatum = $conn->real_escape_string($_POST['leveringsdatum']);
     $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
 
+    // SQL-query voor het invoegen van gegevens in de 'invetaris' tabel
     $insert_query = "INSERT INTO invetaris (product, aantal, producttype, allergieën, locatie, houdsbaarheidsdatum,leveringsdatum,streepjescode) VALUES ('$product', '$aantal', '$producttype', '$allergieën', '$locatie', '$houdsbaarheidsdatum','$Leveringdatum','$streepjescode')";
 
+    // Voert de SQL-query uit om een nieuw product toe te voegen en handelt de resultaten af
     if ($conn->query($insert_query) === TRUE) {
         $_SESSION['message'] = "Product succesvol toegevoegd!";
     } else {
@@ -37,36 +41,46 @@ if (isset($_POST['add_product'])) {
     exit;
 }
 
+// Controleert of het formulier is ingediend om een product bij te werken
 if (isset($_POST['update_product'])) {
-    $product = $conn->real_escape_string($_POST['product']);
-    $aantal = $conn->real_escape_string($_POST['aantal']);
-    $producttype = $conn->real_escape_string($_POST['producttype']);
-    $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën']));
-    $locatie = $conn->real_escape_string($_POST['locatie']);
-    $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']);
-    $Leveringdatum = $conn->real_escape_string($_POST['leveringsdatum']);
-    $streepjescode = $conn->real_escape_string($_POST['streepjescode']);
-    $productid = $conn->real_escape_string($_POST['productid']);
+    $product = $conn->real_escape_string($_POST['product']);  // Haalt productnaam op en ontsnapt speciale tekens voor SQL
+    $aantal = $conn->real_escape_string($_POST['aantal']);  // Haalt aantal op en ontsnapt speciale tekens voor SQL
+    $producttype = $conn->real_escape_string($_POST['producttype']); // Haalt producttype op en ontsnapt speciale tekens voor SQL
+    $allergieën = $conn->real_escape_string(implode(', ', $_POST['allergieën'])); // Haalt allergieën op en ontsnapt speciale tekens voor SQL
+    $locatie = $conn->real_escape_string($_POST['locatie']); // Haalt locatie op en ontsnapt speciale tekens voor SQL
+    $houdsbaarheidsdatum = $conn->real_escape_string($_POST['houdsbaarheidsdatum']); // Haalt houdbaarheidsdatum op en ontsnapt speciale tekens voor SQL
+    $Leveringdatum = $conn->real_escape_string($_POST['leveringsdatum']); // Haalt leveringsdatum op en ontsnapt speciale tekens voor SQL
+    $streepjescode = $conn->real_escape_string($_POST['streepjescode']); // Haalt streepjescode op en ontsnapt speciale tekens voor SQL
+    $productid = $conn->real_escape_string($_POST['productid']); // Haalt productid op en ontsnapt speciale tekens voor SQL
+
+    // Bereidt SQL-query voor om productgegevens bij te werken in de database
     $update_query = "UPDATE invetaris SET product='$product', aantal='$aantal', producttype='$producttype', allergieën='$allergieën', locatie='$locatie',leveringsdatum='$Leveringdatum',houdsbaarheidsdatum='$houdsbaarheidsdatum', streepjescode='$streepjescode' WHERE productid='$productid'";
     
-
+ // Voert de SQL-query uit om productgegevens bij te werken en handelt de resultaten af
     if ($conn->query($update_query) === TRUE) {
         $_SESSION['message'] = "Product succesvol bijgewerkt!";
     } else {
         $_SESSION['error'] = "Fout bij het bijwerken van het product: " . $conn->error;
     }
-    echo "<script> window.location='invetaris.php'</script>";
+    echo "<script> window.location='invetaris.php'</script>"; // Javascript om de pagina te herladen na het bijwerken
     exit;
 }
 
+// Haalt zoekterm op uit de URL en voorkomt SQL-injecties met real_escape_string()
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 
+// Bouwt de SQL-query op om producten te selecteren uit de database
 $query = "SELECT * FROM invetaris";
+
+// Voegt een WHERE-clausule toe aan de query als er een zoekterm is opgegeven
 if (!empty($search)) {
     $query .= " WHERE streepjescode LIKE '%$search%'";
 }
+
+// Voegt een GROUP BY-clausule toe aan de query om resultaten te groeperen op specifieke velden
 $query .= " GROUP BY invetaris.product, invetaris.aantal, invetaris.producttype, invetaris.locatie, invetaris.streepjescode, invetaris.houdsbaarheidsdatum, invetaris.leveringsdatum";
 
+// Voert de SQL-query uit om productgegevens op te halen en slaat het resultaat op in $result
 $result = $conn->query($query);
 ?>
 
@@ -135,6 +149,8 @@ $result = $conn->query($query);
     </thead>
     <tbody>
         <?php
+
+// Controleert of er resultaten zijn en genereert HTML-tabelrijen met productgegevens of toont een bericht als er geen gegevens zijn gevonden
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
@@ -157,6 +173,7 @@ $result = $conn->query($query);
 </table>
 
 <?php
+// Controleert of de 'edit' parameter in de URL is ingesteld, haalt het bijbehorende product op uit de database en vult het bewerkingsformulier in met de verkregen gegevens
 if (isset($_GET['edit'])) {
     $productid = $conn->real_escape_string($_GET['edit']);
     $edit_query = "SELECT * FROM invetaris WHERE productid = '$productid'";
@@ -165,11 +182,13 @@ if (isset($_GET['edit'])) {
         $edit_row = $edit_result->fetch_assoc();
 ?>
     <script>
+          // Vult het formulier in met de gegevens van het bewerkte product
         document.getElementById("productid").value = "<?php echo isset($edit_row['productid']) ? htmlspecialchars($edit_row['productid']) : ''; ?>";
         document.getElementById("product").value = "<?php echo htmlspecialchars($edit_row['product']); ?>";
         document.getElementById("aantal").value = "<?php echo htmlspecialchars($edit_row['aantal']); ?>";
         document.getElementById("producttype").value = "<?php echo htmlspecialchars($edit_row['producttype']); ?>";
        
+        // Verwerkt de allergieën als een lijst van checkboxes
         var allergieën = "<?php echo htmlspecialchars($edit_row['allergieën']); ?>".split(', ');
         document.querySelectorAll("input[name='allergieën[]']").forEach(function(checkbox) {
             if (allergieën.includes(checkbox.value)) {
@@ -180,6 +199,7 @@ if (isset($_GET['edit'])) {
         document.getElementById("houdsbaarheidsdatum").value = "<?php echo htmlspecialchars($edit_row['houdsbaarheidsdatum']); ?>";
         document.getElementById("streepjescode").value = "<?php echo htmlspecialchars($edit_row['streepjescode']); ?>";
 
+        // Verbergt het toevoegen knop en toont het bijwerken knop
         document.getElementById("addproduct").style.display = "none";
         document.getElementById("updateproduct").style.display = "inline";
     </script>
@@ -193,11 +213,14 @@ $conn->close();
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Initialiseert DataTable op de productentabel
         $('#productTable').DataTable();
 
+        // Verbergt standaard het bijwerken knop
         $('#updateproduct').hide();
 
         <?php if (isset($_GET['edit'])): ?>
+        // Als er een bewerking wordt uitgevoerd, verbergt het toevoegen knop en toont het bijwerken knop
         $('#addproduct').hide();
         $('#updateproduct').show();
         <?php endif; ?>

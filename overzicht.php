@@ -47,7 +47,7 @@ checkaccesdirectie();
         <div>
         <label for="Jaar">Jaar</label>
             <select value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" >
-            <option value="" selected disabled hidden>Kies jaar</option>
+            <option value="">Kies jaar</option>
             <?php
 
             date_default_timezone_set('Europe/Amsterdam');
@@ -87,7 +87,7 @@ if(isset($_GET["categorie"])){
 
     $query = "SELECT * 
 FROM invetaris 
-INNER JOIN leveranciers 
+LEFT JOIN leveranciers 
 ON invetaris.leveringsdatum = leveranciers.leveringdatum
 WHERE producttype = '$filtervaluescat' 
 AND invetaris.leveringsdatum LIKE '$filtervaluesmaand%'";
@@ -150,7 +150,7 @@ AND invetaris.leveringsdatum LIKE '$filtervaluesmaand%'";
         <div>
         <label for="Jaar">Jaar</label>
             <select value="<?php if(isset($_GET['jaarvoorpc'])){echo $_GET['jaarvoorpc']; } ?>" name="jaarvoorpc" >
-            <option value="" selected disabled hidden>Kies jaar</option>
+            <option value="">Kies jaar</option>
             <?php
 
             date_default_timezone_set('Europe/Amsterdam');
