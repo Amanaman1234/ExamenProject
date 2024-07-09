@@ -54,7 +54,7 @@ checkaccesdirectie();
             $curYear = date("Y");
             $year = 2024;
 
-
+            // Loop van het huidige jaar naar het opgegeven jaar en genereer opties
             for ($i = $curYear; $i >= $year; $i--) { 
                 echo "<option value = '$i'>$i</option>";
             }
@@ -78,28 +78,31 @@ checkaccesdirectie();
         <tbody>
         <?php 
 
-
+// Controleer of de parameter 'categorie' is opgegeven in de URL
 if(isset($_GET["categorie"])){
+
+    // Haal de filterwaarden op uit de URL
     $filtervaluescat = $_GET["categorie"];
     $filtervaluesmaand = $_GET["maand"];
     $filtervaluesjaar = $_GET["jaar"];
 
+// Bereid de SQL-query voor om gefilterde gegevens op te halen
 
-    $query = "SELECT * 
-FROM invetaris 
+    $query = "SELECT * FROM invetaris 
 LEFT JOIN leveranciers 
 ON invetaris.leveringsdatum = leveranciers.leveringdatum
 WHERE producttype = '$filtervaluescat' 
 AND invetaris.leveringsdatum LIKE '$filtervaluesmaand%'";
 
+// Voer de query uit en sla het resultaat op in $query_run
+$query_run = mysqli_query($conn, $query);
 
-    $query_run = mysqli_query($conn, $query);
-
-
+    // Controleer of er rijen zijn opgehaald
     if(mysqli_num_rows($query_run) > 0){
         foreach($query_run as $row){
             ?>
                 <tr>
+                    <!-- Toon de gegevens van het gefilterde resultaat in tabelcellen -->
                     <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
                     <td><?= $row['aantal']?></td>

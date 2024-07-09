@@ -57,18 +57,25 @@ checkaccesdirectie();
 <?php
 
 
-
+// Controleer of er een zoekterm is opgegeven in de URL en ontsmet deze voor veiligheid
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 
+// Basis SQL-query om alle gebruikers op te halen
 $query = "SELECT * FROM gebruikers";
+
+// Als er een zoekterm is opgegeven, voeg dan een WHERE-clausule toe aan de query
 if (!empty($search)) {
     $query .= " WHERE voornaam LIKE '%$search%'";
 }
-
+// Voer de query uit en sla het resultaat op in $result
 $result = $conn->query($query);
+
+// Controleer of er rijen zijn opgehaald
 if ($result->num_rows > 0) {
+    // Loop door elke rij in het resultaat    
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
+        // Toon de gegevens van de gebruiker in tabelcellen        
         echo "<td>" . htmlspecialchars($row['voornaam']) . "</td>";
         echo "<td>" . htmlspecialchars($row['tussenvoegsels']) . "</td>";
         echo "<td>" . htmlspecialchars($row['achternaam']) . "</td>";
@@ -85,14 +92,23 @@ if ($result->num_rows > 0) {
 </table>
 
 <?php
+
+// Controleer of er een 'edit' parameter is opgegeven in de URL
 if (isset($_GET['edit'])) {
+
+    // Haal het gebruikerid op uit de URL en ontsmet deze voor veiligheid
     $gebruikerid = $conn->real_escape_string($_GET['edit']);
+
+    // Bereid de SQL-query voor om de gegevens van de geselecteerde gebruiker op te halen
     $edit_query = "SELECT * FROM gebruikers WHERE gebruikerid = '$gebruikerid'";
     $edit_result = $conn->query($edit_query);
+
+    // Controleer of er een resultaat is gevonden
     if ($edit_result->num_rows > 0) {
         $edit_row = $edit_result->fetch_assoc();
 ?>
     <script>
+        // Vul de formuliervelden met de gegevens van de geselecteerde gebruiker
         document.getElementById("gebruikerid").value = "<?php echo htmlspecialchars($edit_row['gebruikerid']); ?>";
         document.getElementById("VoorNaam").value = "<?php echo htmlspecialchars($edit_row['voornaam']); ?>";
         document.getElementById("AchterNaam").value = "<?php echo htmlspecialchars($edit_row['achternaam']); ?>";
@@ -100,12 +116,14 @@ if (isset($_GET['edit'])) {
         document.getElementById("email").value = "<?php echo htmlspecialchars($edit_row['email']); ?>";
         document.getElementById("Positie").value = "<?php echo htmlspecialchars($edit_row['positie']); ?>";
 
+        // Verberg de 'Toevoegen' knop en toon de 'Bijwerken' knop
         document.getElementById("addgbrBtn").style.display = "none";
         document.getElementById("updategbrBtn").style.display = "inline";
     </script>
 <?php
     }
 }
+// Sluit de databaseverbinding
 $conn->close();
 ?>
 
@@ -113,6 +131,7 @@ $conn->close();
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Initialiseer de DataTable
         $('#leveranciersTable').DataTable();
     });
 </script>

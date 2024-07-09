@@ -26,59 +26,90 @@ checkaccesvrijwilliger();
         $product_aantallen = $_POST['productaantal'];
         $error = false;
 
+        // Controleer elk product in het voedselpakket
         foreach ($product_ids as $index => $productid) {
             $productid = $conn->real_escape_string($productid);
             $productaantal = $conn->real_escape_string($product_aantallen[$index]);
+
+             // Query om te controleren of er voldoende voorraad is
             $inventory_check_query = "SELECT product, aantal FROM invetaris WHERE productid = '$productid'";
             $inventory_check_result = $conn->query($inventory_check_query);
 
+            // Controleer het resultaat van de voorraadcontrole
             if ($inventory_check_result->num_rows > 0) {
+                // Haal de rij op met voorraadinformatie
                 $inventory_row = $inventory_check_result->fetch_assoc();
+
+                // Controleer of er voldoende voorraad is voor het product
                 if ($inventory_row['aantal'] < $productaantal) {
                     $error = true;
+                    // Toon een foutmelding als er onvoldoende voorraad is
                     echo "<p style='color: red;'>Niet genoeg voorraad voor product: " . htmlspecialchars($inventory_row['product']) . ". Beschikbaar: " . htmlspecialchars($inventory_row['aantal']) . ", Gevraagd: " . htmlspecialchars($productaantal) . "</p>";
                     break;
                 }
             } else {
                 $error = true;
+                // Toon een foutmelding als het product niet in de inventaris wordt gevonden
                 echo "<p style='color: red;'>Product ID: " . htmlspecialchars($productid) . " niet gevonden in inventaris.</p>";
                 break;
             }
         }
 
+        // Voeg het voedselpakket toe als er geen fouten zijn gevonden
         if (!$error) {
+
+             // Query om het voedselpakket toe te voegen aan de database
             $insert_package_query = "INSERT INTO voedselpakketten (klantnaam, samenstellingsdatum, uitgiftedatum) VALUES ('$klantnaam', '$samenstellingsdatum', '$uitgiftedatum')";
+
+            // Voer de query uit om het voedselpakket toe te voegen
             if ($conn->query($insert_package_query) === TRUE) {
                 $pakketid = $conn->insert_id;
 
+            // Loop door elk product in het voedselpakket en voeg ze toe aan 'pakket_producten'
                 foreach ($product_ids as $index => $productid) {
                     $productid = $conn->real_escape_string($productid);
                     $productaantal = $conn->real_escape_string($product_aantallen[$index]);
-
+                    
+                    // Query om het product toe te voegen aan 'pakket_producten'
                     $insert_product_query = "INSERT INTO pakket_producten (pakketid, productid, aantalp) VALUES ('$pakketid', '$productid', '$productaantal')";
+
+                    // Voer de query uit om het product aan 'pakket_producten' toe te voegen
                     if ($conn->query($insert_product_query) !== TRUE) {
+
+                        // Toon een foutmelding als er een fout optreedt bij het toevoegen van het product
                         echo "Fout bij het toevoegen van het product: " . $conn->error;
                         $error = true;
                         break;
                     }
 
+                     // Query om de voorraad bij te werken na toevoegen van het voedselpakket
                     $update_inventory_query = "UPDATE invetaris SET aantal = aantal - '$productaantal' WHERE productid = '$productid'";
+
+                     // Voer de query uit om de voorraad bij te werken
                     if ($conn->query($update_inventory_query) !== TRUE) {
+
+                        // Toon een foutmelding als er een fout optreedt bij het bijwerken van de voorraad
                         echo "Fout bij het bijwerken van de inventaris: " . $conn->error;
                         $error = true;
                         break;
                     }
                 }
+
+                // Als er een fout is opgetreden, verwijder dan het toegevoegde voedselpakket en bijbehorende producten
                 if ($error) {
                     $conn->query("DELETE FROM voedselpakketten WHERE pakketid = '$pakketid'");
                     $conn->query("DELETE FROM pakket_producten WHERE pakketid = '$pakketid'");
                     echo "<p style='color: red;'>Er is een fout opgetreden. Probeer het opnieuw.</p>";
                 }
             } else {
+
+                // Toon een foutmelding als er een fout optreedt bij het toevoegen van het voedselpakket
                 echo "Fout bij het toevoegen van het pakket: " . $conn->error;
             }
         }
     }
+
+    // Query om klantgegevens op te halen
     $klanten_query = "SELECT naam, leeftijd_onder_2, leeftijd_2_tot_18, leeftijd_boven_18, allergieën, voorkeuren FROM klanten";
     $klanten_result = $conn->query($klanten_query);
     ?>
@@ -120,6 +151,8 @@ checkaccesvrijwilliger();
         </thead>
         <tbody>
             <?php
+
+            // Query om voedselpakketten op te halen en weergeven in de tabel
             $package_query = "SELECT v.pakketid, v.klantnaam, v.samenstellingsdatum, v.uitgiftedatum, GROUP_CONCAT(CONCAT(i.product, ' (', p.aantalp, ')') SEPARATOR ', ') AS producten 
                         FROM voedselpakketten v 
                         JOIN pakket_producten p ON v.pakketid = p.pakketid 
@@ -136,6 +169,8 @@ checkaccesvrijwilliger();
                     echo "<td>" . htmlspecialchars($row['uitgiftedatum']) . "</td>";
                 }
             } else {
+
+                // Geen gegevens gevonden als er geen resultaten zijn
                 echo "<tr><td colspan='5'>Geen gegevens gevonden</td></tr>";
             }
             ?>
@@ -145,8 +180,12 @@ checkaccesvrijwilliger();
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script>
+
+        // Product data uit database
         const products = [
             <?php
+
+            // Query om producten op te halen
             $product_query = "SELECT productid, product, aantal FROM invetaris";
             $product_result = $conn->query($product_query);
             if ($product_result->num_rows > 0) {
@@ -157,6 +196,7 @@ checkaccesvrijwilliger();
             ?>
         ];
 
+        // Initialisatie van de zoekfunctionaliteit voor producten
         function initializeProductSearch(searchBar, resultsContainer) {
             searchBar.addEventListener('input', function() {
                 const query = this.value.toLowerCase();
@@ -178,12 +218,14 @@ checkaccesvrijwilliger();
             });
         }
 
+        // Laden van productgegevens
         function loadProductData() {
             const initialSearchBar = document.getElementById('search-bar2');
             const initialResultsContainer = document.getElementById('search-results2');
             initializeProductSearch(initialSearchBar, initialResultsContainer);
         }
 
+        // Toevoegen van een nieuw productinvoerveld
         function addProduct() {
             const productContainer = document.getElementById('productContainer');
             const newProductEntry = document.createElement('div');
@@ -203,11 +245,13 @@ checkaccesvrijwilliger();
             initializeProductSearch(newSearchBar, newResultsContainer);
         }
 
+        // Wachten tot de DOM geladen is om de functies uit te voeren
         document.addEventListener('DOMContentLoaded', function() {
             loadClientData();
             loadProductData();
         });
 
+        // Laden van klantgegevens
         function loadClientData() {
             const clients = [
                 <?php
@@ -219,6 +263,7 @@ checkaccesvrijwilliger();
                 ?>
             ];
 
+            // Zoekfunctionaliteit voor klanten
             const searchBar = document.getElementById('search-bar');
             const resultsContainer = document.getElementById('search-results');
             const klantInfo = document.getElementById('klantInfo');
@@ -236,6 +281,7 @@ checkaccesvrijwilliger();
                             resultsContainer.innerHTML = '';
                             document.getElementById('selectedid').value = client.naam;
 
+                            // Weergeven van klantinformatie
                             klantInfo.innerHTML = `
                                 <p><strong>Leeftijd onder 2:</strong> ${client.leeftijd_onder_2}</p>
                                 <p><strong>Leeftijd 2 tot 18:</strong> ${client.leeftijd_2_tot_18}</p>
@@ -249,7 +295,7 @@ checkaccesvrijwilliger();
                 });
             });
         }
-
+        // Initialisatie van DataTables voor de pakketten tabel
         $(document).ready(function() {
             $('#packageTable').DataTable();
         });
