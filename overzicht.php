@@ -1,13 +1,12 @@
 <?php include("header.php");
 checkaccesdirectie();
-
 ?>
     <title>Form</title>
     <link rel="stylesheet" href="css/overzicht.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
 <body>
-    <form id="deliveryForm">
+    <form id="deliveryForm1">
 
         <div class="form-group">
         <label for="categorie">Categorie</label>
@@ -44,77 +43,60 @@ checkaccesdirectie();
             <label for="maand">Maand</label>
             <input name="maand" type="month" id="maand"  value="<?php if(isset($_GET['maand'])){echo $_GET['maand']; } ?>" >
         </div>
-        <div>
-        <label for="Jaar">Jaar</label>
+        <div class="form-group">
+        <label for="jaar">Jaar</label>
             <select value="<?php if(isset($_GET['jaar'])){echo $_GET['jaar']; } ?>" name="jaar" >
             <option value="">Kies jaar</option>
             <?php
-
             date_default_timezone_set('Europe/Amsterdam');
             $curYear = date("Y");
             $year = 2024;
 
-            // Loop van het huidige jaar naar het opgegeven jaar en genereer opties
             for ($i = $curYear; $i >= $year; $i--) { 
                 echo "<option value = '$i'>$i</option>";
             }
             ?>
             </select>
-
         </div>
         <div class="form-group">
-            <button name="submit" type="submit">check</button>
+            <button name="submit" type="submit">Check</button>
         </div>
-    <table id="productTable" class="tabel display" border="1">
+    <table id="productTable1" class="tabel display" border="1">
         <thead>
             <tr>
-                <th>Categorie</td>
-                <th>Product</td>
-                <th>Aantal</td>
-                <th>leveringsdatum</th>
-                <th>Leverancier</td>
+                <th>Categorie</th>
+                <th>Product</th>
+                <th>Aantal</th>
+                <th>Leveringsdatum</th>
+                <th>Leverancier</th>
             </tr>
         </thead>
         <tbody>
         <?php 
-
-// Controleer of de parameter 'categorie' is opgegeven in de URL
 if(isset($_GET["categorie"])){
-
-    // Haal de filterwaarden op uit de URL
     $filtervaluescat = $_GET["categorie"];
-
-    // checkt of jaar of maand is ingevuld
     if(isset($_GET["maand"]) && $_GET['maand'] !== ""){
         $filtervaluesmaand = $_GET["maand"];
     }elseif(isset($_GET["jaar"]) && $_GET['jaar'] !== ""){
         $filtervaluesmaand = $_GET["jaar"];
     }
-
-// Bereid de SQL-query voor om gefilterde gegevens op te halen
-
     $query = "SELECT * FROM invetaris 
 LEFT JOIN leveranciers 
 ON invetaris.leveringsdatum = leveranciers.leveringdatum
 WHERE producttype = '$filtervaluescat' 
 AND invetaris.leveringsdatum LIKE '$filtervaluesmaand%'";
-
-// Voer de query uit en sla het resultaat op in $query_run
-$query_run = mysqli_query($conn, $query);
-
-    // Controleer of er rijen zijn opgehaald
+    $query_run = mysqli_query($conn, $query);
     if(mysqli_num_rows($query_run) > 0){
         foreach($query_run as $row){
             ?>
                 <tr>
-                    <!-- Toon de gegevens van het gefilterde resultaat in tabelcellen -->
                     <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
                     <td><?= $row['aantal']?></td>
                     <td><?= $row['leveringsdatum']; ?></td>     
                     <td><?= $row['contactpersoon']?></td>
+                </tr>
             <?php
-            
         }
     }else{ ?>
     <tr>
@@ -123,93 +105,63 @@ $query_run = mysqli_query($conn, $query);
     <?php
     }
 }
-
 ?>
         </tbody>
     </table>
-    </tr>
-
     </form>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <form id="deliveryForm">
+    <form id="deliveryForm2">
         <div class="form-group">
-            <label for="postcode">postcode</label>
+            <label for="postcode">Postcode</label>
             <input name="postcode" type="text" id="postcode"  value="<?php if(isset($_GET['postcode'])){echo $_GET['postcode']; } ?>" required>
         </div>
-        </div>
-
         <div class="form-group">
             <label for="maandvoorpc">Maand</label>
             <input name="maandvoorpc" type="month" id="maandvoorpc"  value="<?php if(isset($_GET['maandvoorpc'])){echo $_GET['maandvoorpc']; } ?>" >
         </div>
-        <div>
-        <label for="Jaar">Jaar</label>
+        <div class="form-group">
+            <label for="jaarvoorpc">Jaar</label>
             <select value="<?php if(isset($_GET['jaarvoorpc'])){echo $_GET['jaarvoorpc']; } ?>" name="jaarvoorpc" >
             <option value="">Kies jaar</option>
             <?php
-
             date_default_timezone_set('Europe/Amsterdam');
             $curYear = date("Y");
             $year = 2024;
-
-
             for ($i = $curYear; $i >= $year; $i--) { 
                 echo "<option value = '$i'>$i</option>";
             }
             ?>
             </select>
+        </div>
         <div class="form-group">
             <button name="submit2" type="submit">Submit</button>
         </div>
-    <table id="productTable" class="tabel display" border="1">
+    <table id="productTable2" class="tabel display" border="1">
         <thead>
             <tr>
-                <th>Postcode</td>
-                <th>Naam</td>
+                <th>Postcode</th>
+                <th>Naam</th>
                 <th>Categorie</th>
                 <th>Producten</th>
-                <th>aantal</th>
+                <th>Aantal</th>
                 <th>Uitgiftedatum</th>
             </tr>
         </thead>
         <tbody>
         <?php 
-
-
 if(isset($_GET["postcode"])){
     $filtervaluepostcode = $_GET["postcode"];
-
-    // checkt of jaar of maand is ingevuld
     if(isset($_GET["maandvoorpc"]) && $_GET['maandvoorpc'] !== ""){
         $filtervaluesmaandpc = $_GET["maandvoorpc"];
     }elseif(isset($_GET["jaarvoorpc"]) && $_GET['jaarvoorpc'] !== ""){
         $filtervaluesmaandpc = $_GET["jaarvoorpc"];
     }
-
-    $query = "SELECT * FROM voedselpakketten
+    $query = "SELECT *, voedselpakketten.uitgiftedatum AS v_uitgiftdatum FROM voedselpakketten
 INNER JOIN pakket_producten ON voedselpakketten.pakketid = pakket_producten.pakketid
 INNER JOIN klanten ON klanten.naam = voedselpakketten.klantnaam 
 INNER JOIN invetaris ON invetaris.productid = pakket_producten.productid
-WHERE postcode LIKE '$filtervaluepostcode' AND voedselpakketten.uitgiftedatum LIKE '$filtervaluesmaandpc%';
-";
-
-
+WHERE postcode LIKE '$filtervaluepostcode' AND voedselpakketten.uitgiftedatum LIKE '$filtervaluesmaandpc%'";
     $query_run = mysqli_query($conn, $query);
-
-
     if(mysqli_num_rows($query_run) > 0){
         foreach($query_run as $row){
             ?>
@@ -219,38 +171,28 @@ WHERE postcode LIKE '$filtervaluepostcode' AND voedselpakketten.uitgiftedatum LI
                     <td><?= $row['producttype']?></td>
                     <td><?= $row['product']?></td>
                     <td><?= $row['aantalp']?></td>
-                    <td><?= $row['uitgiftedatum']?></td>
-
+                    <td><?= $row['v_uitgiftdatum']?></td>
+                </tr>
             <?php
-            
         }
     }else{ ?>
     <tr>
-        <td colspan="5">No record found</td>
+        <td colspan="6">No record found</td>
     </tr>
     <?php
     }
 }
-
 ?>
         </tbody>
     </table>
-    </tr>
-
     </form>
-    
 </body>
-
-
-  
-
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#productTable').DataTable();
+        $('#productTable1').DataTable();
+        $('#productTable2').DataTable();
     });
 </script>
 </html>
