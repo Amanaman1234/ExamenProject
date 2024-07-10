@@ -83,8 +83,12 @@ if(isset($_GET["categorie"])){
 
     // Haal de filterwaarden op uit de URL
     $filtervaluescat = $_GET["categorie"];
-    $filtervaluesmaand = $_GET["maand"];
-    $filtervaluesjaar = $_GET["jaar"];
+
+    if(isset($_GET["maand"]) && $_GET['maand'] !== ""){
+        $filtervaluesmaand = $_GET["maand"];
+    }elseif(isset($_GET["jaar"]) && $_GET['jaar'] !== ""){
+        $filtervaluesmaand = $_GET["jaar"];
+    }
 
 // Bereid de SQL-query voor om gefilterde gegevens op te halen
 
@@ -186,8 +190,12 @@ $query_run = mysqli_query($conn, $query);
 
 if(isset($_GET["postcode"])){
     $filtervaluepostcode = $_GET["postcode"];
-    $filtervaluesmaandpc = $_GET["maandvoorpc"];
-    $filtervaluesjaarpc = $_GET["jaarvoorpc"];
+
+    if(isset($_GET["maandvoorpc"]) && $_GET['maandvoorpc'] !== ""){
+        $filtervaluesmaandpc = $_GET["maandvoorpc"];
+    }elseif(isset($_GET["jaarvoorpc"]) && $_GET['jaarvoorpc'] !== ""){
+        $filtervaluesmaandpc = $_GET["jaarvoorpc"];
+    }
 
     $query = "SELECT * FROM voedselpakketten
 INNER JOIN pakket_producten ON voedselpakketten.pakketid = pakket_producten.pakketid
