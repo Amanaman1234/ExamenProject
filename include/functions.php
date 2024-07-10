@@ -26,6 +26,17 @@ function emptyInputLogin($gebruikersnaam, $wachtwoord) {
         return false;
     }
 }
+function invalidgebruikersnaam($voorNaam, $achterNaam, $tussenvoegsels){
+    // Combine the input names into a single string
+    $fullName = $voorNaam . ' ' . $tussenvoegsels . ' ' . $achterNaam;
+
+    // Check if the full name contains only alphanumeric characters and spaces
+    if(!preg_match("/^[a-zA-Z0-9 ]*$/", $fullName)){
+        return true;
+    } else {
+        return false;
+    }
+}
 
 // Functie om te controleren of de wachtwoorden overeenkomen tijdens registratie
 function pwdMatch($wachtwoord, $herhaalWachtwoord) {

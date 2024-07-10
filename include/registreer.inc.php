@@ -19,10 +19,18 @@ if(isset($_POST["submit"])){
         header("location: ../registreer.php?error=emptyinput ");
         exit();
    }
+   if(invalidgebruikersnaam($voorNaam, $achterNaam, $tussenvoegsels) !== false){
+    header("location: ../registreer.php?error=invalidusername");
+    exit();
+}
 
     // Controleer of de wachtwoorden overeenkomen
     if (pwdMatch($wachtwoord, $herhaalWachtwoord)!== false) {
         header("location: ../registreer.php?error=pwdsdontmatch");
+        exit();
+    }
+    if(gebrExists($conn, $email) !== false){
+        header("location: ../registreer.php?error=gebruikersnaamgebruikt");
         exit();
     }
 

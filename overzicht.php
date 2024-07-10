@@ -84,6 +84,7 @@ if(isset($_GET["categorie"])){
     // Haal de filterwaarden op uit de URL
     $filtervaluescat = $_GET["categorie"];
 
+    // checkt of jaar of maand is ingevuld
     if(isset($_GET["maand"]) && $_GET['maand'] !== ""){
         $filtervaluesmaand = $_GET["maand"];
     }elseif(isset($_GET["jaar"]) && $_GET['jaar'] !== ""){
@@ -191,6 +192,7 @@ $query_run = mysqli_query($conn, $query);
 if(isset($_GET["postcode"])){
     $filtervaluepostcode = $_GET["postcode"];
 
+    // checkt of jaar of maand is ingevuld
     if(isset($_GET["maandvoorpc"]) && $_GET['maandvoorpc'] !== ""){
         $filtervaluesmaandpc = $_GET["maandvoorpc"];
     }elseif(isset($_GET["jaarvoorpc"]) && $_GET['jaarvoorpc'] !== ""){

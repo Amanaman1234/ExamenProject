@@ -4,16 +4,12 @@ if(isset($_GET["error"])){
         case "emptyinput":
             echo "<p>full iets in pls >_<</p>";
             break;
-        case "toolung":
-            echo "<p>gebruikersnaam te lang</p>";
-            break;
         case "invalidusername":
             echo "<p>gebruik normale username</p>";
             break;
         case "pwdsdontmatch":
             echo "<p>wachtwoord is niet hetzelfde</p>";
             break;
-
         case "gebruikersnaamgebruikt":
             echo "<p>kies andere gebruikersnaam</p>";
             break;
@@ -28,6 +24,9 @@ if(isset($_GET["error"])){
             break;
         case "rotop":
             echo "je hebt geen toegan tot deze website";
+            break;
+        case "invalidusername";
+            echo "Gebruik een normaale email";
             break;
         default:
             echo "<p>Onbekende fout</p>";
